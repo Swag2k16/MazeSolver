@@ -8,7 +8,9 @@ Public Class Game1
     Private _graphicsDeviceManager As GraphicsDeviceManager
     Private spriteBatch As SpriteBatch
     Private pepe As Texture2D
-    Private counter As Integer = 0
+    Private xcounter As Integer = 0
+    Private ycounter As Integer = 0
+
 
     Public Sub New()
         Content.RootDirectory = "Content"
@@ -36,7 +38,7 @@ Public Class Game1
         GraphicsDevice.Clear(Color.Cornsilk)
 
         spriteBatch.Begin()
-        spriteBatch.Draw(pepe, New Rectangle(0 + counter, 0, 400, 400), Color.White)
+        spriteBatch.Draw(pepe, New Rectangle(0 + xcounter, 0 + ycounter, 400, 400), Color.White)
         spriteBatch.End()
 
         ' Drawing code goes here
@@ -45,7 +47,21 @@ Public Class Game1
     End Sub
 
     Protected Overrides Sub Update(gameTime As GameTime)
-        counter = counter + 1
+        Dim State As KeyboardState = Keyboard.GetState()
+        If State.IsKeyDown(Keys.Right) Then
+            xcounter = xcounter + 1
+        End If
+        If State.IsKeyDown(Keys.Left) Then
+            xcounter = xcounter - 1
+        End If
+        If State.IsKeyDown(Keys.Up) Then
+            ycounter = ycounter - 1
+        End If
+        If State.IsKeyDown(Keys.Down) Then
+            ycounter = ycounter + 1
+        End If
+
+        'counter = counter + 1
         MyBase.Update(gameTime)
     End Sub
 End Class
