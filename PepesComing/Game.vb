@@ -13,7 +13,11 @@ Public Class Game1
     Private Harambe As Boolean
     Private xcounter As Integer = 0
     Private ycounter As Integer = 0
-    Private Grid(50, 50) As Cell
+
+    Private Const rowCount As Integer = 15
+    Private Const columnCount As Integer = 15
+
+    Private Grid(rowCount - 1, columnCount - 1) As Cell
 
     Public Sub New()
         Content.RootDirectory = "Content"
@@ -27,15 +31,17 @@ Public Class Game1
     End Sub
 
     Private Sub MazeMaking()
-
         Dim row As Integer = 0
         Dim column As Integer = 0
 
-        For x = 0 To 49
-            For y = 0 To 49
+        For x = 0 To rowCount - 1
+            For y = 0 To columnCount - 1
                 Grid(x, y) = New Cell(x, y)
             Next
         Next
+
+        Console.WriteLine("Init grid")
+
         Dim history As New Stack(Of Cell)
         history.Push(Grid(row, column))
         While history.Count > 0
@@ -52,12 +58,12 @@ Public Class Game1
                     check.Add("D")
                 End If
             End If
-            If column < 50 - 1 Then
+            If column < columnCount - 1 Then
                 If Grid(row, column + 1).visited = False Then
                     check.Add("R")
                 End If
             End If
-            If row < 50 - 1 Then
+            If row < rowCount - 1 Then
                 If Grid(row + 1, column).visited = False Then
                     check.Add("U")
                 End If
@@ -67,23 +73,21 @@ Public Class Game1
                 Dim direction = randomchar(check)
                 Select Case direction
                     Case "L"
-                        Grid(row, column).left = True
+                        Grid(row, column).left = False
                         column = column - 1
-                        Grid(row, column).right = True
-                    Case "R"
-                        Grid(row, column).right = True
-                        column = column + 1
-                        Grid(row, column).left = True
+                        Grid(row, column).right = False
                     Case "U"
-                        Grid(row, column).up = True
+                        Grid(row, column).up = False
                         row = row + 1
-                        Grid(row, column).down = True
+                        Grid(row, column).down = False
+                    Case "R"
+                        Grid(row, column).right = False
+                        column = column + 1
+                        Grid(row, column).left = False
                     Case "D"
-                        Console.WriteLine(row)
-                        Console.WriteLine(column)
-                        Grid(row, column).down = True
+                        Grid(row, column).down = False
                         row = row - 1
-                        Grid(row, column).up = True
+                        Grid(row, column).up = False
                 End Select
             Else
                 Dim cell = history.Pop()
@@ -91,13 +95,15 @@ Public Class Game1
                 column = cell.gety()
             End If
         End While
-        Grid(0, 0).up = True
-        Grid(50 - 1, 50 - 1).down = True
+        Grid(0, 0).down = False
+        Grid(rowCount - 1, columnCount - 1).up = False
     End Sub
+
     Private Function randomchar(ByRef charlist As List(Of Char))
         Dim randchar = charlist(rnd.next(0, charlist.Count))
         Return randchar
     End Function
+
     Protected Overrides Sub Initialize()
         MyBase.Initialize()
         MazeMaking()
@@ -119,11 +125,7 @@ Public Class Game1
     Protected Overrides Sub Draw(gameTime As GameTime)
         GraphicsDevice.Clear(Color.Cornsilk)
 
-        'spriteBatch.Begin()
-        'spriteBatch.Draw(pepe, New Rectangle(0 + xcounter, 0 + ycounter, 200, 200), Color.White)
-        'spriteBatch.End()
-
-        If harambe = True Then
+        If Harambe = True Then
             GraphicsDevice.Clear(Color.Cornsilk)
             spriteBatch.Begin()
             spriteBatch.Draw(Harambae, New Rectangle(0 + xcounter, 0 + ycounter, 200, 200), Color.White)
@@ -131,51 +133,81 @@ Public Class Game1
         End If
 
         spriteBatch.Begin()
-        For x = 0 To 49
-            For y = 0 To 49
-                Dim drawx = 2 * x - 1
-                Dim drawy = 2 * y - 1
+
+        Dim scale As Integer = 16
+        For row = 0 To rowCount - 1
+            For column = 0 To columnCount - 1
+                Dim drawx = 2 * column + 5
+                Dim drawy = 2 * row + 5
+
+                If row = 0 Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                ElseIf row = rowCount - 1 Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
+                ElseIf column = 0 Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                ElseIf column = columnCount - 1 Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                End If
+
+                Dim left = Grid(row, column).left
+                Dim right = Grid(row, column).right
+                Dim up = Grid(row, column).up
+                Dim down = Grid(row, column).down
+
                 'left
-                If Grid(x, y).left Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * 200, drawy * 200, 200, 200), Color.White)
-                Else
-                    spriteBatch.Draw(Harambae, New Rectangle((drawx - 1) * 200, drawy * 200, 200, 200), Color.White)
+                If left Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, drawy * scale, scale, scale), Color.White)
                 End If
+
                 'right
-                If Grid(x, y).right Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * 200, drawy * 200, 200, 200), Color.White)
-                Else
-                    spriteBatch.Draw(Harambae, New Rectangle((drawx + 1) * 200, drawy * 200, 200, 200), Color.White)
+                If right Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, drawy * scale, scale, scale), Color.White)
                 End If
+
                 'up
-                If Grid(x, y).up Then
-                    spriteBatch.Draw(wall, New Rectangle(drawx * 200, (drawy + 1) * 200, 200, 200), Color.White)
-                Else
-                    spriteBatch.Draw(Harambae, New Rectangle(drawx * 200, (drawy + 1) * 200, 200, 200), Color.White)
+                If up Then
+                    spriteBatch.Draw(wall, New Rectangle(drawx * scale, (drawy + 1) * scale, scale, scale), Color.White)
                 End If
+
                 'down
-                If Grid(x, y).down Then
-                    spriteBatch.Draw(wall, New Rectangle(drawx * 200, (drawy - 1) * 200, 200, 200), Color.White)
+                If down Then
+                    spriteBatch.Draw(wall, New Rectangle(drawx * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                End If
+
+                'top left
+                If left And up Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
+                End If
+
+                'top right
+                If right And up Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
+                End If
+
+                'bottom left
+                If left And down Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                End If
+
+                'bottom right
+                If right And down Then
+                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                End If
+
+
+                If row = 0 And column = 0 Then
+                    spriteBatch.Draw(pepe, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
+                ElseIf row = rowCount - 1 And column = columnCount - 1 Then
+                    spriteBatch.Draw(pepe, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
                 Else
-                    spriteBatch.Draw(Harambae, New Rectangle(drawx * 200, (drawy - 1) * 200, 200, 200), Color.White)
+                    'spriteBatch.Draw(Harambae, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
                 End If
-                'topleft
-                If Grid(x, y).left And Grid(x, y).up Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * 200, (drawy + 1) * 200, 200, 200), Color.White)
-                End If
-                'topright
-                If Grid(x, y).right And Grid(x, y).up Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * 200, (drawy + 1) * 200, 200, 200), Color.White)
-                End If
-                'bottomleft
-                If Grid(x, y).left And Grid(x, y).down Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * 200, (drawy - 1) * 200, 200, 200), Color.White)
-                End If
-                'bottomright
-                If Grid(x, y).right And Grid(x, y).down Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * 200, (drawy - 1) * 200, 200, 200), Color.White)
-                End If
-                spriteBatch.Draw(Harambae, New Rectangle(drawx * 200, drawy * 200, 200, 200), Color.White)
+
             Next
         Next
         spriteBatch.End()
