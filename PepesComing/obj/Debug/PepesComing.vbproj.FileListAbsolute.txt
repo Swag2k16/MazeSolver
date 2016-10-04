@@ -12,3 +12,5 @@
 \\file\userfolders$\students\hawthornec15\visual studio 2015\Projects\PepesComing\PepesComing\bin\Debug\NVorbis.dll
 \\file\userfolders$\students\hawthornec15\visual studio 2015\Projects\PepesComing\PepesComing\bin\Debug\OpenTK.dll
 \\file\userfolders$\students\hawthornec15\visual studio 2015\Projects\PepesComing\PepesComing\obj\Debug\PepesComing.vbprojResolveAssemblyReference.cache
+\\file\userfolders$\students\hawthornec15\visual studio 2015\Projects\PepesComing\PepesComing\bin\Debug\Content\harambe.jpg
+\\file\userfolders$\students\hawthornec15\visual studio 2015\Projects\PepesComing\PepesComing\bin\Debug\Content\wall.png
