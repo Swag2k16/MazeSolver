@@ -60,7 +60,7 @@ Public Class Controller
     End Property
 
     Public Sub Update(keyboardState As KeyboardState, mouseState As MouseState)
-        Console.WriteLine("x: {0}, y: {1}, scroll {2}", mouseState.X, mouseState.Y, mouseState.ScrollWheelValue)
+        'Console.WriteLine("x: {0}, y: {1}, scroll {2}", mouseState.X, mouseState.Y, mouseState.ScrollWheelValue)
         Me.keyboardState = keyboardState
         Me.mouseState = mouseState
     End Sub

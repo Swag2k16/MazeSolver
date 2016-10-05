@@ -27,9 +27,6 @@ Public Class Game
         _graphicsDeviceManager.PreferredBackBufferHeight = 400
     End Sub
 
-
-
-
     Protected Overrides Sub Initialize()
         MyBase.Initialize()
 
@@ -67,74 +64,13 @@ Public Class Game
         Dim scale As Integer = 16
         For row = 0 To world.rows - 1
             For column = 0 To world.columns - 1
-                Dim drawx = 2 * column + 5
-                Dim drawy = 2 * row + 5
+                Dim drawx = column
+                Dim drawy = row
+                Dim cell As Cell = world.GetCell(row, column)
 
-                If row = 0 Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
-                ElseIf row = world.rows - 1 Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                ElseIf column = 0 Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
-                ElseIf column = world.columns - 1 Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
+                If cell.wall Then
+                    spriteBatch.Draw(wall, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
                 End If
-
-                Dim cell = world.GetCell(row, column)
-
-                'left
-                If cell.left Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, drawy * scale, scale, scale), Color.White)
-                End If
-
-                'right
-                If cell.right Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, drawy * scale, scale, scale), Color.White)
-                End If
-
-                'up
-                If cell.up Then
-                    spriteBatch.Draw(wall, New Rectangle(drawx * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                End If
-
-                'down
-                If cell.down Then
-                    spriteBatch.Draw(wall, New Rectangle(drawx * scale, (drawy - 1) * scale, scale, scale), Color.White)
-                End If
-
-                'top left
-                If cell.left And cell.up Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                End If
-
-                'top right
-                If cell.right And cell.up Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy + 1) * scale, scale, scale), Color.White)
-                End If
-
-                'bottom left
-                If cell.left And cell.down Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx - 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
-                End If
-
-                'bottom right
-                If cell.right And cell.down Then
-                    spriteBatch.Draw(wall, New Rectangle((drawx + 1) * scale, (drawy - 1) * scale, scale, scale), Color.White)
-                End If
-
-
-                If row = 0 And column = 0 Then
-                    spriteBatch.Draw(pepe, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
-                ElseIf row = world.rows - 1 And column = world.columns - 1 Then
-                    spriteBatch.Draw(pepe, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
-                Else
-                    'spriteBatch.Draw(Harambae, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
-                End If
-
             Next
         Next
         spriteBatch.End()
@@ -151,7 +87,7 @@ Public Class Game
 
         'Regenerate maze
         If controller.RegenerateMaze Then
-            world.GenerateMaze()
+            world.PrimsMaze()
         End If
 
         MyBase.Update(gameTime)

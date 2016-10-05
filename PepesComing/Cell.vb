@@ -1,34 +1,29 @@
 ﻿Imports Microsoft.VisualBasic
 
 Public Class Cell
-    Private x As Integer
-    Private y As Integer
+    Private _row As Integer
+    Public ReadOnly Property Row As Integer
+        Get
+            Return _row
+        End Get
+    End Property
 
-    Public left As Boolean
-    Public right As Boolean
-    Public up As Boolean
-    Public down As Boolean
-    Public visited As Boolean
+    Private _column As Integer
+    Public ReadOnly Property Column As Integer
+        Get
+            Return _column
+        End Get
+    End Property
 
-    Sub New(ByVal x As Integer, ByVal y As Integer)
-        Me.x = x
-        Me.y = y
+    Public Property wall As Boolean
 
-        left = True
-        right = True
-        up = True
-        down = True
-        visited = False
+    Sub New(ByVal row As Integer, ByVal column As Integer)
+        _row = row
+        _column = column
+        wall = True
     End Sub
 
-    Public Function getx()
-        Return x
-    End Function
-    Public Function gety()
-        Return y
-    End Function
-
     Public Sub print()
-        Console.WriteLine("x: {0}, y: {1}, left: {2}, right: {3}, up: {4}, down: {5}, visited: {6}", x, y, left, right, up, down, visited)
+        Console.WriteLine("row: {0}, column: {1}, wall: {2}", Row, Column, wall)
     End Sub
 End Class

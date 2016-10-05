@@ -2,23 +2,16 @@
 
     Private _rnd As Random
 
-    ReadOnly Property rows As Integer
-        Get
-            Return 15
-        End Get
-    End Property
-
-    ReadOnly Property columns As Integer
-        Get
-            Return 15
-        End Get
-    End Property
+    Public Const rows As Integer = 100
+    Public Const columns As Integer = 100
 
     Private Grid(rows - 1, columns - 1) As Cell
 
     Public Sub New()
         _rnd = New Random()
-        GenerateMaze()
+
+        'Create maze
+        PrimsMaze()
     End Sub
 
     Public Function GetCell(row As Integer, column As Integer) As Cell
@@ -30,73 +23,94 @@
         Return randchar
     End Function
 
-    Public Sub GenerateMaze()
-        Dim row As Integer = 0
-        Dim column As Integer = 0
+    Private Function getNearCells(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
+        Dim frontiers As List(Of Cell) = New List(Of Cell)
 
-        For x = 0 To rows - 1
-            For y = 0 To columns - 1
-                Grid(x, y) = New Cell(x, y)
+        'Up
+        If row - 2 >= 0 Then
+            frontiers.Add(Grid(row - 2, column))
+        End If
+
+        'Down
+        If row + 2 <= rows - 1 Then
+            frontiers.Add(Grid(row + 2, column))
+        End If
+
+        'Left
+        If column + 2 <= columns - 1 Then
+            frontiers.Add(Grid(row, column + 2))
+        End If
+
+        'Right
+        If column - 2 >= 0 Then
+            frontiers.Add(Grid(row, column - 2))
+        End If
+
+        Return frontiers
+    End Function
+
+    Private Function getFroutiers(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
+        Dim frontiers As List(Of Cell) = getNearCells(row, column)
+        'Remove all walls
+        frontiers.RemoveAll(Function(c) Not c.wall)
+        Return frontiers
+    End Function
+
+    Private Function getNeigbors(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
+        Dim neigbors As List(Of Cell) = getNearCells(row, column)
+        'Remove all walls
+        neigbors.RemoveAll(Function(c) c.wall)
+        Return neigbors
+    End Function
+
+    Public Sub PrimsMaze()
+        'Initialize cells
+        For row = 0 To rows - 1
+            For column = 0 To rows - 1
+                Grid(row, column) = New Cell(row, column)
             Next
         Next
 
-        Console.WriteLine("Init grid")
+        Dim r As Integer = _rnd.Next(0, rows - 1)
+        Dim c As Integer = _rnd.Next(0, columns - 1)
+        Grid(r, c).wall = False
+        Grid(r, c).print()
 
-        Dim history As New Stack(Of Cell)
-        history.Push(Grid(row, column))
-        While history.Count > 0
-            Grid(row, column).visited = True
-            Dim check As New List(Of Char)
+        Dim frontiers As List(Of Cell) = getFroutiers(r, c)
 
-            If column > 0 Then
-                If Grid(row, column - 1).visited = False Then
-                    check.Add("L")
+        While frontiers.Count
+            'Pick a random frountier and neigbor
+            Dim frontier As Cell = frontiers(_rnd.Next(0, frontiers.Count - 1))
+            Dim neigbors As List(Of Cell) = getNeigbors(frontier.Row, frontier.Column)
+            Dim neigbor As Cell = neigbors(_rnd.Next(0, neigbors.Count - 1))
+
+            'Remove wall between frountier and passage
+            frontier.print()
+            neigbor.print()
+            If frontier.Row = neigbor.Row Then
+                If frontier.Column > neigbor.Column Then
+                    Grid(frontier.Row, frontier.Column - 1).wall = False
+                    Console.WriteLine("1")
+                ElseIf frontier.Column < neigbor.Column Then
+                    Grid(frontier.Row, frontier.Column + 1).wall = False
+                    Console.WriteLine("2")
+                End If
+            ElseIf frontier.Column = neigbor.Column Then
+                If frontier.Row > neigbor.Row Then
+                    Grid(frontier.Row - 1, frontier.Column).wall = False
+                    Console.WriteLine("3")
+                ElseIf frontier.Row < neigbor.Row Then
+                    Grid(frontier.Row + 1, frontier.Column).wall = False
+                    Console.WriteLine("4")
                 End If
             End If
-            If row > 0 Then
-                If Grid(row - 1, column).visited = False Then
-                    check.Add("D")
-                End If
-            End If
-            If column < columns - 1 Then
-                If Grid(row, column + 1).visited = False Then
-                    check.Add("R")
-                End If
-            End If
-            If row < rows - 1 Then
-                If Grid(row + 1, column).visited = False Then
-                    check.Add("U")
-                End If
-            End If
-            If check.Count > 0 Then
-                history.Push(Grid(row, column))
-                Dim direction = randomchar(check)
-                Select Case direction
-                    Case "L"
-                        Grid(row, column).left = False
-                        column = column - 1
-                        Grid(row, column).right = False
-                    Case "U"
-                        Grid(row, column).up = False
-                        row = row + 1
-                        Grid(row, column).down = False
-                    Case "R"
-                        Grid(row, column).right = False
-                        column = column + 1
-                        Grid(row, column).left = False
-                    Case "D"
-                        Grid(row, column).down = False
-                        row = row - 1
-                        Grid(row, column).up = False
-                End Select
-            Else
-                Dim cell = history.Pop()
-                row = cell.getx()
-                column = cell.gety()
-            End If
+
+            frontier.wall = False
+            frontiers.AddRange(getFroutiers(frontier.Row, frontier.Column))
+            frontiers.Remove(frontier)
         End While
-        Grid(0, 0).down = False
-        Grid(rows - 1, columns - 1).up = False
+
+
     End Sub
 
 End Class
