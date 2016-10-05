@@ -2,18 +2,20 @@
 Imports Microsoft.Xna.Framework.Graphics
 Imports Microsoft.Xna.Framework.Input
 
-Public Class Game1
-    Inherits Game
+Public Class Game
+    Inherits Microsoft.Xna.Framework.Game
+
     Private rnd = New Random
     Private _graphicsDeviceManager As GraphicsDeviceManager
     Private spriteBatch As SpriteBatch
+
     Private pepe As Texture2D
     Private Harambae As Texture2D
     Private wall As Texture2D
-    Private Harambe As Boolean
-    Private xcounter As Integer = 0
-    Private ycounter As Integer = 0
+
     Private camera As Camera
+    Private controller As Controller
+
     Private Const rowCount As Integer = 15
     Private Const columnCount As Integer = 15
 
@@ -24,9 +26,8 @@ Public Class Game1
 
         _graphicsDeviceManager = New GraphicsDeviceManager(Me)
         _graphicsDeviceManager.IsFullScreen = False
-        _graphicsDeviceManager.PreferredBackBufferWidth = 1920
-        _graphicsDeviceManager.PreferredBackBufferHeight = 1080
-
+        _graphicsDeviceManager.PreferredBackBufferWidth = 600
+        _graphicsDeviceManager.PreferredBackBufferHeight = 400
     End Sub
 
     Private Sub MazeMaking()
@@ -106,6 +107,13 @@ Public Class Game1
     Protected Overrides Sub Initialize()
         MyBase.Initialize()
         MazeMaking()
+
+        'Setup mouse
+        'Mouse.WindowHandle = IntPtr.Zero
+        'Mouse.WindowHandle = Me.Window.Handle
+        IsMouseVisible = True
+        controller = New Controller()
+
         camera = New Camera(_graphicsDeviceManager.GraphicsDevice.Viewport)
 
     End Sub
@@ -212,25 +220,16 @@ Public Class Game1
     End Sub
 
     Protected Overrides Sub Update(gameTime As GameTime)
-        Dim State As KeyboardState = Keyboard.GetState()
-        If State.IsKeyDown(Keys.R) Then
+        controller.Update(Keyboard.GetState(), Mouse.GetState(Me.Window))
+
+        'Update camera
+        camera.Update(controller)
+
+        'Regenerate maze
+        If controller.RegenerateMaze Then
             MazeMaking()
         End If
-        If State.IsKeyDown(Keys.Right) Then
-            xcounter = xcounter + 5
-        End If
-        If State.IsKeyDown(Keys.Left) Then
-            xcounter = xcounter - 5
-        End If
-        If State.IsKeyDown(Keys.Up) Then
-            ycounter = ycounter - 5
-        End If
-        If State.IsKeyDown(Keys.Down) Then
-            ycounter = ycounter + 5
-        End If
-        If State.IsKeyDown(Keys.F) Then
-            Harambe = True
-        End If
+
         MyBase.Update(gameTime)
     End Sub
 End Class
