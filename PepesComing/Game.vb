@@ -13,7 +13,7 @@ Public Class Game1
     Private Harambe As Boolean
     Private xcounter As Integer = 0
     Private ycounter As Integer = 0
-
+    Private camera As Camera
     Private Const rowCount As Integer = 15
     Private Const columnCount As Integer = 15
 
@@ -26,7 +26,6 @@ Public Class Game1
         _graphicsDeviceManager.IsFullScreen = False
         _graphicsDeviceManager.PreferredBackBufferWidth = 1920
         _graphicsDeviceManager.PreferredBackBufferHeight = 1080
-
 
     End Sub
 
@@ -107,6 +106,8 @@ Public Class Game1
     Protected Overrides Sub Initialize()
         MyBase.Initialize()
         MazeMaking()
+        camera = New Camera(_graphicsDeviceManager.GraphicsDevice.Viewport)
+
     End Sub
 
     Protected Overrides Sub LoadContent()
@@ -123,16 +124,10 @@ Public Class Game1
     End Sub
 
     Protected Overrides Sub Draw(gameTime As GameTime)
-        GraphicsDevice.Clear(Color.Cornsilk)
+        GraphicsDevice.Clear(Color.DarkGoldenrod)
 
-        If Harambe = True Then
-            GraphicsDevice.Clear(Color.Cornsilk)
-            spriteBatch.Begin()
-            spriteBatch.Draw(Harambae, New Rectangle(0 + xcounter, 0 + ycounter, 200, 200), Color.White)
-            spriteBatch.End()
-        End If
 
-        spriteBatch.Begin()
+        spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix())
 
         Dim scale As Integer = 16
         For row = 0 To rowCount - 1
@@ -218,6 +213,9 @@ Public Class Game1
 
     Protected Overrides Sub Update(gameTime As GameTime)
         Dim State As KeyboardState = Keyboard.GetState()
+        If State.IsKeyDown(Keys.R) Then
+            MazeMaking()
+        End If
         If State.IsKeyDown(Keys.Right) Then
             xcounter = xcounter + 5
         End If

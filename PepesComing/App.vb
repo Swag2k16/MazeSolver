@@ -13,6 +13,7 @@ Public Class Application
             Console.WriteLine(ex.Message)
             Console.WriteLine(ex.InnerException)
             Console.WriteLine(ex.StackTrace)
+            Console.ReadLine()
         End Try
 
     End Sub
