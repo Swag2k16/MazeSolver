@@ -87,7 +87,7 @@ Public Class Game
 
         'Regenerate maze
         If controller.RegenerateMaze Then
-            world.PrimsMaze()
+            world.StepWorld()
         End If
 
         MyBase.Update(gameTime)

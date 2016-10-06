@@ -3,7 +3,7 @@ Imports Microsoft.Xna.Framework.Graphics
 Imports Microsoft.Xna.Framework.Input
 
 Public Class Controller
-
+    Private previousKeyboardState As KeyboardState
     Private keyboardState As KeyboardState
     Private mouseState As MouseState
 
@@ -13,7 +13,6 @@ Public Class Controller
     Private Const CAMERA_KEY_RIGHT As Keys = Keys.D
     Private Const CAMERA_KEY_ZOOM_IN As Keys = Keys.OemPlus
     Private Const CAMERA_KEY_ZOOM_OUT As Keys = Keys.OemMinus
-
 
     Private Const REGENERATE_MAZE As Keys = Keys.R
 
@@ -55,12 +54,13 @@ Public Class Controller
 
     ReadOnly Property RegenerateMaze As Boolean
         Get
-            Return keyboardState.IsKeyDown(REGENERATE_MAZE)
+            Return previousKeyboardState.IsKeyDown(REGENERATE_MAZE) And Not keyboardState.IsKeyDown(REGENERATE_MAZE)
         End Get
     End Property
 
     Public Sub Update(keyboardState As KeyboardState, mouseState As MouseState)
         'Console.WriteLine("x: {0}, y: {1}, scroll {2}", mouseState.X, mouseState.Y, mouseState.ScrollWheelValue)
+        Me.previousKeyboardState = Me.keyboardState
         Me.keyboardState = keyboardState
         Me.mouseState = mouseState
     End Sub
