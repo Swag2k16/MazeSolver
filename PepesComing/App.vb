@@ -2,11 +2,11 @@
 
 
 Public Class Application
-    Shared _game As Game
+    Shared _game As Microsoft.Xna.Framework.Game
 
     Shared Sub Main()
         Try
-            _game = New Game1()
+            _game = New Game()
             _game.Run()
         Catch ex As Exception
             Console.WriteLine("Boo! something went wrong!")
