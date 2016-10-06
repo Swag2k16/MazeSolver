@@ -3,4 +3,5 @@ PepesComing/obj
 *.user
 *.suo
 _ReSharper.*
-*.sln.cache
+*.sln.cache.vs/
+.vs/
