@@ -54,7 +54,7 @@ Public Class Controller
 
     ReadOnly Property RegenerateMaze As Boolean
         Get
-            Return previousKeyboardState.IsKeyDown(REGENERATE_MAZE) And Not keyboardState.IsKeyDown(REGENERATE_MAZE)
+            Return keyboardState.IsKeyDown(REGENERATE_MAZE)
         End Get
     End Property
 

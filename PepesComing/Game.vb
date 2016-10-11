@@ -12,6 +12,7 @@ Public Class Game
     Private pepe As Texture2D
     Private Harambae As Texture2D
     Private wall As Texture2D
+    Private redblock As Texture2D
 
     Private camera As Camera
     Private controller As Controller
@@ -48,6 +49,7 @@ Public Class Game
         pepe = Content.Load(Of Texture2D)("pepe")
         Harambae = Content.Load(Of Texture2D)("harambe")
         wall = Content.Load(Of Texture2D)("Wall.png")
+        redblock = Content.Load(Of Texture2D)("redblock.png")
 
     End Sub
 
@@ -71,6 +73,10 @@ Public Class Game
                 If cell.wall Then
                     spriteBatch.Draw(wall, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
                 End If
+                If cell.frontier Then
+                    spriteBatch.Draw(redblock, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
+                End If
+
             Next
         Next
         spriteBatch.End()

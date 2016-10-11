@@ -2,8 +2,8 @@
 
     Private _rnd As Random
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 10
-    Public Const columns As Integer = 10
+    Public Const rows As Integer = 50
+    Public Const columns As Integer = 50
 
     Private Grid(rows - 1, columns - 1) As Cell
 
@@ -27,7 +27,12 @@
     End Sub
 
     Public Function GetCell(row As Integer, column As Integer) As Cell
-        Return Grid(row, column)
+        Dim tempcell As New Cell(row, column)
+        tempcell.wall = Grid(row, column).wall
+        If frontiers.Contains(Grid(row, column)) Then
+            tempcell.frontier = True
+        End If
+        Return tempcell
     End Function
 
     Private Function randomChar(ByRef charlist As List(Of Char))
@@ -106,7 +111,7 @@
             End If
         End If
 
-        'frontier.wall = False
+        frontier.wall = False
         frontiers.AddRange(getFrontiers(frontier.Row, frontier.Column))
         frontiers.Remove(frontier)
         frontiers.RemoveAll(Function(j) Not j.wall)

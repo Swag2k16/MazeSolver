@@ -1,7 +1,9 @@
 ﻿Imports Microsoft.VisualBasic
 
 Public Class Cell
+
     Private _row As Integer
+
     Public ReadOnly Property Row As Integer
         Get
             Return _row
@@ -9,6 +11,7 @@ Public Class Cell
     End Property
 
     Private _column As Integer
+
     Public ReadOnly Property Column As Integer
         Get
             Return _column
@@ -16,6 +19,7 @@ Public Class Cell
     End Property
 
     Public Property wall As Boolean
+    Public Property frontier As Boolean
 
     Sub New(ByVal row As Integer, ByVal column As Integer)
         _row = row
