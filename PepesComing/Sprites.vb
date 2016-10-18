@@ -4,6 +4,11 @@ Imports Microsoft.Xna.Framework.Input
 
 Public Class Sprites
     Private tileset As Texture2D
+    Public ReadOnly Property Texture
+        Get
+            Return tileset
+        End Get
+    End Property
 
     Public Shared ReadOnly Property SandWall As Rectangle
         Get
@@ -28,9 +33,5 @@ Public Class Sprites
 
     Sub New(game As Game)
         tileset = game.Content.Load(Of Texture2D)("Tileset.png")
-    End Sub
-
-    Sub DrawTile(spritebatch As SpriteBatch, destination As Rectangle, tile As Rectangle)
-        spritebatch.Draw(tileset, destination, tile, Color.White)
     End Sub
 End Class

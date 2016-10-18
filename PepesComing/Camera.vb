@@ -4,10 +4,34 @@ Imports Microsoft.Xna.Framework.Input
 
 Public Class Camera
     Private Viewport As Viewport
-    Private position As Vector2
     Private zoom As Decimal
     Private rotation As Decimal
     Private origin As Vector2
+    Private position As Vector2
+
+    Public ReadOnly Property X As Integer
+        Get
+            Return position.X + Viewport.Width / 2
+        End Get
+    End Property
+
+    Public ReadOnly Property Y As Integer
+        Get
+            Return position.Y + Viewport.Height / 2
+        End Get
+    End Property
+
+    Public ReadOnly Property Width As Integer
+        Get
+            Return Viewport.Width / zoom
+        End Get
+    End Property
+
+    Public ReadOnly Property Height As Integer
+        Get
+            Return Viewport.Height / zoom
+        End Get
+    End Property
 
     Private Const moveSpeed As Single = 4.0F
     Private Const zoomSpeed As Single = 0.1F

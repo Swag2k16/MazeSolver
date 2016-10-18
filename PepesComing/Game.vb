@@ -59,15 +59,23 @@ Public Class Game
         GraphicsDevice.Clear(Color.LightSkyBlue)
 
         spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix(), samplerState:=SamplerState.PointClamp)
-        Dim scale As Integer = 16
-        For row = 0 To World.rows - 1
-            For column = 0 To World.columns - 1
-                Dim drawx = column
-                Dim drawy = row
-                Dim cell As Cell = world.GetCell(row, column)
-                sprites.DrawTile(spriteBatch, New Rectangle(drawx * scale, drawy * scale, scale, scale), cell.tile)
+
+        Dim minRow As Integer = (camera.Y - camera.Height / 2) / 16 - 1
+        Dim maxRow As Integer = (camera.Y + camera.Height / 2) / 16
+
+        Dim minColumn As Integer = (camera.X - camera.Width / 2) / 16 - 1
+        Dim maxColumn As Integer = (camera.X + camera.Width / 2) / 16
+
+        Console.WriteLine("{0}, {1}", maxRow - minRow, maxColumn - minColumn)
+
+        For row = minRow To maxRow
+            For column = minColumn To maxColumn
+                If row >= 0 And row < World.rows And column >= 0 And column < World.columns Then
+                    world.RenderTile(row, column, spriteBatch, sprites)
+                End If
             Next
         Next
+
         spriteBatch.End()
         ' Drawing code goes here
 
@@ -77,7 +85,7 @@ Public Class Game
     Protected Overrides Sub Update(gameTime As GameTime)
         'Calculate fps
         elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds
-        Console.WriteLine(elapsedTime)
+
         If (elapsedTime >= 1000.0F) Then
             fps = frames
             frames = 0

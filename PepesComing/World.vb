@@ -1,4 +1,9 @@
-﻿Public Class World
+﻿Imports Microsoft.VisualBasic
+Imports Microsoft.Xna.Framework
+Imports Microsoft.Xna.Framework.Graphics
+Imports Microsoft.Xna.Framework.Input
+
+Public Class World
 
     Private frontiers As List(Of Cell)
     Public Const rows As Integer = 11
@@ -24,7 +29,21 @@
     End Sub
 
     Public Function GetCell(row As Integer, column As Integer) As Cell
+        Debug.Assert(row >= 0 Or row < rows)
+        Debug.Assert(column >= 0 Or column < columns)
         Return Grid(row, column)
+    End Function
+
+    Public Function GetTile(row As Integer, column As Integer) As Rectangle
+        If row >= 0 And row < rows And column >= 0 And column < columns Then
+            Return Grid(row, column).tile
+        Else
+            Return Sprites.NormalSandWall
+        End If
+    End Function
+
+    Public Function RenderTile(row As Integer, column As Integer, spriteBatch As SpriteBatch, sprites As Sprites)
+        spriteBatch.Draw(sprites.Texture, New Rectangle(column * 16, row * 16, 16, 16), GetTile(row, column), Color.White)
     End Function
 
     Private Function randomChar(ByRef charlist As List(Of Char))
