@@ -14,6 +14,11 @@ Public Class Game
     Private world As World
     Private sprites As Sprites
 
+    'Frame time calculation
+    Private frames As Integer
+    Private elapsedTime As Double
+    Private fps As Integer
+
     Public Sub New()
         Content.RootDirectory = "Content"
 
@@ -47,14 +52,16 @@ Public Class Game
     End Sub
 
     Protected Overrides Sub Draw(gameTime As GameTime)
+        'Update fps
+        frames += 1
+        Me.Window.Title = "FPS: " + fps.ToString()
+
         GraphicsDevice.Clear(Color.LightSkyBlue)
 
-
         spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix(), samplerState:=SamplerState.PointClamp)
-
         Dim scale As Integer = 16
-        For row = 0 To world.rows - 1
-            For column = 0 To world.columns - 1
+        For row = 0 To World.rows - 1
+            For column = 0 To World.columns - 1
                 Dim drawx = column
                 Dim drawy = row
                 Dim cell As Cell = world.GetCell(row, column)
@@ -68,6 +75,15 @@ Public Class Game
     End Sub
 
     Protected Overrides Sub Update(gameTime As GameTime)
+        'Calculate fps
+        elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds
+        Console.WriteLine(elapsedTime)
+        If (elapsedTime >= 1000.0F) Then
+            fps = frames
+            frames = 0
+            elapsedTime = 0
+        End If
+
         controller.Update(Keyboard.GetState(), Mouse.GetState(Me.Window))
 
         'Update camera

@@ -36,6 +36,6 @@
  - Window
 	 - Make resizeable ✓
 	 - Name
-	 - FPS counter
+	 - FPS counter ✓
 	 - Scroll to zoom
 	 - Mouse panning
