@@ -2,14 +2,17 @@
 Imports Microsoft.Xna.Framework
 Imports Microsoft.Xna.Framework.Graphics
 Imports Microsoft.Xna.Framework.Input
+Imports System.Threading
 
 Public Class World
 
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 11
-    Public Const columns As Integer = 11
+    Public Const rows As Integer = 511
+    Public Const columns As Integer = 511
 
     Private Grid(rows - 1, columns - 1) As Cell
+
+    Private genThread As Thread
 
     Public Sub New()
         'Initialize cells
@@ -24,8 +27,12 @@ Public Class World
         Grid(r, c).type = Cell.types.FLOOR
 
         frontiers = getFrontiers(r, c)
-        'Create maze
-        PrimsMaze()
+
+        'Setup world gen thread
+        genThread = New Thread(AddressOf PrimsMaze)
+        genThread.IsBackground = True
+
+        RegenerateMaze()
     End Sub
 
     Public Function GetCell(row As Integer, column As Integer) As Cell
@@ -125,6 +132,10 @@ Public Class World
     End Sub
 
     Public Sub RegenerateMaze()
+        If genThread.IsAlive Then
+            genThread.Abort()
+        End If
+
         'Initialize cells
         For row = 0 To rows - 1
             For column = 0 To rows - 1
@@ -137,7 +148,10 @@ Public Class World
         Grid(r, c).type = Cell.types.FLOOR
 
         frontiers = getFrontiers(r, c)
-        'Create maze
-        PrimsMaze()
+
+        'Start maze generation
+        genThread = New Thread(AddressOf PrimsMaze)
+        genThread.IsBackground = True
+        genThread.Start()
     End Sub
 End Class

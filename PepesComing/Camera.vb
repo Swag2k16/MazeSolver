@@ -52,7 +52,12 @@ Public Class Camera
             Matrix.CreateTranslation(New Vector3(origin, 0))
     End Function
 
-    Sub Update(controller As Controller)
+    Sub Update(controller As Controller, viewport As Viewport)
+        'Update viewport
+        Me.Viewport = viewport
+        origin = New Vector2(viewport.Width / 2.0F, viewport.Height / 2.0F)
+
+        'Pan camera
         If controller.CameraUp Then
             position.Y -= moveSpeed
         End If
@@ -66,6 +71,7 @@ Public Class Camera
             position.X += moveSpeed
         End If
 
+        'Zoom camera
         If controller.CameraZoomIn Then
             zoom = MathHelper.Clamp(zoom + zoomSpeed, 0.5F, 2.0F)
         End If
