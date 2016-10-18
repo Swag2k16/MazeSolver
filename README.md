@@ -6,6 +6,7 @@
 * Not case sensative
 * Varibles in the for loop definition are scoped to the outer scope (not for loop)
 * No multi line comments
+* For x = a to b dosnt cast to integers (x will be decemial)
 
 #Todos#
  - User interface
