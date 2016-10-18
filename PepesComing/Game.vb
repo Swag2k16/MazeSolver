@@ -17,10 +17,9 @@ Public Class Game
     Public Sub New()
         Content.RootDirectory = "Content"
 
+        'Setup window
+        Me.Window.AllowUserResizing = True
         _graphicsDeviceManager = New GraphicsDeviceManager(Me)
-        _graphicsDeviceManager.IsFullScreen = False
-        _graphicsDeviceManager.PreferredBackBufferWidth = 1024
-        _graphicsDeviceManager.PreferredBackBufferHeight = 768
     End Sub
 
     Protected Overrides Sub Initialize()
