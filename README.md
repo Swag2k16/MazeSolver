@@ -25,7 +25,7 @@
 	 - Maze-routing
 	 - Shortest path
  - Maze generation
-	 - Multi thread
+	 - Multi thread ✓
 	 - Optermize
 	 - Progress bar
  - Rendering
