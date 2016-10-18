@@ -5,27 +5,22 @@ Imports Microsoft.Xna.Framework.Input
 Public Class Game
     Inherits Microsoft.Xna.Framework.Game
 
-    Private rnd = New Random
+    Public Shared rnd As New Random()
     Private _graphicsDeviceManager As GraphicsDeviceManager
     Private spriteBatch As SpriteBatch
 
-    Private pepe As Texture2D
-    Private Harambae As Texture2D
-    Private wall As Texture2D
-    Private redblock As Texture2D
-
     Private camera As Camera
     Private controller As Controller
-
     Private world As World
+    Private sprites As Sprites
 
     Public Sub New()
         Content.RootDirectory = "Content"
 
         _graphicsDeviceManager = New GraphicsDeviceManager(Me)
         _graphicsDeviceManager.IsFullScreen = False
-        _graphicsDeviceManager.PreferredBackBufferWidth = 600
-        _graphicsDeviceManager.PreferredBackBufferHeight = 400
+        _graphicsDeviceManager.PreferredBackBufferWidth = 1024
+        _graphicsDeviceManager.PreferredBackBufferHeight = 768
     End Sub
 
     Protected Overrides Sub Initialize()
@@ -38,7 +33,7 @@ Public Class Game
 
         'Create world
         world = New World()
-
+        sprites = New Sprites(Me)
         camera = New Camera(_graphicsDeviceManager.GraphicsDevice.Viewport)
 
     End Sub
@@ -46,11 +41,6 @@ Public Class Game
     Protected Overrides Sub LoadContent()
         ' Load assets etc in here
         spriteBatch = New SpriteBatch(GraphicsDevice)
-        pepe = Content.Load(Of Texture2D)("pepe")
-        Harambae = Content.Load(Of Texture2D)("harambe")
-        wall = Content.Load(Of Texture2D)("Wall.png")
-        redblock = Content.Load(Of Texture2D)("redblock.png")
-
     End Sub
 
     Protected Overrides Sub UnloadContent()
@@ -58,10 +48,10 @@ Public Class Game
     End Sub
 
     Protected Overrides Sub Draw(gameTime As GameTime)
-        GraphicsDevice.Clear(Color.DarkGoldenrod)
+        GraphicsDevice.Clear(Color.LightSkyBlue)
 
 
-        spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix())
+        spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix(), samplerState:=SamplerState.PointClamp)
 
         Dim scale As Integer = 16
         For row = 0 To world.rows - 1
@@ -69,14 +59,7 @@ Public Class Game
                 Dim drawx = column
                 Dim drawy = row
                 Dim cell As Cell = world.GetCell(row, column)
-
-                If cell.wall Then
-                    spriteBatch.Draw(wall, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
-                End If
-                If cell.frontier Then
-                    spriteBatch.Draw(redblock, New Rectangle(drawx * scale, drawy * scale, scale, scale), Color.White)
-                End If
-
+                sprites.DrawTile(spriteBatch, New Rectangle(drawx * scale, drawy * scale, scale, scale), cell.tile)
             Next
         Next
         spriteBatch.End()
@@ -93,7 +76,7 @@ Public Class Game
 
         'Regenerate maze
         If controller.RegenerateMaze Then
-            world.StepWorld()
+            world.RegenerateMaze()
         End If
 
         MyBase.Update(gameTime)

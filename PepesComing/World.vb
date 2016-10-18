@@ -1,25 +1,23 @@
 ﻿Public Class World
 
-    Private _rnd As Random
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 50
-    Public Const columns As Integer = 50
+    Public Const rows As Integer = 111
+    Public Const columns As Integer = 111
 
     Private Grid(rows - 1, columns - 1) As Cell
 
     Public Sub New()
-        _rnd = New Random()
         'Initialize cells
         For row = 0 To rows - 1
             For column = 0 To rows - 1
                 Grid(row, column) = New Cell(row, column)
             Next
         Next
-        Dim r As Integer = _rnd.Next(0, rows - 1)
-        Dim c As Integer = _rnd.Next(0, columns - 1)
+        Dim r As Integer = (rows - 1) / 2
+        Dim c As Integer = (columns - 1) / 2
 
         Grid(r, c).wall = False
-        Grid(r, c).print()
+        'Grid(r, c).print()
 
         frontiers = getFrontiers(r, c)
         'Create maze
@@ -27,16 +25,11 @@
     End Sub
 
     Public Function GetCell(row As Integer, column As Integer) As Cell
-        Dim tempcell As New Cell(row, column)
-        tempcell.wall = Grid(row, column).wall
-        If frontiers.Contains(Grid(row, column)) Then
-            tempcell.frontier = True
-        End If
-        Return tempcell
+        Return Grid(row, column)
     End Function
 
     Private Function randomChar(ByRef charlist As List(Of Char))
-        Dim randchar = charlist(_rnd.Next(0, charlist.Count))
+        Dim randchar = charlist(Game.rnd.Next(0, charlist.Count))
         Return randchar
     End Function
 
@@ -81,39 +74,51 @@
     End Function
 
     Public Sub PrimsMaze()
+        While frontiers.Count > 0
+            'Pick a random frountier and neigbor
+            Dim frontier As Cell = frontiers(Game.rnd.Next(0, frontiers.Count - 1))
+            Dim neigbors As List(Of Cell) = getNeigbors(frontier.Row, frontier.Column)
+            Dim neigbor As Cell = neigbors(Game.rnd.Next(0, neigbors.Count - 1))
 
-
-    End Sub
-    Public Sub StepWorld()
-        'Pick a random frountier and neigbor
-        Dim frontier As Cell = frontiers(_rnd.Next(0, frontiers.Count - 1))
-        Dim neigbors As List(Of Cell) = getNeigbors(frontier.Row, frontier.Column)
-        Dim neigbor As Cell = neigbors(_rnd.Next(0, neigbors.Count - 1))
-
-        'Remove wall between frountier and passage
-        frontier.print()
-        neigbor.print()
-        If frontier.Row = neigbor.Row Then
+            'Remove wall between frountier and passage
+            'frontier.print()
+            'neigbor.print()
+            If frontier.Row = neigbor.Row Then
             If frontier.Column > neigbor.Column Then
-                Grid(frontier.Row, frontier.Column - 1).wall = False
-                Console.WriteLine("1")
-            ElseIf frontier.Column < neigbor.Column Then
-                Grid(frontier.Row, frontier.Column + 1).wall = False
-                Console.WriteLine("2")
-            End If
+                    Grid(frontier.Row, frontier.Column - 1).wall = False
+                ElseIf frontier.Column < neigbor.Column Then
+                    Grid(frontier.Row, frontier.Column + 1).wall = False
+                End If
         ElseIf frontier.Column = neigbor.Column Then
             If frontier.Row > neigbor.Row Then
-                Grid(frontier.Row - 1, frontier.Column).wall = False
-                Console.WriteLine("3")
-            ElseIf frontier.Row < neigbor.Row Then
-                Grid(frontier.Row + 1, frontier.Column).wall = False
-                Console.WriteLine("4")
-            End If
+                    Grid(frontier.Row - 1, frontier.Column).wall = False
+                ElseIf frontier.Row < neigbor.Row Then
+                    Grid(frontier.Row + 1, frontier.Column).wall = False
+                End If
         End If
 
         frontier.wall = False
         frontiers.AddRange(getFrontiers(frontier.Row, frontier.Column))
         frontiers.Remove(frontier)
         frontiers.RemoveAll(Function(j) Not j.wall)
+        End While
+    End Sub
+
+    Public Sub RegenerateMaze()
+        'Initialize cells
+        For row = 0 To rows - 1
+            For column = 0 To rows - 1
+                Grid(row, column) = New Cell(row, column)
+            Next
+        Next
+        Dim r As Integer = (rows - 1) / 2
+        Dim c As Integer = (columns - 1) / 2
+
+        Grid(r, c).wall = False
+        'Grid(r, c).print()
+
+        frontiers = getFrontiers(r, c)
+        'Create maze
+        PrimsMaze()
     End Sub
 End Class

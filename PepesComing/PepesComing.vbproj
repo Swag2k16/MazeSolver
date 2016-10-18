@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Cell.vb" />
     <Compile Include="Camera.vb" />
+    <Compile Include="Sprites.vb" />
     <Compile Include="Controller.vb" />
     <Compile Include="Game.vb" />
     <Compile Include="App.vb" />
@@ -123,16 +124,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\harambe.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\pepe.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\redblock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\wall.png">
+    <Content Include="Content\Tileset.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="MonoGame.Framework.dll" />
