@@ -5,6 +5,7 @@
 * Arrays are created with like: array[length+1]
 * Not case sensative
 * Varibles in the for loop definition are scoped to the outer scope (not for loop)
+* No multi line comments
 
 #Todos#
  - User interface
