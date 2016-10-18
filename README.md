@@ -29,7 +29,7 @@
 	 - Optermize
 	 - Progress bar
  - Rendering
-	 - Only render viewport
+	 - Only render viewport ✓
 	 - Connected textures
 	 - Better tile set?
 	 - Vignette background
