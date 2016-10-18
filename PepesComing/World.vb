@@ -1,8 +1,8 @@
 ﻿Public Class World
 
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 111
-    Public Const columns As Integer = 111
+    Public Const rows As Integer = 11
+    Public Const columns As Integer = 11
 
     Private Grid(rows - 1, columns - 1) As Cell
 
@@ -16,8 +16,7 @@
         Dim r As Integer = (rows - 1) / 2
         Dim c As Integer = (columns - 1) / 2
 
-        Grid(r, c).wall = False
-        'Grid(r, c).print()
+        Grid(r, c).type = Cell.types.FLOOR
 
         frontiers = getFrontiers(r, c)
         'Create maze
@@ -62,14 +61,14 @@
     Private Function getFrontiers(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
         Dim frontiers As List(Of Cell) = getNearCells(row, column)
         'Remove all walls
-        frontiers.RemoveAll(Function(c) Not c.wall)
+        frontiers.RemoveAll(Function(c) Not c.type = Cell.types.WALL)
         Return frontiers
     End Function
 
     Private Function getNeigbors(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
         Dim neigbors As List(Of Cell) = getNearCells(row, column)
         'Remove all walls
-        neigbors.RemoveAll(Function(c) c.wall)
+        neigbors.RemoveAll(Function(c) c.type = Cell.types.WALL)
         Return neigbors
     End Function
 
@@ -84,24 +83,26 @@
             'frontier.print()
             'neigbor.print()
             If frontier.Row = neigbor.Row Then
-            If frontier.Column > neigbor.Column Then
-                    Grid(frontier.Row, frontier.Column - 1).wall = False
+                If frontier.Column > neigbor.Column Then
+                    Grid(frontier.Row, frontier.Column - 1).type = Cell.types.FLOOR
                 ElseIf frontier.Column < neigbor.Column Then
-                    Grid(frontier.Row, frontier.Column + 1).wall = False
+                    Grid(frontier.Row, frontier.Column + 1).type = Cell.types.FLOOR
                 End If
-        ElseIf frontier.Column = neigbor.Column Then
-            If frontier.Row > neigbor.Row Then
-                    Grid(frontier.Row - 1, frontier.Column).wall = False
+            ElseIf frontier.Column = neigbor.Column Then
+                If frontier.Row > neigbor.Row Then
+                    Grid(frontier.Row - 1, frontier.Column).type = Cell.types.FLOOR
                 ElseIf frontier.Row < neigbor.Row Then
-                    Grid(frontier.Row + 1, frontier.Column).wall = False
+                    Grid(frontier.Row + 1, frontier.Column).type = Cell.types.FLOOR
                 End If
-        End If
+            End If
 
-        frontier.wall = False
-        frontiers.AddRange(getFrontiers(frontier.Row, frontier.Column))
-        frontiers.Remove(frontier)
-        frontiers.RemoveAll(Function(j) Not j.wall)
+            frontier.type = Cell.types.FLOOR
+            frontiers.AddRange(getFrontiers(frontier.Row, frontier.Column))
+            frontiers.Remove(frontier)
+            frontiers.RemoveAll(Function(j) Not j.type = Cell.types.WALL)
         End While
+        Grid(1, 1).type = Cell.types.START
+        Grid(rows - 2, columns - 2).type = Cell.types.ENDPOINT
     End Sub
 
     Public Sub RegenerateMaze()
@@ -114,8 +115,7 @@
         Dim r As Integer = (rows - 1) / 2
         Dim c As Integer = (columns - 1) / 2
 
-        Grid(r, c).wall = False
-        'Grid(r, c).print()
+        Grid(r, c).type = Cell.types.FLOOR
 
         frontiers = getFrontiers(r, c)
         'Create maze

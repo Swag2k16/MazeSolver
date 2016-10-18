@@ -21,6 +21,8 @@ Public Class Sprites
     Public Shared ReadOnly NormalSandWall As Rectangle = New Rectangle(4 * 17, 20 * 17, 16, 16)
     Public Shared ReadOnly DamagedSandWall1 As Rectangle = New Rectangle(4 * 17, 21 * 17, 16, 16)
     Public Shared ReadOnly DamagedSandWall2 As Rectangle = New Rectangle(3 * 17, 21 * 17, 16, 16)
+    Public Shared ReadOnly Start As Rectangle = New Rectangle(9 * 17, 24 * 17, 16, 16)
+    Public Shared ReadOnly EndPoint As Rectangle = New Rectangle(11 * 17, 24 * 17, 16, 16)
     Public Shared ReadOnly Property SteelFloor As Rectangle = New Rectangle(23 * 17, 1 * 17, 16, 16)
 
 
