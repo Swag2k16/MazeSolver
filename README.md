@@ -34,7 +34,7 @@
 	 - Maze solving visulizations
 	 - Maze generation
  - Window
-	 - Make resizeable
+	 - Make resizeable ✓
 	 - Name
 	 - FPS counter
 	 - Scroll to zoom
