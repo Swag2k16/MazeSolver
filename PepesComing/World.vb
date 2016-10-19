@@ -7,8 +7,8 @@ Imports System.Threading
 Public Class World
 
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 511
-    Public Const columns As Integer = 511
+    Public Const rows As Integer = 5011
+    Public Const columns As Integer = 5011
 
     Private Grid(rows - 1, columns - 1) As Cell
 

@@ -71,8 +71,6 @@ Public Class Game
         Dim minColumn As Integer = (camera.X - camera.Width / 2) / 16 - 1
         Dim maxColumn As Integer = (camera.X + camera.Width / 2) / 16
 
-        Console.WriteLine("{0}, {1}", maxRow - minRow, maxColumn - minColumn)
-
         For row = minRow To maxRow
             For column = minColumn To maxColumn
                 If row >= 0 And row < World.rows And column >= 0 And column < World.columns Then
@@ -100,6 +98,7 @@ Public Class Game
         controller.Update(Keyboard.GetState(), Mouse.GetState(Me.Window))
 
         'Update camera
+        controller.DragCamera(camera)
         camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport)
 
         'Regenerate maze

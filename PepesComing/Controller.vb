@@ -6,6 +6,9 @@ Public Class Controller
     Private previousKeyboardState As KeyboardState
     Private keyboardState As KeyboardState
     Private mouseState As MouseState
+    Private previousMouseState As MouseState
+
+    Private DragStart As Vector2
 
     Private Const CAMERA_KEY_UP As Keys = Keys.W
     Private Const CAMERA_KEY_DOWN As Keys = Keys.S
@@ -58,11 +61,37 @@ Public Class Controller
         End Get
     End Property
 
+    ReadOnly Property MouseDown As Boolean
+        Get
+            Return mouseState.LeftButton
+        End Get
+    End Property
+
+    ReadOnly Property MousePosition As Vector2
+        Get
+            Return mouseState.Position.ToVector2
+        End Get
+    End Property
+
     Public Sub Update(keyboardState As KeyboardState, mouseState As MouseState)
         'Console.WriteLine("x: {0}, y: {1}, scroll {2}", mouseState.X, mouseState.Y, mouseState.ScrollWheelValue)
         Me.previousKeyboardState = Me.keyboardState
         Me.keyboardState = keyboardState
+        Me.previousMouseState = Me.mouseState
         Me.mouseState = mouseState
     End Sub
 
+    Public Sub DragCamera(camera As Camera)
+        If mouseState.LeftButton = ButtonState.Pressed Then
+            If previousMouseState.LeftButton = ButtonState.Released Then
+                DragStart = MousePosition
+            End If
+            camera.DragCamera(DragStart, MousePosition)
+        End If
+        If mouseState.LeftButton = ButtonState.Released Then
+            If previousMouseState.LeftButton = ButtonState.Pressed Then
+                camera.DragEnd(DragStart, MousePosition)
+            End If
+        End If
+    End Sub
 End Class

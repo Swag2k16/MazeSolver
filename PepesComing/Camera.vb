@@ -8,16 +8,17 @@ Public Class Camera
     Private rotation As Decimal
     Private origin As Vector2
     Private position As Vector2
+    Private Drag As Vector2
 
     Public ReadOnly Property X As Integer
         Get
-            Return position.X + Viewport.Width / 2
+            Return position.X + Viewport.Width / 2 - Drag.X
         End Get
     End Property
 
     Public ReadOnly Property Y As Integer
         Get
-            Return position.Y + Viewport.Height / 2
+            Return position.Y + Viewport.Height / 2 - Drag.Y
         End Get
     End Property
 
@@ -49,7 +50,8 @@ Public Class Camera
             Matrix.CreateTranslation(New Vector3(-origin, 0.0F)) *
             Matrix.CreateRotationZ(rotation) *
             Matrix.CreateScale(zoom, zoom, 1) *
-            Matrix.CreateTranslation(New Vector3(origin, 0))
+            Matrix.CreateTranslation(New Vector3(origin, 0)) *
+            Matrix.CreateTranslation(New Vector3(Drag, 0))
     End Function
 
     Sub Update(controller As Controller, viewport As Viewport)
@@ -74,9 +76,20 @@ Public Class Camera
         'Zoom camera
         If controller.CameraZoomIn Then
             zoom = MathHelper.Clamp(zoom + zoomSpeed, 0.5F, 2.0F)
+
         End If
         If controller.CameraZoomOut Then
             zoom = MathHelper.Clamp(zoom - zoomSpeed, 0.5F, 2.0F)
+
         End If
+    End Sub
+
+    Sub DragCamera(DragStart As Vector2, CurrentPosition As Vector2)
+        Drag = CurrentPosition - DragStart
+    End Sub
+
+    Sub DragEnd(DragStart As Vector2, CurrentPosition As Vector2)
+        position -= CurrentPosition - DragStart
+        Drag = Vector2.Zero
     End Sub
 End Class
