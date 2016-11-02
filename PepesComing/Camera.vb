@@ -3,12 +3,14 @@ Imports Microsoft.Xna.Framework.Graphics
 Imports Microsoft.Xna.Framework.Input
 
 Public Class Camera
-    Private Viewport As Viewport
-    Private zoom As Decimal
+    Private viewport As Viewport
+    Private _zoom As Decimal
     Private rotation As Decimal
     Private origin As Vector2
     Private position As Vector2
-    Private Drag As Vector2
+    Private drag As Vector2
+    Private dragStart As Vector2
+    Private prevPosition As Vector2
 
     Public ReadOnly Property X As Integer
         Get
@@ -24,13 +26,19 @@ Public Class Camera
 
     Public ReadOnly Property Width As Integer
         Get
-            Return Viewport.Width / zoom
+            Return Viewport.Width
         End Get
     End Property
 
     Public ReadOnly Property Height As Integer
         Get
-            Return Viewport.Height / zoom
+            Return Viewport.Height
+        End Get
+    End Property
+
+    Public ReadOnly Property Zoom As Decimal
+        Get
+            Return _zoom
         End Get
     End Property
 
@@ -40,7 +48,7 @@ Public Class Camera
     Sub New(ByRef viewport As Viewport)
         Me.Viewport = viewport
         rotation = 0
-        zoom = 1
+        _zoom = 1
         origin = New Vector2(viewport.Width / 2.0F, viewport.Height / 2.0F)
         position = Vector2.Zero
     End Sub
@@ -75,20 +83,21 @@ Public Class Camera
 
         'Zoom camera
         If controller.CameraZoomIn Then
-            zoom = MathHelper.Clamp(zoom + zoomSpeed, 0.5F, 2.0F)
+            _zoom = MathHelper.Clamp(Zoom + zoomSpeed, 0.5F, 2.0F)
 
         End If
         If controller.CameraZoomOut Then
-            zoom = MathHelper.Clamp(zoom - zoomSpeed, 0.5F, 2.0F)
+            _zoom = MathHelper.Clamp(Zoom - zoomSpeed, 0.5F, 2.0F)
         End If
     End Sub
 
     Sub DragCamera(DragStart As Vector2, CurrentPosition As Vector2)
-        Drag = CurrentPosition - DragStart
+        Me.dragStart = CurrentPosition
+        prevPosition = position
     End Sub
 
-    Sub DragEnd(DragStart As Vector2, CurrentPosition As Vector2)
-        position -= CurrentPosition - DragStart
-        Drag = Vector2.Zero
+    Sub Dragging(Currentposition As Vector2)
+        position = prevPosition + (dragStart - Currentposition) / zoom
     End Sub
+
 End Class

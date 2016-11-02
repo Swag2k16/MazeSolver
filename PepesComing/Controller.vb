@@ -85,13 +85,9 @@ Public Class Controller
         If mouseState.LeftButton = ButtonState.Pressed Then
             If previousMouseState.LeftButton = ButtonState.Released Then
                 DragStart = MousePosition
+                camera.DragCamera(DragStart, MousePosition)
             End If
-            camera.DragCamera(DragStart, MousePosition)
-        End If
-        If mouseState.LeftButton = ButtonState.Released Then
-            If previousMouseState.LeftButton = ButtonState.Pressed Then
-                camera.DragEnd(DragStart, MousePosition)
-            End If
+            camera.Dragging(MousePosition)
         End If
     End Sub
 End Class

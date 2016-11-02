@@ -66,11 +66,11 @@ Public Class Game
 
         spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix(), samplerState:=SamplerState.PointClamp)
 
-        Dim minRow As Integer = (camera.Y - camera.Height / 2) / 16 - 1
-        Dim maxRow As Integer = (camera.Y + camera.Height / 2) / 16
-        Dim minColumn As Integer = (camera.X - camera.Width / 2) / 16 - 1
-        Dim maxColumn As Integer = (camera.X + camera.Width / 2) / 16
-
+        Dim minRow As Integer = (camera.Y - camera.Height / 2 / camera.Zoom) / 16 - 1
+        Dim maxRow As Integer = (camera.Y + camera.Height / 2 / camera.Zoom) / 16
+        Dim minColumn As Integer = (camera.X - camera.Width / 2 / camera.Zoom) / 16 - 1
+        Dim maxColumn As Integer = (camera.X + camera.Width / 2 / camera.zoom) / 16
+        Console.WriteLine("{0} {1}", maxRow - minRow, maxColumn - minColumn)
         For row = minRow To maxRow
             For column = minColumn To maxColumn
                 If row >= 0 And row < World.rows And column >= 0 And column < World.columns Then
@@ -90,7 +90,7 @@ Public Class Game
         elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds
 
         If (elapsedTime >= 1000.0F) Then
-            fps = frames / 5
+            fps = frames
             frames = 0
             elapsedTime = 0
         End If
