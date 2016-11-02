@@ -29,7 +29,7 @@ Public Class Game
 
         _graphicsDeviceManager = New GraphicsDeviceManager(Me)
         _graphicsDeviceManager.IsFullScreen = False
-        _graphicsDeviceManager.PreferredBackBufferWidth = 1020
+        _graphicsDeviceManager.PreferredBackBufferWidth = 1024
         _graphicsDeviceManager.PreferredBackBufferHeight = 768
     End Sub
 
@@ -90,7 +90,7 @@ Public Class Game
         elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds
 
         If (elapsedTime >= 1000.0F) Then
-            fps = frames
+            fps = frames / 5
             frames = 0
             elapsedTime = 0
         End If

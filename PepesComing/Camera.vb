@@ -80,7 +80,6 @@ Public Class Camera
         End If
         If controller.CameraZoomOut Then
             zoom = MathHelper.Clamp(zoom - zoomSpeed, 0.5F, 2.0F)
-
         End If
     End Sub
 

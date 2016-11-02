@@ -7,8 +7,8 @@ Imports System.Threading
 Public Class World
 
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 5011
-    Public Const columns As Integer = 5011
+    Public Const rows As Integer = 511
+    Public Const columns As Integer = 511
 
     Private Grid(rows - 1, columns - 1) As Cell
 
@@ -91,33 +91,33 @@ Public Class World
         Return frontiers
     End Function
 
-    Private Function getNeigbors(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
-        Dim neigbors As List(Of Cell) = getNearCells(row, column)
+    Private Function getNeighbors(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
+        Dim neighbors As List(Of Cell) = getNearCells(row, column)
         'Remove all walls
-        neigbors.RemoveAll(Function(c) c.type = Cell.types.WALL)
-        Return neigbors
+        neighbors.RemoveAll(Function(c) c.type = Cell.types.WALL)
+        Return neighbors
     End Function
 
     Public Sub PrimsMaze()
         While frontiers.Count > 0
-            'Pick a random frountier and neigbor
+            'Pick a random frountier and neigbhor
             Dim frontier As Cell = frontiers(Game.rnd.Next(0, frontiers.Count - 1))
-            Dim neigbors As List(Of Cell) = getNeigbors(frontier.Row, frontier.Column)
-            Dim neigbor As Cell = neigbors(Game.rnd.Next(0, neigbors.Count - 1))
+            Dim neighbors As List(Of Cell) = getNeighbors(frontier.Row, frontier.Column)
+            Dim neighbor As Cell = neighbors(Game.rnd.Next(0, neighbors.Count - 1))
 
             'Remove wall between frountier and passage
-            'frontier.print()
-            'neigbor.print()
-            If frontier.Row = neigbor.Row Then
-                If frontier.Column > neigbor.Column Then
+            'frontier.print()#
+            'neighbor.print()
+            If frontier.Row = neighbor.Row Then
+                If frontier.Column > neighbor.Column Then
                     Grid(frontier.Row, frontier.Column - 1).type = Cell.types.FLOOR
-                ElseIf frontier.Column < neigbor.Column Then
+                ElseIf frontier.Column < neighbor.Column Then
                     Grid(frontier.Row, frontier.Column + 1).type = Cell.types.FLOOR
                 End If
-            ElseIf frontier.Column = neigbor.Column Then
-                If frontier.Row > neigbor.Row Then
+            ElseIf frontier.Column = neighbor.Column Then
+                If frontier.Row > neighbor.Row Then
                     Grid(frontier.Row - 1, frontier.Column).type = Cell.types.FLOOR
-                ElseIf frontier.Row < neigbor.Row Then
+                ElseIf frontier.Row < neighbor.Row Then
                     Grid(frontier.Row + 1, frontier.Column).type = Cell.types.FLOOR
                 End If
             End If

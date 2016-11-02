@@ -1,4 +1,4 @@
-#Pepe is back... again#
+﻿#Pepe is back... again#
 
 #Why VB is satan#
 * x = x dosnt work in constructors
@@ -26,7 +26,7 @@
 	 - Shortest path
  - Maze generation
 	 - Multi thread ✓
-	 - Optermize
+	 - Optimise
 	 - Progress bar
  - Rendering
 	 - Only render viewport ✓
@@ -39,5 +39,5 @@
 	 - Make resizeable ✓
 	 - Name
 	 - FPS counter ✓
-	 - Scroll to zoom
-	 - Mouse panning
+	 - Scroll to zoom 
+	 - Mouse panning ✓
