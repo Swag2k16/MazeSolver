@@ -5,17 +5,17 @@ Imports Microsoft.Xna.Framework.Input
 
 Public Class Cell
 
-    Private _row As Integer
-    Public ReadOnly Property Row As Integer
+    Private _x As Integer
+    Public ReadOnly Property X As Integer
         Get
-            Return _row
+            Return _x
         End Get
     End Property
 
-    Private _column As Integer
-    Public ReadOnly Property Column As Integer
+    Private _y As Integer
+    Public ReadOnly Property Y As Integer
         Get
-            Return _column
+            Return _y
         End Get
     End Property
 
@@ -58,13 +58,13 @@ Public Class Cell
 
     Public Property frontier As Boolean
 
-    Sub New(ByVal row As Integer, ByVal column As Integer)
-        _row = row
-        _column = column
+    Sub New(ByVal x As Integer, ByVal y As Integer)
+        _x = x
+        _y = y
         type = types.WALL
     End Sub
 
     Public Sub print()
-        Console.WriteLine("row: {0}, column: {1}, wall: {2}", Row, Column, type)
+        Console.WriteLine("x: {0}, y: {1}, wall: {2}", X, Y, type)
     End Sub
 End Class

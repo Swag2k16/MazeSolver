@@ -66,14 +66,10 @@ Public Class Game
 
         spriteBatch.Begin(transformMatrix:=camera.GetViewMatrix(), samplerState:=SamplerState.PointClamp)
 
-        Dim minRow As Integer = (camera.Y - camera.Height / 2 / camera.Zoom) / 16 - 1
-        Dim maxRow As Integer = (camera.Y + camera.Height / 2 / camera.Zoom) / 16
-        Dim minColumn As Integer = (camera.X - camera.Width / 2 / camera.Zoom) / 16 - 1
-        Dim maxColumn As Integer = (camera.X + camera.Width / 2 / camera.Zoom) / 16
-        For row = minRow To maxRow
-            For column = minColumn To maxColumn
-                If row >= 0 And row < World.rows And column >= 0 And column < World.columns Then
-                    world.RenderTile(row, column, spriteBatch, sprites)
+        For x = camera.Viewport.X To camera.Viewport.Width - camera.Viewport.X
+            For y = camera.Viewport.Y To camera.Viewport.Height - camera.Viewport.Y
+                If x >= 0 And x < World.width And y >= 0 And y < World.height Then
+                    world.RenderTile(x, y, spriteBatch, sprites)
                 End If
             Next
         Next

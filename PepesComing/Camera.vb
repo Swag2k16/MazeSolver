@@ -3,7 +3,7 @@ Imports Microsoft.Xna.Framework.Graphics
 Imports Microsoft.Xna.Framework.Input
 
 Public Class Camera
-    Private viewport As Viewport
+    Private windowViewport As Viewport
     Private _zoom As Decimal
     Private rotation As Decimal
     Private origin As Vector2
@@ -14,25 +14,25 @@ Public Class Camera
 
     Public ReadOnly Property X As Integer
         Get
-            Return position.X + Viewport.Width / 2 - Drag.X
+            Return position.X + windowViewport.Width / 2 - drag.X
         End Get
     End Property
 
     Public ReadOnly Property Y As Integer
         Get
-            Return position.Y + Viewport.Height / 2 - Drag.Y
+            Return position.Y + windowViewport.Height / 2 - drag.Y
         End Get
     End Property
 
     Public ReadOnly Property Width As Integer
         Get
-            Return Viewport.Width
+            Return windowViewport.Width
         End Get
     End Property
 
     Public ReadOnly Property Height As Integer
         Get
-            Return Viewport.Height
+            Return windowViewport.Height
         End Get
     End Property
 
@@ -42,11 +42,22 @@ Public Class Camera
         End Get
     End Property
 
+    Public ReadOnly Property Viewport As Rectangle
+        Get
+            Dim minX = (X - Width / Zoom / 2) / 16 - 1
+            Dim maxX = (X + Width / Zoom / 2) / 16
+            Dim minY = (Y - Height / Zoom / 2) / 16 - 1
+            Dim maxY = (Y + Height / Zoom / 2) / 16
+
+            Return New Rectangle(minX, minY, maxX - minX, maxY - minY)
+        End Get
+    End Property
+
     Private Const moveSpeed As Single = 4.0F
     Private Const zoomSpeed As Single = 0.1F
 
     Sub New(ByRef viewport As Viewport)
-        Me.Viewport = viewport
+        Me.windowViewport = viewport
         rotation = 0
         _zoom = 1
         origin = New Vector2(viewport.Width / 2.0F, viewport.Height / 2.0F)
@@ -57,14 +68,14 @@ Public Class Camera
         Return Matrix.CreateTranslation(New Vector3(-position, 0.0F)) *
             Matrix.CreateTranslation(New Vector3(-origin, 0.0F)) *
             Matrix.CreateRotationZ(rotation) *
-            Matrix.CreateScale(zoom, zoom, 1) *
+            Matrix.CreateScale(Zoom, Zoom, 1) *
             Matrix.CreateTranslation(New Vector3(origin, 0)) *
-            Matrix.CreateTranslation(New Vector3(Drag, 0))
+            Matrix.CreateTranslation(New Vector3(drag, 0))
     End Function
 
     Sub Update(controller As Controller, viewport As Viewport)
         'Update viewport
-        Me.Viewport = viewport
+        Me.windowViewport = viewport
         origin = New Vector2(viewport.Width / 2.0F, viewport.Height / 2.0F)
 
         'Pan camera

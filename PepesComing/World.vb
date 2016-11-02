@@ -5,149 +5,156 @@ Imports Microsoft.Xna.Framework.Input
 Imports System.Threading
 
 Public Class World
+    Public Const height As Integer = 123
+    Public Const width As Integer = 123
+    Private Grid(width - 1, height - 1) As Cell
 
     Private frontiers As List(Of Cell)
-    Public Const rows As Integer = 7
-    Public Const columns As Integer = 7
-
-    Private Grid(rows - 1, columns - 1) As Cell
-
     Private genThread As Thread
 
     Public Sub New()
-        'Initialize cells
-        For row = 0 To rows - 1
-            For column = 0 To rows - 1
-                Grid(row, column) = New Cell(row, column)
-            Next
-        Next
-        Dim r As Integer = (rows - 1) / 2
-        Dim c As Integer = (columns - 1) / 2
-
-        Grid(r, c).type = Cell.types.FLOOR
-
-        frontiers = getFrontiers(r, c)
-
         'Setup world gen thread
         genThread = New Thread(AddressOf PrimsMaze)
         genThread.IsBackground = True
 
+        'Start world generation
         RegenerateMaze()
     End Sub
 
-    Public Function GetCell(row As Integer, column As Integer) As Cell
-        Debug.Assert(row >= 0 Or row < rows)
-        Debug.Assert(column >= 0 Or column < columns)
-        Return Grid(row, column)
+    'Structure to hold cells in all four cardinal directions
+    Public Structure CardinalCells
+        Public North As Cell
+        Public East As Cell
+        Public South As Cell
+        Public West As Cell
+    End Structure
+
+    'Get the cell at (x, y)
+    Public Function GetCell(x As Integer, y As Integer) As Cell
+        Debug.Assert(x >= 0 Or x < width)
+        Debug.Assert(y >= 0 Or y < height)
+        Return Grid(x, y)
     End Function
 
-    Public Function GetTile(row As Integer, column As Integer) As Rectangle
-        If row >= 0 And row < rows And column >= 0 And column < columns Then
-            Return Grid(row, column).tile
-        Else
-            Return Sprites.NormalSandWall
-        End If
+    'Get the cells directly connected to the cell at (x, y)
+    Public Function GetNeigbors(x As Integer, y As Integer) As CardinalCells
+        ' Check row and column are within bounds
+        Debug.Assert(x >= 1 Or x < width - 1)
+        Debug.Assert(y >= 1 Or y < height - 1)
+
+        ' Get neigbors around cell
+        Dim neigbors As CardinalCells = New CardinalCells
+        neigbors.North = GetCell(x, y + 1)
+        neigbors.East = GetCell(x + 1, y)
+        neigbors.South = GetCell(x, y - 1)
+        neigbors.West = GetCell(x - 1, y)
+
+        Return neigbors
     End Function
 
-    Public Function RenderTile(row As Integer, column As Integer, spriteBatch As SpriteBatch, sprites As Sprites)
-        spriteBatch.Draw(sprites.Texture, New Rectangle(column * 16, row * 16, 16, 16), GetTile(row, column), Color.White)
-    End Function
+    'Render a tile to the spritebatch
+    Public Sub RenderTile(x As Integer, y As Integer, spriteBatch As SpriteBatch, sprites As Sprites)
+        spriteBatch.Draw(sprites.Texture, New Rectangle(x * 16, -y * 16, 16, 16), GetCell(x, y).tile, Color.White)
+    End Sub
 
-    Private Function randomChar(ByRef charlist As List(Of Char))
-        Dim randchar = charlist(Game.rnd.Next(0, charlist.Count))
-        Return randchar
-    End Function
-
-    Private Function getNearCells(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
+    'Get cells (if any) two units away (in the cardinal directions)
+    Private Function getNearCells(ByVal x As Integer, ByVal y As Integer) As List(Of Cell)
         Dim NearCells As List(Of Cell) = New List(Of Cell)
 
         'Up
-        If row - 2 >= 0 Then
-            NearCells.Add(Grid(row - 2, column))
+        If y <= height - 3 Then
+            NearCells.Add(Grid(x, y + 2))
         End If
-
         'Down
-        If row + 2 <= rows - 1 Then
-            NearCells.Add(Grid(row + 2, column))
+        If y >= 2 Then
+            NearCells.Add(Grid(x, y - 2))
         End If
-
         'Left
-        If column + 2 <= columns - 1 Then
-            NearCells.Add(Grid(row, column + 2))
+        If x >= 2 Then
+            NearCells.Add(Grid(x - 2, y))
         End If
-
         'Right
-        If column - 2 >= 0 Then
-            NearCells.Add(Grid(row, column - 2))
+        If x <= width - 3 Then
+            NearCells.Add(Grid(x + 2, y))
         End If
 
         Return NearCells
     End Function
 
-    Private Function getFrontiers(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
-        Dim frontiers As List(Of Cell) = getNearCells(row, column)
+    'Gets cells (if any) two units away (in the cardinal directions) that are walls
+    Private Function getFrontiers(ByVal x As Integer, ByVal y As Integer) As List(Of Cell)
+        Dim frontiers As List(Of Cell) = getNearCells(x, y)
         'Remove all walls
         frontiers.RemoveAll(Function(c) Not c.type = Cell.types.WALL)
         Return frontiers
     End Function
 
-    Private Function getNeighbors(ByVal row As Integer, ByVal column As Integer) As List(Of Cell)
-        Dim neighbors As List(Of Cell) = getNearCells(row, column)
-        'Remove all walls
+    'Gets cells (if any) two units away (in the cardinal directions) that are not walls (paths/start/endpoint)
+    Private Function getNeighbors(ByVal x As Integer, ByVal y As Integer) As List(Of Cell)
+        Dim neighbors As List(Of Cell) = getNearCells(x, y)
+        'Remove all non-walls
         neighbors.RemoveAll(Function(c) c.type = Cell.types.WALL)
         Return neighbors
     End Function
 
-    Public Sub PrimsMaze()
+    'Prims maze generation algoritum (blocking)
+    Private Sub primsMaze()
+        'Start the maze generation at the center
+        Dim middleX = (width - 1) / 2
+        Dim middleY = (height - 1) / 2
+        Grid(middleX, middleY).type = Cell.types.FLOOR
+
+        'Get initial frountiers
+        frontiers = getFrontiers(middleX, middleY)
+
         While frontiers.Count > 0
             'Pick a random frountier and neigbhor
             Dim frontier As Cell = frontiers(Game.rnd.Next(0, frontiers.Count - 1))
-            Dim neighbors As List(Of Cell) = getNeighbors(frontier.Row, frontier.Column)
+            Dim neighbors As List(Of Cell) = getNeighbors(frontier.X, frontier.Y)
             Dim neighbor As Cell = neighbors(Game.rnd.Next(0, neighbors.Count - 1))
 
-            'Remove wall between frountier and passage
-            'frontier.print()#
-            'neighbor.print()
-            If frontier.Row = neighbor.Row Then
-                If frontier.Column > neighbor.Column Then
-                    Grid(frontier.Row, frontier.Column - 1).type = Cell.types.FLOOR
-                ElseIf frontier.Column < neighbor.Column Then
-                    Grid(frontier.Row, frontier.Column + 1).type = Cell.types.FLOOR
+            'Make a path between the cell and the frountier
+            If frontier.Y = neighbor.Y Then
+                If frontier.X > neighbor.X Then
+                    Grid(frontier.X - 1, frontier.Y).type = Cell.types.FLOOR
+                ElseIf frontier.x < neighbor.x Then
+                    Grid(frontier.X + 1, frontier.Y).type = Cell.types.FLOOR
                 End If
-            ElseIf frontier.Column = neighbor.Column Then
-                If frontier.Row > neighbor.Row Then
-                    Grid(frontier.Row - 1, frontier.Column).type = Cell.types.FLOOR
-                ElseIf frontier.Row < neighbor.Row Then
-                    Grid(frontier.Row + 1, frontier.Column).type = Cell.types.FLOOR
+            ElseIf frontier.x = neighbor.x Then
+                If frontier.Y > neighbor.Y Then
+                    Grid(frontier.X, frontier.Y - 1).type = Cell.types.FLOOR
+                ElseIf frontier.y < neighbor.y Then
+                    Grid(frontier.X, frontier.Y + 1).type = Cell.types.FLOOR
                 End If
             End If
-
             frontier.type = Cell.types.FLOOR
-            frontiers.AddRange(getFrontiers(frontier.Row, frontier.Column))
+
+            'Update the froutier list
+            frontiers.AddRange(getFrontiers(frontier.X, frontier.Y))
             frontiers.Remove(frontier)
+
+            'TODO: is this nessisary?
             frontiers.RemoveAll(Function(j) Not j.type = Cell.types.WALL)
         End While
+
+        'Set the start and end points
         Grid(1, 1).type = Cell.types.START
-        Grid(rows - 2, columns - 2).type = Cell.types.ENDPOINT
+        Grid(width - 2, height - 2).type = Cell.types.ENDPOINT
     End Sub
 
+    'Maze (re)generation (non-blocking)
     Public Sub RegenerateMaze()
+        'Stop thread if its still alive
         If genThread.IsAlive Then
             genThread.Abort()
         End If
 
-        'Initialize cells
-        For row = 0 To rows - 1
-            For column = 0 To rows - 1
-                Grid(row, column) = New Cell(row, column)
+        '(Re)initialize cells
+        For x = 0 To width - 1
+            For y = 0 To height - 1
+                Grid(x, y) = New Cell(x, y)
             Next
         Next
-        Dim r As Integer = (rows - 1) / 2
-        Dim c As Integer = (columns - 1) / 2
-
-        Grid(r, c).type = Cell.types.FLOOR
-
-        frontiers = getFrontiers(r, c)
 
         'Start maze generation
         genThread = New Thread(AddressOf PrimsMaze)
