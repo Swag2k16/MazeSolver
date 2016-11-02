@@ -1,0 +1,11 @@
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\obj\Debug\PepesComing.Converted.csprojResolveAssemblyReference.cache
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\PepesComing.exe.config
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\Content\Tileset.png
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\PepesComing.exe
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\PepesComing.pdb
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\PepesComing.xml
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\MonoGame.Framework.dll
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\NVorbis.dll
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\bin\Debug\OpenTK.dll
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\obj\Debug\PepesComing.exe
+C:\Users\Ben\Documents\Monogamepepe\PepesComing.ConvertedToC#\obj\Debug\PepesComing.pdb

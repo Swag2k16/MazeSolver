@@ -82,6 +82,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.vb" />
     <Compile Include="Cell.vb" />
     <Compile Include="Camera.vb" />
     <Compile Include="Solvers\Solver.vb" />
@@ -89,7 +90,6 @@
     <Compile Include="Sprites.vb" />
     <Compile Include="Controller.vb" />
     <Compile Include="Game.vb" />
-    <Compile Include="App.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
