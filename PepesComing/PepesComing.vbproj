@@ -84,6 +84,8 @@
   <ItemGroup>
     <Compile Include="Cell.vb" />
     <Compile Include="Camera.vb" />
+    <Compile Include="Solvers\Solver.vb" />
+    <Compile Include="Solvers\WallFollower.vb" />
     <Compile Include="Sprites.vb" />
     <Compile Include="Controller.vb" />
     <Compile Include="Game.vb" />

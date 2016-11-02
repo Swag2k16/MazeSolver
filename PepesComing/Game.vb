@@ -69,8 +69,7 @@ Public Class Game
         Dim minRow As Integer = (camera.Y - camera.Height / 2 / camera.Zoom) / 16 - 1
         Dim maxRow As Integer = (camera.Y + camera.Height / 2 / camera.Zoom) / 16
         Dim minColumn As Integer = (camera.X - camera.Width / 2 / camera.Zoom) / 16 - 1
-        Dim maxColumn As Integer = (camera.X + camera.Width / 2 / camera.zoom) / 16
-        Console.WriteLine("{0} {1}", maxRow - minRow, maxColumn - minColumn)
+        Dim maxColumn As Integer = (camera.X + camera.Width / 2 / camera.Zoom) / 16
         For row = minRow To maxRow
             For column = minColumn To maxColumn
                 If row >= 0 And row < World.rows And column >= 0 And column < World.columns Then
@@ -104,6 +103,13 @@ Public Class Game
         'Regenerate maze
         If controller.RegenerateMaze Then
             world.RegenerateMaze()
+        End If
+        If controller.Solve Then
+            Dim solver As WallFollower = New WallFollower
+            Dim solution As List(Of Vector2) = solver.Solve(world)
+            For Each coord In solution
+                Console.WriteLine("{0} {1}", coord.X, coord.Y)
+            Next
         End If
 
         MyBase.Update(gameTime)

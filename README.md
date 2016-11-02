@@ -34,7 +34,7 @@
 	 - Better tile set?
 	 - Vignette background
 	 - Maze solving visulizations
-	 - Maze generation
+	 - Maze generation ✓
  - Window
 	 - Make resizeable ✓
 	 - Name

@@ -18,6 +18,7 @@ Public Class Controller
     Private Const CAMERA_KEY_ZOOM_OUT As Keys = Keys.OemMinus
 
     Private Const REGENERATE_MAZE As Keys = Keys.R
+    Private Const SOLVE_MAZE As Keys = Keys.P
 
     ReadOnly Property CameraUp As Boolean
         Get
@@ -52,6 +53,12 @@ Public Class Controller
     ReadOnly Property CameraZoomOut As Boolean
         Get
             Return keyboardState.IsKeyDown(CAMERA_KEY_ZOOM_OUT)
+        End Get
+    End Property
+
+    ReadOnly Property Solve As Boolean
+        Get
+            Return keyboardState.IsKeyDown(SOLVE_MAZE) And Not previousKeyboardState.IsKeyDown(SOLVE_MAZE)
         End Get
     End Property
 
