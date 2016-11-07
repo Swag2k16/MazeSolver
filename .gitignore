@@ -1,5 +1,5 @@
-PepesComing/bin
-PepesComing/obj
+bin/
+obj/
 *.user
 *.suo
 _ReSharper.*
