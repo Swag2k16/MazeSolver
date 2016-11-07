@@ -10,12 +10,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-namespace PepesComing
-{
-	public abstract class Solver
-	{
+namespace PepesComing {
+    public abstract class Solver {
 
-		public abstract List<Vector2> Solve(ref World world);
+        public abstract List<Vector2> Solve(ref World world);
 
-	}
+    }
 }

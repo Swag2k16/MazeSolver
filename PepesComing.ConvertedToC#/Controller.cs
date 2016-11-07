@@ -64,32 +64,30 @@ namespace PepesComing
 			get { return keyboardState.IsKeyDown(REGENERATE_MAZE) & !previousKeyboardState.IsKeyDown(REGENERATE_MAZE); }
 		}
 
+        // Mouse down this frame (but not last frame)
+        public bool MouseBeginDown
+        {
+            get { return previousMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed; }
+        }
+
+        // Mouse down this frame
 		public bool MouseDown {
 			get { return mouseState.LeftButton == ButtonState.Pressed; }
 		}
 
+        // Position of the mouse relative to the window
 		public Vector2 MousePosition {
 			get { return mouseState.Position.ToVector2(); }
 		}
 
-		public void Update(KeyboardState keyboardState, MouseState mouseState)
+		public void Update(KeyboardState keyboardState, MouseState mouseState, Camera camera)
 		{
-			//Console.WriteLine("x: {0}, y: {1}, scroll {2}", mouseState.X, mouseState.Y, mouseState.ScrollWheelValue)
-			this.previousKeyboardState = this.keyboardState;
+            // Update keyboard/mouse states
+            this.previousKeyboardState = this.keyboardState;
 			this.keyboardState = keyboardState;
 			this.previousMouseState = this.mouseState;
 			this.mouseState = mouseState;
-		}
+        }
 
-		public void DragCamera(Camera camera)
-		{
-			if (mouseState.LeftButton == ButtonState.Pressed) {
-				if (previousMouseState.LeftButton == ButtonState.Released) {
-					DragStart = MousePosition;
-					camera.DragCamera(DragStart, MousePosition);
-				}
-				camera.Dragging(MousePosition);
-			}
-		}
 	}
 }

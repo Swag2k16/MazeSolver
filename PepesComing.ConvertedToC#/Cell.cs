@@ -10,70 +10,52 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-namespace PepesComing
-{
+namespace PepesComing {
 
-	public class Cell
-	{
+    public class Cell {
+        // Types of cell
+        public enum types {
+            WALL,
+            FLOOR,
+            START,
+            ENDPOINT
+        }
 
-		private int _x;
-		public int X {
-			get { return _x; }
-		}
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public Rectangle Tile { get; private set; }
+        public bool Frontier { get; set; }
 
-		private int _y;
-		public int Y {
-			get { return _y; }
-		}
+        private types _type;
+        public types Type {
+            get { return _type; }
+            set {
+                switch (value) {
+                    case types.WALL:
+                        Tile = Sprites.SandWall;
+                        break;
+                    case types.START:
+                        Tile = Sprites.Start;
+                        break;
+                    case types.ENDPOINT:
+                        Tile = Sprites.EndPoint;
+                        break;
+                    case types.FLOOR:
+                        Tile = Sprites.SteelFloor;
+                        break;
+                }
+                _type = value;
+            }
+        }
 
-		private Rectangle _tile;
-		public Rectangle tile {
-			get { return _tile; }
-			private set { _tile = value; }
-		}
+        public Cell(int x, int y) {
+            X = x;
+            Y = y;
+            Type = types.WALL;
+        }
 
-		private types _type;
-		public types type {
-			get { return _type; }
-			set {
-				switch (value) {
-					case types.WALL:
-						tile = Sprites.SandWall;
-						break;
-					case types.START:
-						tile = Sprites.Start;
-						break;
-					case types.ENDPOINT:
-						tile = Sprites.EndPoint;
-						break;
-					case types.FLOOR:
-						tile = Sprites.SteelFloor;
-						break;
-				}
-				_type = value;
-			}
-		}
-
-		public enum types
-		{
-			WALL,
-			FLOOR,
-			START,
-			ENDPOINT
-		}
-
-		public bool frontier { get; set; }
-
-		public Cell(int x, int y)
-		{
-			_x = x;
-			_y = y;
-			type = types.WALL;
-		}
-
-		public void print()
-		{
-			Console.WriteLine("x: {0}, y: {1}, wall: {2}", X, Y, type);
-		}
-	}
+        public void Print() {
+            Console.WriteLine("x: {0}, y: {1}, wall: {2}", X, Y, Type);
+        }
+    }
 }

@@ -12,7 +12,7 @@ namespace PepesComing
 {
 
 
-	public class Application
+	public static class Application
 	{
 
 		static Microsoft.Xna.Framework.Game _game;
