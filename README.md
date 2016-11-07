@@ -1,12 +1,5 @@
-﻿#Pepe is back... again#
-
-#Why VB is satan#
-* x = x dosnt work in constructors
-* Arrays are created with like: array[length+1]
-* Not case sensative
-* Varibles in the for loop definition are scoped to the outer scope (not for loop)
-* No multi line comments
-* For x = a to b dosnt cast to integers (x will be decemial)
+﻿#Maze Solver#
+Benchmarking tool for maze solving algorithums
 
 #Todos#
  - User interface
