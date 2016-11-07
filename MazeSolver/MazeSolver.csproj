@@ -22,7 +22,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>PepesComing.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
-    <CodeAnalysisRuleSet>PepesComing.Converted.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MazeSolver.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,7 +33,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>PepesComing.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <CodeAnalysisRuleSet>PepesComing.Converted.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MazeSolver.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -78,7 +78,6 @@
     <Compile Include="Cell.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="MyNamespaceSupportForCSharp.cs" />
     <Compile Include="Solvers\Solver.cs" />
     <Compile Include="Solvers\WallFollower.cs" />
     <Compile Include="Sprites.cs" />
@@ -98,15 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="PepesComing.Converted.ruleset" />
+    <None Include="MazeSolver.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Tileset.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MonoGame.Framework.dll" />
-    <Content Include="NVorbis.dll" />
-    <Content Include="OpenTK.dll" />
+    <Content Include="dlls\MonoGame.Framework.dll" />
+    <Content Include="dlls\NVorbis.dll" />
+    <Content Include="dlls\OpenTK.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
