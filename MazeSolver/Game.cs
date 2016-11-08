@@ -20,6 +20,9 @@ namespace PepesComing {
         private World world;
         private Sprites sprites;
 
+        // Solver
+        private WallFollower solver;
+
         //Frame time calculation
         private int frames;
         private double elapsedTime;
@@ -50,6 +53,7 @@ namespace PepesComing {
             Viewport vp = _graphicsDeviceManager.GraphicsDevice.Viewport;
             camera = new Camera(ref vp);
 
+            solver = new WallFollower(ref world);
         }
 
         protected override void LoadContent() {
@@ -77,6 +81,21 @@ namespace PepesComing {
                     }
                 }
             }
+            switch (solver.Mouse.facing) {
+                case Solver.compass.North:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowNorth, color: Color.White);
+                    break;
+                case Solver.compass.East:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowEast, color: Color.White);
+                    break;
+                case Solver.compass.South:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowSouth, color: Color.White);
+                    break;
+                case Solver.compass.West:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowWest, color: Color.White);
+                    break;
+            }
+
             spriteBatch.End();
         }
 
@@ -96,16 +115,14 @@ namespace PepesComing {
             // Regenerate maze
             if (controller.RegenerateMaze) {
                 world.RegenerateMaze();
+                solver = new WallFollower(ref world);
+                Console.Clear();
             }
 
             // Solve maze
             if (controller.Solve) {
-                WallFollower solver = new WallFollower();
-                List<Vector2> solution = solver.Solve(ref world);
-                foreach (Vector2 coord_loopVariable in solution) {
-                    Vector2 coord = coord_loopVariable;
-                    Console.WriteLine("{0} {1}", coord.X, coord.Y);
-                }
+                solver.Step(ref world);
+                     
             }
 
             base.Update(gameTime);

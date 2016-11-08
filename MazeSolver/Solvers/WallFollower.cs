@@ -1,59 +1,95 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using static PepesComing.Utils;
+using System;
 
 namespace PepesComing {
 
     public class WallFollower : Solver {
-        private enum compass {
-            North,
-            East,
-            South,
-            West
+
+        private SolverMouse mouse;
+        public SolverMouse Mouse {
+            get {
+                return mouse;
+            }
         }
-        private compass facing;
-        private Vector2 position;
 
         private List<Vector2> solution;
 
-        public override List<Vector2> Solve(ref World world) {
-            position = new Vector2(1, 1);
+        public WallFollower(ref World world) {
+            mouse = new SolverMouse();
+            mouse.position = new Vector2(1,1);
             solution = new List<Vector2>();
-
-            // Set facing towards empty tile
-            Cardinal<Cell> neighbors = world.GetNeigbors((int)position.X, (int)position.Y);
+            
+            // Set Mouse.facing towards empty tile
+            Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             if (neighbors.North.Type == Cell.types.FLOOR) {
-                facing = compass.North;
+                mouse.facing = compass.North;
             } else if (neighbors.East.Type == Cell.types.FLOOR) {
-                facing = compass.East;
+                mouse.facing = compass.East;
             } else if (neighbors.South.Type == Cell.types.FLOOR) {
-                facing = compass.South;
+                mouse.facing = compass.South;
             } else if (neighbors.West.Type == Cell.types.FLOOR) {
-                facing = compass.West;
+                mouse.facing = compass.West;
             }
+        }
 
-            while ((int)position.X != World.width - 2 || (int)position.Y != 1) {
+        public override SolverMouse Step(ref World world) {
+            if ((int)Mouse.position.X != World.width - 2 || (int)Mouse.position.Y != World.height -2) {
                 var ahead = LookAhead(ref world);
                 var left = LookLeft(ref world);
 
-                if ((ahead == Cell.types.FLOOR | ahead == Cell.types.ENDPOINT) & left == Cell.types.WALL) {
+                if ((ahead == Cell.types.FLOOR || ahead == Cell.types.ENDPOINT || ahead == Cell.types.START) && left == Cell.types.WALL) {
                     Move();
-                } else if (ahead == Cell.types.FLOOR & left == Cell.types.FLOOR) {
+                } else if (left == Cell.types.FLOOR) {
                     TurnLeft();
                     Move();
-                } else if (ahead == Cell.types.WALL) {
-                    //TODO: do we need this?
+                } else {
                     TurnRight();
                 }
             }
 
-            return solution;
+            return Mouse;
         }
+        
 
-        //Gets the tile type ahead in the direction we are facing
+        //public override List<Vector2> Solve(ref World world) {
+        //    Mouse.position = new Vector2(1, World.height-2);
+        //    solution = new List<Vector2>();
+
+        //    // Set Mouse.facing towards empty tile
+        //    Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+        //    if (neighbors.North.Type == Cell.types.FLOOR) {
+        //        Mouse.facing = compass.North;
+        //    } else if (neighbors.East.Type == Cell.types.FLOOR) {
+        //        Mouse.facing = compass.East;
+        //    } else if (neighbors.South.Type == Cell.types.FLOOR) {
+        //        Mouse.facing = compass.South;
+        //    } else if (neighbors.West.Type == Cell.types.FLOOR) {
+        //        Mouse.facing = compass.West;
+        //    }
+
+        //    while ((int)Mouse.position.X != World.width - 2 || (int)Mouse.position.Y != 1) {
+        //        var ahead = LookAhead(ref world);
+        //        var left = LookLeft(ref world);
+
+        //        if ((ahead == Cell.types.FLOOR || ahead == Cell.types.ENDPOINT || ahead == Cell.types.START) && left == Cell.types.WALL) {
+        //            Move();
+        //        } else if (left == Cell.types.FLOOR) {
+        //            TurnLeft();
+        //            Move();
+        //        } else {
+        //            TurnRight();
+        //        }
+        //    }
+
+        //    return solution;
+        //}
+
+        //Gets the tile type ahead in the direction we are Mouse.facing
         private Cell.types LookAhead(ref World world) {
-            var neighbors = world.GetNeigbors((int)position.X, (int)position.Y);
-            switch (facing) {
+            var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            switch (Mouse.facing) {
                 case compass.North:
                     return neighbors.North.Type;
                 case compass.South:
@@ -66,10 +102,10 @@ namespace PepesComing {
             return Cell.types.WALL;
         }
 
-        //Gets the tile type to the left of the direction we are facing
+        //Gets the tile type to the left of the direction we are Mouse.facing
         private Cell.types LookLeft(ref World world) {
-            var neighbors = world.GetNeigbors((int)position.X, (int)position.Y);
-            switch (facing) {
+            var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            switch (Mouse.facing) {
                 case compass.North:
                     return neighbors.West.Type;
                 case compass.South:
@@ -82,60 +118,63 @@ namespace PepesComing {
             return Cell.types.WALL;
         }
 
-        //Move in the direction we are facing (and add the cell to the solution
+        //Move in the direction we are Mouse.facing (and add the cell to the solution
         private void Move() {
-            switch (facing) {
+            switch (mouse.facing) {
                 case compass.North:
-                    position.Y += 1;
+                    mouse.position.Y += 1;
                     break;
                 case compass.South:
-                    position.Y -= 1;
+                    mouse.position.Y -= 1;
                     break;
                 case compass.East:
-                    position.X += 1;
+                    mouse.position.X += 1;
                     break;
                 case compass.West:
-                    position.X -= 1;
+                    mouse.position.X -= 1;
                     break;
             }
 
-            solution.Add(position);
+            solution.Add(mouse.position);
+            Console.WriteLine("{0} {1}", mouse.position.X, mouse.position.Y);
         }
 
         //Turn to face the left
         private void TurnLeft() {
-            switch (facing) {
+            switch (mouse.facing) {
                 case compass.North:
-                    facing = compass.West;
+                    mouse.facing = compass.West;
                     break;
                 case compass.South:
-                    facing = compass.East;
+                    mouse.facing = compass.East;
                     break;
                 case compass.West:
-                    facing = compass.South;
+                    mouse.facing = compass.South;
                     break;
                 case compass.East:
-                    facing = compass.North;
+                    mouse.facing = compass.North;
                     break;
             }
         }
 
         //Turn to face the right
         private void TurnRight() {
-            switch (facing) {
+            switch (mouse.facing) {
                 case compass.North:
-                    facing = compass.East;
+                    mouse.facing = compass.East;
                     break;
                 case compass.South:
-                    facing = compass.West;
+                    mouse.facing = compass.West;
                     break;
                 case compass.West:
-                    facing = compass.North;
+                    mouse.facing = compass.North;
                     break;
                 case compass.East:
-                    facing = compass.South;
+                    mouse.facing = compass.South;
                     break;
             }
         }
+
+      
     }
 }
