@@ -1,23 +1,15 @@
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Xml.Linq;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Threading;
 using static PepesComing.Utils;
 
 namespace PepesComing {
 
     public class World {
-        public const int height = 123;
-        public const int width = 123;
+        public const int height = 7;
+        public const int width = 7;
 
         private readonly Cell[,] Grid = new Cell[width, height];
         private Thread genThread;

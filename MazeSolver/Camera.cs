@@ -1,15 +1,5 @@
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Xml.Linq;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 namespace PepesComing {
 
     public class Camera {
@@ -57,11 +47,11 @@ namespace PepesComing {
                 * Matrix.CreateTranslation(new Vector3(origin, 0));
         }
 
-        public void Update(Controller controller, Viewport windowViewport) {   
+        public void Update(Controller controller, Viewport windowViewport) {
             // Update windowViewport
             this.windowViewport = windowViewport;
             origin = new Vector2(windowViewport.Width / 2f, windowViewport.Height / 2f);
-            
+
             // Pan camera
             if (controller.CameraUp) {
                 position.Y -= MoveSpeed;

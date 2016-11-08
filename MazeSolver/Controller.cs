@@ -1,93 +1,79 @@
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Xml.Linq;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-namespace PepesComing
-{
+namespace PepesComing {
 
-	public class Controller
-	{
-		private KeyboardState previousKeyboardState;
-		private KeyboardState keyboardState;
-		private MouseState mouseState;
+    public class Controller {
+        private KeyboardState previousKeyboardState;
+        private KeyboardState keyboardState;
+        private MouseState mouseState;
 
-		private MouseState previousMouseState;
+        private MouseState previousMouseState;
 
-		private Vector2 DragStart;
-		private const Keys CAMERA_KEY_UP = Keys.W;
-		private const Keys CAMERA_KEY_DOWN = Keys.S;
-		private const Keys CAMERA_KEY_LEFT = Keys.A;
-		private const Keys CAMERA_KEY_RIGHT = Keys.D;
-		private const Keys CAMERA_KEY_ZOOM_IN = Keys.OemPlus;
+        private Vector2 DragStart;
+        private const Keys CAMERA_KEY_UP = Keys.W;
+        private const Keys CAMERA_KEY_DOWN = Keys.S;
+        private const Keys CAMERA_KEY_LEFT = Keys.A;
+        private const Keys CAMERA_KEY_RIGHT = Keys.D;
+        private const Keys CAMERA_KEY_ZOOM_IN = Keys.OemPlus;
 
-		private const Keys CAMERA_KEY_ZOOM_OUT = Keys.OemMinus;
-		private const Keys REGENERATE_MAZE = Keys.R;
+        private const Keys CAMERA_KEY_ZOOM_OUT = Keys.OemMinus;
+        private const Keys REGENERATE_MAZE = Keys.R;
 
-		private const Keys SOLVE_MAZE = Keys.P;
-		public bool CameraUp {
-			get { return keyboardState.IsKeyDown(CAMERA_KEY_UP); }
-		}
+        private const Keys SOLVE_MAZE = Keys.P;
+        public bool CameraUp {
+            get { return keyboardState.IsKeyDown(CAMERA_KEY_UP); }
+        }
 
-		public bool CameraDown {
-			get { return keyboardState.IsKeyDown(CAMERA_KEY_DOWN); }
-		}
+        public bool CameraDown {
+            get { return keyboardState.IsKeyDown(CAMERA_KEY_DOWN); }
+        }
 
-		public bool CameraLeft {
-			get { return keyboardState.IsKeyDown(CAMERA_KEY_LEFT); }
-		}
+        public bool CameraLeft {
+            get { return keyboardState.IsKeyDown(CAMERA_KEY_LEFT); }
+        }
 
-		public bool CameraRight {
-			get { return keyboardState.IsKeyDown(CAMERA_KEY_RIGHT); }
-		}
+        public bool CameraRight {
+            get { return keyboardState.IsKeyDown(CAMERA_KEY_RIGHT); }
+        }
 
-		public bool CameraZoomIn {
-			get { return keyboardState.IsKeyDown(CAMERA_KEY_ZOOM_IN); }
-		}
+        public bool CameraZoomIn {
+            get { return keyboardState.IsKeyDown(CAMERA_KEY_ZOOM_IN); }
+        }
 
-		public bool CameraZoomOut {
-			get { return keyboardState.IsKeyDown(CAMERA_KEY_ZOOM_OUT); }
-		}
+        public bool CameraZoomOut {
+            get { return keyboardState.IsKeyDown(CAMERA_KEY_ZOOM_OUT); }
+        }
 
-		public bool Solve {
-			get { return keyboardState.IsKeyDown(SOLVE_MAZE) & !previousKeyboardState.IsKeyDown(SOLVE_MAZE); }
-		}
+        public bool Solve {
+            get { return keyboardState.IsKeyDown(SOLVE_MAZE) & !previousKeyboardState.IsKeyDown(SOLVE_MAZE); }
+        }
 
-		public bool RegenerateMaze {
-			get { return keyboardState.IsKeyDown(REGENERATE_MAZE) & !previousKeyboardState.IsKeyDown(REGENERATE_MAZE); }
-		}
+        public bool RegenerateMaze {
+            get { return keyboardState.IsKeyDown(REGENERATE_MAZE) & !previousKeyboardState.IsKeyDown(REGENERATE_MAZE); }
+        }
 
         // Mouse down this frame (but not last frame)
-        public bool MouseBeginDown
-        {
+        public bool MouseBeginDown {
             get { return previousMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed; }
         }
 
         // Mouse down this frame
-		public bool MouseDown {
-			get { return mouseState.LeftButton == ButtonState.Pressed; }
-		}
-
-        // Position of the mouse relative to the window
-		public Vector2 MousePosition {
-			get { return mouseState.Position.ToVector2(); }
-		}
-
-		public void Update(KeyboardState keyboardState, MouseState mouseState, Camera camera)
-		{
-            // Update keyboard/mouse states
-            this.previousKeyboardState = this.keyboardState;
-			this.keyboardState = keyboardState;
-			this.previousMouseState = this.mouseState;
-			this.mouseState = mouseState;
+        public bool MouseDown {
+            get { return mouseState.LeftButton == ButtonState.Pressed; }
         }
 
-	}
+        // Position of the mouse relative to the window
+        public Vector2 MousePosition {
+            get { return mouseState.Position.ToVector2(); }
+        }
+
+        public void Update(KeyboardState keyboardState, MouseState mouseState, Camera camera) {
+            // Update keyboard/mouse states
+            this.previousKeyboardState = this.keyboardState;
+            this.keyboardState = keyboardState;
+            this.previousMouseState = this.mouseState;
+            this.mouseState = mouseState;
+        }
+
+    }
 }

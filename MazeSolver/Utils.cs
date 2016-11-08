@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PepesComing {
+﻿namespace PepesComing {
     public static class Utils {
 
         // Defines a generic struct for the four cardinal directions
