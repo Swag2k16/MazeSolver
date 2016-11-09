@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace PepesComing.Ui {
     class Text : Element {
-        private string text;
-        private Microsoft.Xna.Framework.Vector2 position;
-        private Microsoft.Xna.Framework.Color color;
+        private readonly string text;
+        private readonly Vector2 position;
+        private readonly Color color;
 
         public Text(string text, Microsoft.Xna.Framework.Vector2 position, Microsoft.Xna.Framework.Color color){
             this.text = text;

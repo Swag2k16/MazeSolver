@@ -13,6 +13,7 @@ namespace PepesComing {
         public const int height = 19;
 
         private readonly Cell[,] Grid = new Cell[width, height];
+        public bool Generated { get; private set; }
         private Thread genThread;
 
         public World() {
@@ -22,12 +23,18 @@ namespace PepesComing {
 
             Debug.Print("{0}, {1}", (width - 2) % 4, (height - 2) % 4);
 
+            // Initialize cells
+            for (int x = 0; x <= width - 1; x++) {
+                for (int y = 0; y <= height - 1; y++) {
+                    Grid[x, y] = new Cell(x, y);
+                }
+            }
+
             // Setup world gen thread
             genThread = new Thread(PrimsMaze);
             genThread.IsBackground = true;
 
-            // Start world generation
-            RegenerateMaze();
+            Generated = false;
         }
 
         //Get the cell at (x, y)
@@ -145,21 +152,23 @@ namespace PepesComing {
             Grid[width - 2, height - 2].Type = Cell.types.ENDPOINT;
         }
 
-        //Maze (re)generation (non-blocking)
+        // Maze (re)generation (non-blocking)
         public void RegenerateMaze() {
-            //Stop thread if its still alive
+            Generated = true;
+
+            // Stop thread if its still alive
             if (genThread.IsAlive) {
                 genThread.Abort();
             }
 
-            //(Re)initialize cells
+            // Initialize cells
             for (int x = 0; x <= width - 1; x++) {
                 for (int y = 0; y <= height - 1; y++) {
                     Grid[x, y] = new Cell(x, y);
                 }
             }
 
-            //Start maze generation
+            // Start maze generation
             genThread = new Thread(PrimsMaze);
             genThread.IsBackground = true;
             genThread.Start();

@@ -44,7 +44,7 @@ namespace PepesComing {
             base.Initialize();
 
             //Setup mouse
-            Mouse.WindowHandle = this.Window.Handle;
+            Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
             controller = new Controller();
 
@@ -70,7 +70,7 @@ namespace PepesComing {
 
             //Update fps
             frames += 1;
-            this.Window.Title = "FPS: " + fps.ToString();
+            Window.Title = "FPS: " + fps.ToString();
 
             GraphicsDevice.Clear(Color.LightSkyBlue);
 
@@ -82,24 +82,26 @@ namespace PepesComing {
                     }
                 }
             }
+
+            Rectangle drawPositon = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
             switch (solver.Mouse.facing) {
                 case Solver.compass.North:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowNorth, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
                     break;
                 case Solver.compass.East:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowEast, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowEast, color: Color.White);
                     break;
                 case Solver.compass.South:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowSouth, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
                     break;
                 case Solver.compass.West:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowWest, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowWest, color: Color.White);
                     break;
             }
             spriteBatch.End();
 
             spriteBatch.Begin();
-            PepesComing.Ui.Panel panel = new PepesComing.Ui.Panel(new Rectangle(52, 97, 24, 78), Color.WhiteSmoke);
+            Panel panel = new Panel(new Rectangle(0, 0, 200, 200), Color.WhiteSmoke);
             panel.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
             Text text = new Text("We have the best game", new Vector2(52, 97), Color.GhostWhite);
             text.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
@@ -107,6 +109,9 @@ namespace PepesComing {
         }
 
         protected override void Update(GameTime gameTime) {
+            // Generate world if it dosnt exsist
+            if (!world.Generated) world.RegenerateMaze();
+
             // Calculate fps
             elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
             if ((elapsedTime >= 1000f)) {

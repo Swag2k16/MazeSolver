@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace PepesComing.Ui {
     class Panel : Element {
-        private Color color;
-        private Rectangle position;
+        private readonly Color color;
+        private readonly Rectangle position;
 
         public Panel(Rectangle position, Color color) {
             this.position = position;
