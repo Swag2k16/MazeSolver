@@ -81,6 +81,10 @@
     <Compile Include="Solvers\Solver.cs" />
     <Compile Include="Solvers\WallFollower.cs" />
     <Compile Include="Sprites.cs" />
+    <Compile Include="UiManager.cs" />
+    <Compile Include="Ui\Element.cs" />
+    <Compile Include="Ui\Panel.cs" />
+    <Compile Include="Ui\Text.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
@@ -97,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="Content\Font.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\MyFont.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="MazeSolver.ruleset" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ namespace PepesComing {
 
     public class Sprites {
         public Texture2D Texture { get; private set; }
+        public SpriteFont Font { get; private set; }
 
         public static Rectangle SandWall {
             get {
@@ -36,8 +37,12 @@ namespace PepesComing {
         public static readonly Rectangle ArrowWest = new Rectangle(19 * 17, 23 * 17, 16, 16);
         public static readonly Rectangle ArrowEast = new Rectangle(19 * 17, 24 * 17, 16, 16);
 
+        
+    
+
         public Sprites(Game game) {
             Texture = game.Content.Load<Texture2D>("Tileset.png");
+            Font = game.Content.Load<SpriteFont>("MyFont");
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PepesComing.Ui;
 
 namespace PepesComing {
 
@@ -49,7 +50,6 @@ namespace PepesComing {
 
             //Create world
             world = new World();
-            sprites = new Sprites(this);
             Viewport vp = _graphicsDeviceManager.GraphicsDevice.Viewport;
             camera = new Camera(ref vp);
 
@@ -58,6 +58,7 @@ namespace PepesComing {
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            sprites = new Sprites(this);
         }
 
         protected override void UnloadContent() {
@@ -95,7 +96,13 @@ namespace PepesComing {
                     spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16), sourceRectangle: Sprites.ArrowWest, color: Color.White);
                     break;
             }
+            spriteBatch.End();
 
+            spriteBatch.Begin();
+            PepesComing.Ui.Panel panel = new PepesComing.Ui.Panel(new Rectangle(52, 97, 24, 78), Color.WhiteSmoke);
+            panel.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
+            Text text = new Text("We have the best game", new Vector2(52, 97), Color.GhostWhite);
+            text.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
             spriteBatch.End();
         }
 
