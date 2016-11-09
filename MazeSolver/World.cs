@@ -8,18 +8,25 @@ using static PepesComing.Utils;
 namespace PepesComing {
 
     public class World {
-        public const int height = 7;
-        public const int width = 7;
+        // World dimensions should follow x % 4 == 3
+        public const int width = 39;
+        public const int height = 19;
 
         private readonly Cell[,] Grid = new Cell[width, height];
         private Thread genThread;
 
         public World() {
-            //Setup world gen thread
+            // Check world is a valid size
+            Debug.Assert(width % 4 == 3, "Invalid world width");
+            Debug.Assert(height % 4 == 3, "Invalid world height");
+
+            Debug.Print("{0}, {1}", (width - 2) % 4, (height - 2) % 4);
+
+            // Setup world gen thread
             genThread = new Thread(PrimsMaze);
             genThread.IsBackground = true;
 
-            //Start world generation
+            // Start world generation
             RegenerateMaze();
         }
 
