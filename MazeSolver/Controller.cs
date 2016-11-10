@@ -43,11 +43,11 @@ namespace PepesComing {
         }
 
         public bool Solve {
-            get { return keyboardState.IsKeyDown(SOLVE_MAZE) & !previousKeyboardState.IsKeyDown(SOLVE_MAZE); }
+            get { return keyboardState.IsKeyDown(SOLVE_MAZE) && !previousKeyboardState.IsKeyDown(SOLVE_MAZE); }
         }
 
         public bool RegenerateMaze {
-            get { return keyboardState.IsKeyDown(REGENERATE_MAZE) & !previousKeyboardState.IsKeyDown(REGENERATE_MAZE); }
+            get { return keyboardState.IsKeyDown(REGENERATE_MAZE) && !previousKeyboardState.IsKeyDown(REGENERATE_MAZE); }
         }
 
         // Mouse down this frame (but not last frame)
@@ -58,6 +58,11 @@ namespace PepesComing {
         // Mouse down this frame
         public bool MouseDown {
             get { return mouseState.LeftButton == ButtonState.Pressed; }
+        }
+
+        // Mouse up this frame
+        public bool MouseUp {
+            get { return previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released; }
         }
 
         // Position of the mouse relative to the window

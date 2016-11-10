@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PepesComing.Ui;
+using System.Diagnostics;
 
 namespace PepesComing {
 
@@ -20,6 +21,7 @@ namespace PepesComing {
         private Controller controller;
         private World world;
         private Sprites sprites;
+        private UiManager ui;
 
         // Solver
         private WallFollower solver;
@@ -43,20 +45,28 @@ namespace PepesComing {
         protected override void Initialize() {
             base.Initialize();
 
-            //Setup mouse
+            // Setup controller
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
             controller = new Controller();
 
-            //Create world
+
+            // Create world
             world = new World();
             Viewport vp = _graphicsDeviceManager.GraphicsDevice.Viewport;
             camera = new Camera(ref vp);
 
+            // Setup solvers
             solver = new WallFollower(ref world);
 
+            // Load sprites
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sprites = new Sprites(this);
+            
+            // Setup Ui
+            ui = new UiManager();
+            Button button = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "Generate", sprites, GraphicsDevice);
+            ui.AddElement(button);
         }
 
         protected override void LoadContent() {
@@ -103,9 +113,7 @@ namespace PepesComing {
             spriteBatch.End();
 
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            Button button = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "Generate", sprites, GraphicsDevice);
-            button.Clicked = true;
-            button.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
+            ui.Render(GraphicsDevice, spriteBatch, sprites);
             spriteBatch.End();
         }
 
@@ -115,7 +123,7 @@ namespace PepesComing {
 
             // Calculate fps
             elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
-            if ((elapsedTime >= 1000f)) {
+            if (elapsedTime >= 1000f) {
                 fps = frames;
                 frames = 0;
                 elapsedTime = 0;
@@ -123,7 +131,9 @@ namespace PepesComing {
 
             // Update systems
             controller.Update(Keyboard.GetState(), Mouse.GetState(Window), camera);
-            camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
+            if (!ui.Update(controller)) {
+                camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
+            }
 
             // Regenerate maze
             if (controller.RegenerateMaze) {
@@ -135,8 +145,8 @@ namespace PepesComing {
             // Solve maze
             if (controller.Solve) {
                 solver.Step(ref world);
-                     
             }
+
 
             base.Update(gameTime);
         }

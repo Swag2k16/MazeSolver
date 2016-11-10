@@ -32,5 +32,9 @@ namespace PepesComing.Ui {
         public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
             spriteBatch.Draw(drawRect, new Vector2(position.X, position.Y), Color.White);
         }
+
+        public override bool Update(Controller controller) {
+            return false;
+        }
     }
 }

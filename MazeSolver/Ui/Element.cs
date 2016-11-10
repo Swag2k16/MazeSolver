@@ -6,13 +6,14 @@ namespace PepesComing.Ui {
         protected Sprites sprites;
         protected GraphicsDevice graphics;
 
+        public abstract Rectangle Position { get; protected set; }
+
         public Element(Sprites sprites, GraphicsDevice graphics) {
             this.sprites = sprites;
             this.graphics = graphics;
         }
 
-        public abstract Rectangle Position { get; protected set; }
-
         public abstract void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites);
+        public abstract bool Update(Controller controller);
     }
 }

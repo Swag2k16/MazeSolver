@@ -58,5 +58,9 @@ namespace PepesComing.Ui {
         public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
             spriteBatch.DrawString(sprites.Font, text, renderPosition, color);
         }
+
+        public override bool Update(Controller controller) {
+            return false;
+        }
     }
 }

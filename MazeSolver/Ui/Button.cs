@@ -1,14 +1,15 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace PepesComing.Ui {
     class Button : Element {
         private readonly Color panelColor;
+        private Color renderColor;
         private readonly Color textColor;
         private readonly string textString;
 
-        public bool Clicked { get; set; }
+        private bool clicked;
 
         private Panel panel;
         private Text text;
@@ -27,21 +28,44 @@ namespace PepesComing.Ui {
 
         public Button(Rectangle position, Color color, Color textColor, string textString, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
             this.panelColor = color;
+            this.renderColor = color;
             this.textColor = textColor;
             this.textString = textString;
+            clicked = false;
             Position = position;
         }
 
         public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
-            //Color panelColor = panelColor;
-            //if (Clicked){
-            //    panelColor.R -= 60;
-            //    panelColor.G -= 60;
-            //    panelColor.B -= 60;
-            //}
-
             panel.RenderElement(graphics, spriteBatch, sprites);
             text.RenderElement(graphics, spriteBatch, sprites);
+        }
+
+        public override bool Update(Controller controller) {
+            // Check if button was pressed down
+            if(controller.MouseBeginDown && Utils.VectorInRectangle(position, controller.MousePosition)) {
+                renderColor.R -= 30;
+                renderColor.G -= 30;
+                renderColor.B -= 30;
+                this.panel = new Panel(position, renderColor, sprites, graphics);
+                clicked = true;
+           
+                return true;
+            }
+
+            if (clicked && controller.MouseDown) {
+                return true;
+            }
+
+            // Check if button was released
+            if (clicked && controller.MouseUp) {
+                renderColor = panelColor;
+                this.panel = new Panel(position, renderColor, sprites, graphics);
+                Debug.Write("Button up\n");
+            
+                return true;
+            }
+            
+            return false;
         }
 
     }
