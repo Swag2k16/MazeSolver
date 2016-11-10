@@ -2,14 +2,15 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PepesComing.Ui {
-    public class HoizontalLayout : Element {
+    public class VerticalLayout : Element {
         private List<Element> elements;
         private Rectangle position;
         private int padding;
 
-        public HoizontalLayout(Rectangle position, int padding, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
+        public VerticalLayout(Rectangle position, int padding, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
             this.position = position;
             this.padding = padding;
             elements = new List<Element>();
@@ -47,11 +48,10 @@ namespace PepesComing.Ui {
         }
 
         private void RecalculateLayout() {
-            int elementHeight = (this.position.Height - (elements.Count - 1) * padding) / elements.Count;
-
+            int elementWidth = (this.position.Width - (elements.Count-1) * padding) / elements.Count;
             for (int i = 0; i < elements.Count; i++) {
                 int pad = i == 0 ? 0 : padding;
-                elements[i].Position = new Rectangle(position.X, position.Y + (i * elementHeight) + (pad * i), position.Width, elementHeight);
+                elements[i].Position = new Rectangle((position.X + (i * elementWidth)) + (pad * i), position.Y, elementWidth, position.Height);
             }
         }
     }

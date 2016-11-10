@@ -69,7 +69,16 @@ namespace PepesComing {
             Button button2 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "2", sprites, GraphicsDevice);
             Button button3 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "3", sprites, GraphicsDevice);
 
-            HoizontalLayout layout = new HoizontalLayout(new Rectangle(200, 200, 200, 300), sprites, GraphicsDevice);
+            VerticalLayout layout1 = new VerticalLayout(new Rectangle(200, 200, 200, 200), 5, sprites, GraphicsDevice);
+            Button buttona = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "a", sprites, GraphicsDevice);
+            Button buttonb = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "b", sprites, GraphicsDevice);
+            Button buttonc = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "c", sprites, GraphicsDevice);
+            layout1.AddElement(buttona);
+            layout1.AddElement(buttonb);
+            layout1.AddElement(buttonc);
+
+            HoizontalLayout layout = new HoizontalLayout(new Rectangle(200, 200, 200, 400), 5, sprites, GraphicsDevice);
+            layout.AddElement(layout1);
             layout.AddElement(button1);
             layout.AddElement(button2);
             layout.AddElement(button3);

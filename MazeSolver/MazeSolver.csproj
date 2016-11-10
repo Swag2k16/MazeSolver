@@ -105,6 +105,7 @@
     <Compile Include="UiManager.cs" />
     <Compile Include="Ui\Button.cs" />
     <Compile Include="Ui\Element.cs" />
+    <Compile Include="Ui\VerticalLayout.cs" />
     <Compile Include="Ui\HoizontalLayout.cs" />
     <Compile Include="Ui\Panel.cs" />
     <Compile Include="Ui\Text.cs" />
