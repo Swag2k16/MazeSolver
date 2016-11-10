@@ -21,8 +21,6 @@ namespace PepesComing {
             Debug.Assert(width % 4 == 3, "Invalid world width");
             Debug.Assert(height % 4 == 3, "Invalid world height");
 
-            Debug.Print("{0}, {1}", (width - 2) % 4, (height - 2) % 4);
-
             // Initialize cells
             for (int x = 0; x <= width - 1; x++) {
                 for (int y = 0; y <= height - 1; y++) {

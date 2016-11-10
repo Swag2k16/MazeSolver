@@ -63,6 +63,7 @@ namespace PepesComing {
 
         protected override void UnloadContent() {
             spriteBatch.Dispose();
+            sprites.Dispose();
         }
 
         protected override void Draw(GameTime gameTime) {
@@ -101,11 +102,7 @@ namespace PepesComing {
             spriteBatch.End();
 
             spriteBatch.Begin();
-            //Panel panel = new Panel(new Rectangle(0, 0, 200, 200), Color.WhiteSmoke);
-            //panel.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
-            //Text text = new Text("We have the best game", new Vector2(52, 97), Color.GhostWhite);
-            //text.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
-            Button button = new Button(new Rectangle(512, 384 , 16, 16), Color.PaleVioletRed, Color.SlateGray, "We did it bois", sprites);
+            Button button = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.LightGray, "Generate", sprites, GraphicsDevice);
             button.Clicked = true;
             button.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
             spriteBatch.End();

@@ -6,20 +6,18 @@ namespace PepesComing {
         private KeyboardState previousKeyboardState;
         private KeyboardState keyboardState;
         private MouseState mouseState;
-
         private MouseState previousMouseState;
 
-        private Vector2 DragStart;
         private const Keys CAMERA_KEY_UP = Keys.W;
         private const Keys CAMERA_KEY_DOWN = Keys.S;
         private const Keys CAMERA_KEY_LEFT = Keys.A;
         private const Keys CAMERA_KEY_RIGHT = Keys.D;
         private const Keys CAMERA_KEY_ZOOM_IN = Keys.OemPlus;
-
         private const Keys CAMERA_KEY_ZOOM_OUT = Keys.OemMinus;
-        private const Keys REGENERATE_MAZE = Keys.R;
 
+        private const Keys REGENERATE_MAZE = Keys.R;
         private const Keys SOLVE_MAZE = Keys.P;
+
         public bool CameraUp {
             get { return keyboardState.IsKeyDown(CAMERA_KEY_UP); }
         }

@@ -1,8 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Diagnostics;
+
 namespace PepesComing {
 
-    public class Sprites {
+    public class Sprites : IDisposable {
         public Texture2D Texture { get; private set; }
         public SpriteFont Font { get; private set; }
 
@@ -37,12 +40,15 @@ namespace PepesComing {
         public static readonly Rectangle ArrowWest = new Rectangle(19 * 17, 23 * 17, 16, 16);
         public static readonly Rectangle ArrowEast = new Rectangle(19 * 17, 24 * 17, 16, 16);
 
-        
-    
-
         public Sprites(Game game) {
+            Debug.Write("Loading sprites\n");
             Texture = game.Content.Load<Texture2D>("Tileset.png");
             Font = game.Content.Load<SpriteFont>("MyFont");
+        }
+
+        public void Dispose() {
+            Texture.Dispose();
+            Font.Texture.Dispose();
         }
     }
 }
