@@ -54,11 +54,12 @@ namespace PepesComing {
             camera = new Camera(ref vp);
 
             solver = new WallFollower(ref world);
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            sprites = new Sprites(this);
         }
 
         protected override void LoadContent() {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            sprites = new Sprites(this);
         }
 
         protected override void UnloadContent() {
@@ -101,8 +102,8 @@ namespace PepesComing {
             }
             spriteBatch.End();
 
-            spriteBatch.Begin();
-            Button button = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.LightGray, "Generate", sprites, GraphicsDevice);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            Button button = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "Generate", sprites, GraphicsDevice);
             button.Clicked = true;
             button.RenderElement(_graphicsDeviceManager.GraphicsDevice, spriteBatch, sprites);
             spriteBatch.End();

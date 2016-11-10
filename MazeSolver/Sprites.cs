@@ -43,7 +43,7 @@ namespace PepesComing {
         public Sprites(Game game) {
             Debug.Write("Loading sprites\n");
             Texture = game.Content.Load<Texture2D>("Tileset.png");
-            Font = game.Content.Load<SpriteFont>("MyFont");
+            Font = game.Content.Load<SpriteFont>("Fonts/Coders-Crux");
         }
 
         public void Dispose() {
