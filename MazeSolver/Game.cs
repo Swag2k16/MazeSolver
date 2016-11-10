@@ -65,8 +65,16 @@ namespace PepesComing {
             
             // Setup Ui
             ui = new UiManager();
-            Button button = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "Generate", sprites, GraphicsDevice);
-            ui.AddElement(button);
+            Button button1 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "1", sprites, GraphicsDevice);
+            Button button2 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "2", sprites, GraphicsDevice);
+            Button button3 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "3", sprites, GraphicsDevice);
+
+            HoizontalLayout layout = new HoizontalLayout(new Rectangle(200, 200, 200, 300), sprites, GraphicsDevice);
+            layout.AddElement(button1);
+            layout.AddElement(button2);
+            layout.AddElement(button3);
+
+            ui.AddElement(layout);
         }
 
         protected override void LoadContent() {

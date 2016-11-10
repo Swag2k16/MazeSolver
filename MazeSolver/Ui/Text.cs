@@ -20,7 +20,7 @@ namespace PepesComing.Ui {
                 return position;
             }
 
-            protected set {
+            set {
                 position = value;
                 Vector2 textSize = sprites.Font.MeasureString(text);
 

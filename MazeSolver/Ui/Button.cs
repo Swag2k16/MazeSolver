@@ -19,7 +19,7 @@ namespace PepesComing.Ui {
             get {
                 return position;
             }
-            protected set {
+            set {
                 position = value;
                 this.text = new Text(textString, position, textColor, sprites, graphics);
                 this.panel = new Panel(position, panelColor, sprites, graphics);
@@ -52,16 +52,18 @@ namespace PepesComing.Ui {
                 return true;
             }
 
-            if (clicked && controller.MouseDown) {
-                return true;
-            }
 
             // Check if button was released
             if (clicked && controller.MouseUp) {
                 renderColor = panelColor;
                 this.panel = new Panel(position, renderColor, sprites, graphics);
-                Debug.Write("Button up\n");
-            
+                clicked = false;
+
+                return true;
+            }
+
+            // Check if button is still being pressed down
+            if (clicked && controller.MouseDown) {
                 return true;
             }
             

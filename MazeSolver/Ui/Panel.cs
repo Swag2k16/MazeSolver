@@ -12,7 +12,7 @@ namespace PepesComing.Ui {
             get {
                 return position;
             }
-            protected set {
+            set {
                 position = value;
 
                 // Update texture
