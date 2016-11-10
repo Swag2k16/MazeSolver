@@ -74,7 +74,9 @@ namespace PepesComing {
             layout.AddElement(button2);
             layout.AddElement(button3);
 
-            ui.AddElement(layout);
+            Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), Color.DarkSeaGreen, sprites, GraphicsDevice);
+
+            ui.AddElement(panel);
         }
 
         protected override void LoadContent() {

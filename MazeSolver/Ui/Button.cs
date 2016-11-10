@@ -22,7 +22,7 @@ namespace PepesComing.Ui {
             set {
                 position = value;
                 this.text = new Text(textString, position, textColor, sprites, graphics);
-                this.panel = new Panel(position, panelColor, sprites, graphics);
+                this.panel = new Panel(text, 0, position, panelColor, sprites, graphics);
             }
         }
 
@@ -37,7 +37,6 @@ namespace PepesComing.Ui {
 
         public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
             panel.RenderElement(graphics, spriteBatch, sprites);
-            text.RenderElement(graphics, spriteBatch, sprites);
         }
 
         public override bool Update(Controller controller) {
@@ -46,7 +45,7 @@ namespace PepesComing.Ui {
                 renderColor.R -= 30;
                 renderColor.G -= 30;
                 renderColor.B -= 30;
-                this.panel = new Panel(position, renderColor, sprites, graphics);
+                this.panel = new Panel(text, 0, position, renderColor, sprites, graphics);
                 clicked = true;
            
                 return true;
@@ -56,7 +55,7 @@ namespace PepesComing.Ui {
             // Check if button was released
             if (clicked && controller.MouseUp) {
                 renderColor = panelColor;
-                this.panel = new Panel(position, renderColor, sprites, graphics);
+                this.panel = new Panel(text, 0, position, renderColor, sprites, graphics);
                 clicked = false;
 
                 return true;
