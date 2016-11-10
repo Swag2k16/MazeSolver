@@ -3,14 +3,14 @@ Benchmarking tool for maze solving algorithums
 
 #Todos#
  - User interface
-	 - Text
-	 - Buttons
+	 - Text ✓
+	 - Buttons ✓
 	 - Menu
 	 - Progress bar
 	 - Dialog box
  - Maze Solvers
 	 - Random mouser
-	 - Wall follower
+	 - Wall follower ✓
 	 - Pledge
 	 - Tremaux
 	 - Dead-end filling
@@ -23,10 +23,10 @@ Benchmarking tool for maze solving algorithums
 	 - Progress bar
  - Rendering
 	 - Only render viewport ✓
-	 - Connected textures
+	 - Connected textures 
 	 - Better tile set?
 	 - Vignette background
-	 - Maze solving visulizations
+	 - Maze solving visulizations ~✓
 	 - Maze generation ✓
  - Window
 	 - Make resizeable ✓
