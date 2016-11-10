@@ -6,7 +6,7 @@ namespace PepesComing.Ui {
         protected Sprites sprites;
         protected GraphicsDevice graphics;
 
-        public abstract Rectangle Position { get; protected set; }
+        public abstract Rectangle Position { get; set; }
 
         public Element(Sprites sprites, GraphicsDevice graphics) {
             this.sprites = sprites;
