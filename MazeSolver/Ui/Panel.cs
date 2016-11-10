@@ -6,7 +6,7 @@ namespace PepesComing.Ui {
         private readonly Color color;
         private readonly Rectangle position;
 
-        public Panel(Rectangle position, Color color) {
+        public Panel(Rectangle position, Color color, Sprites sprites) : base(sprites) {
             this.position = position;
             this.color = color;
         }
@@ -15,7 +15,7 @@ namespace PepesComing.Ui {
             Texture2D rect = new Texture2D(graphics, position.Width, position.Height);
 
             Color[] data = new Color[position.Width * position.Height];
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
+            for (int i = 0; i < data.Length; ++i) data[i] = color;
             rect.SetData(data);
 
             Vector2 coor = new Vector2(position.X, position.Y);
