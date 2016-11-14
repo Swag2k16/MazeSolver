@@ -45,7 +45,7 @@ namespace PepesComing.Ui {
                 renderColor.R -= 30;
                 renderColor.G -= 30;
                 renderColor.B -= 30;
-                this.panel = new Panel(text, 0, position, renderColor, sprites, graphics);
+                panel = new Panel(text, 0, position, renderColor, sprites, graphics);
                 clicked = true;
            
                 return true;

@@ -11,14 +11,14 @@ namespace PepesComing {
 
         public static Rectangle SandWall {
             get {
-                int rndint = Game.rnd.Next(1, 100);
-                if (rndint < 80) {
+                //int rndint = Game.rnd.Next(1, 100);
+                //if (rndint < 80) {
                     return NormalSandWall;
-                } else if (rndint < 90) {
-                    return DamagedSandWall1;
-                } else {
-                    return DamagedSandWall2;
-                }
+                //} else if (rndint < 90) {
+                //    return DamagedSandWall1;
+                //} else {
+                //    return DamagedSandWall2;
+                //}
             }
         }
         

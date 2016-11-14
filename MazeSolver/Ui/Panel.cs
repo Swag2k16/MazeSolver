@@ -8,6 +8,7 @@ namespace PepesComing.Ui {
         private Texture2D drawRect;
         private Element element;
         private int padding;
+        private bool clicked;
 
         private Rectangle position;
         public override Rectangle Position {
@@ -43,6 +44,20 @@ namespace PepesComing.Ui {
         }
 
         public override bool Update(Controller controller) {
+            if (controller.MouseBeginDown && Utils.VectorInRectangle(position, controller.MousePosition)) {
+                clicked = true;
+                return true;
+            }
+
+            if (clicked && controller.MouseUp) {
+                clicked = false;
+                return true;
+            }
+
+            if (clicked && controller.MouseDown) {
+                return true;
+            }
+
             return element.Update(controller);
         }
     }

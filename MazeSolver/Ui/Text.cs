@@ -24,8 +24,10 @@ namespace PepesComing.Ui {
                 position = value;
                 Vector2 textSize = sprites.Font.MeasureString(text);
 
-                // If text overflows its container
-                if (position.Width < textSize.X) {
+                // Handle text overflow
+                if (position.Width < sprites.Font.MeasureString("...").X) {
+                    text = "invalid size";
+                } else if (position.Width < textSize.X) {
                     // text is to small for elipses so set text to nothing
                     if (textSize.X < sprites.Font.MeasureString("...").X) {
                         text = "";
