@@ -7,6 +7,8 @@ namespace PepesComing {
 
     public class Sprites : IDisposable {
         public Texture2D Texture { get; private set; }
+        public Texture2D Grey { get; private set; }
+        public Texture2D Red { get; private set; }
         public SpriteFont Font { get; private set; }
 
         public static Rectangle SandWall {
@@ -43,7 +45,10 @@ namespace PepesComing {
         public Sprites(Game game) {
             Debug.Write("Loading sprites\n");
             Texture = game.Content.Load<Texture2D>("Tileset.png");
+            Grey = game.Content.Load<Texture2D>("Grey.png");
+            Red = game.Content.Load<Texture2D>("Red.png");
             Font = game.Content.Load<SpriteFont>("Fonts/Coders-Crux");
+
         }
 
         public void Dispose() {

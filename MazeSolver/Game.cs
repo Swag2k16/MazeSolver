@@ -64,28 +64,7 @@ namespace PepesComing {
             sprites = new Sprites(this);
             
             // Setup Ui
-            ui = new UiManager();
-            Button button1 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "1", sprites, GraphicsDevice);
-            Button button2 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "2", sprites, GraphicsDevice);
-            Button button3 = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "3", sprites, GraphicsDevice);
-
-            VerticalLayout layout1 = new VerticalLayout(new Rectangle(200, 200, 200, 200), 5, sprites, GraphicsDevice);
-            Button buttona = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "a", sprites, GraphicsDevice);
-            Button buttonb = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "b", sprites, GraphicsDevice);
-            Button buttonc = new Button(new Rectangle(100, 100, 150, 50), Color.IndianRed, Color.White, "c", sprites, GraphicsDevice);
-            layout1.AddElement(buttona);
-            layout1.AddElement(buttonb);
-            layout1.AddElement(buttonc);
-
-            HoizontalLayout layout = new HoizontalLayout(new Rectangle(200, 200, 200, 400), 5, sprites, GraphicsDevice);
-            layout.AddElement(layout1);
-            layout.AddElement(button1);
-            layout.AddElement(button2);
-            layout.AddElement(button3);
-
-            Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), Color.DarkSeaGreen, sprites, GraphicsDevice);
-
-            ui.AddElement(panel);
+            ui = new UiManager(sprites);
         }
 
         protected override void LoadContent() {
@@ -114,24 +93,34 @@ namespace PepesComing {
                 }
             }
 
-            Rectangle drawPositon = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
+            Rectangle drawPosition;
+
+            if (solver.Done()) {
+                foreach (Vector2 solutionPosition in solver.Solution) {
+                    Console.WriteLine("Solution!");
+                    Rectangle drawPositon = new Rectangle((int)solutionPosition.X * 16, (int)solutionPosition.Y * 16, 16, 16);
+                    spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
+                }
+            }
+
+            drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
             switch (solver.Mouse.facing) {
                 case Solver.compass.North:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
                     break;
                 case Solver.compass.East:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowEast, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
                     break;
                 case Solver.compass.South:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
                     break;
                 case Solver.compass.West:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowWest, color: Color.White);
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
                     break;
             }
             spriteBatch.End();
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(samplerState: SamplerState.PointWrap);
             ui.Render(GraphicsDevice, spriteBatch, sprites);
             spriteBatch.End();
         }
@@ -150,22 +139,24 @@ namespace PepesComing {
 
             // Update systems
             controller.Update(Keyboard.GetState(), Mouse.GetState(Window), camera);
-            if (!ui.Update(controller)) {
+
+            if (!ui.Update(controller, GraphicsDevice)) {
                 camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
             }
 
             // Regenerate maze
-            if (controller.RegenerateMaze) {
+            if (controller.RegenerateMaze && solver.Done()) {
                 world.RegenerateMaze();
-                solver = new WallFollower(ref world);
-                Console.Clear();
+                
             }
 
             // Solve maze
             if (controller.Solve) {
-                solver.Step(ref world);
+                solver = new WallFollower(ref world);
+                Console.Clear();
             }
 
+            Console.WriteLine("Time: {0}", solver.Elapsed);
 
             base.Update(gameTime);
         }

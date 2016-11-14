@@ -14,12 +14,9 @@ namespace PepesComing {
             }
         }
 
-        private List<Vector2> solution;
-
-        public WallFollower(ref World world) {
+        public WallFollower(ref World world) : base(ref world) {
             mouse = new SolverMouse();
             mouse.position = new Vector2(1,1);
-            solution = new List<Vector2>();
             
             // Set Mouse.facing towards empty tile
             Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
@@ -34,8 +31,9 @@ namespace PepesComing {
             }
         }
 
-        public override SolverMouse Step(ref World world) {
-            if ((int)Mouse.position.X != World.width - 2 || (int)Mouse.position.Y != World.height -2) {
+        public override SolverMouse Step() {
+            Console.WriteLine("Step...");
+            if (!Done()) {
                 var ahead = LookAhead(ref world);
                 var left = LookLeft(ref world);
 
@@ -51,7 +49,10 @@ namespace PepesComing {
 
             return Mouse;
         }
-        
+
+        public override bool Done() {
+            return (int)Mouse.position.X == World.width - 2 && (int)Mouse.position.Y == World.height - 2;
+        }
 
         //public override List<Vector2> Solve(ref World world) {
         //    Mouse.position = new Vector2(1, World.height-2);
@@ -135,7 +136,7 @@ namespace PepesComing {
                     break;
             }
 
-            solution.Add(mouse.position);
+            _solution.Add(mouse.position);
             Console.WriteLine("{0} {1}", mouse.position.X, mouse.position.Y);
         }
 
@@ -174,7 +175,5 @@ namespace PepesComing {
                     break;
             }
         }
-
-      
     }
 }

@@ -13,9 +13,9 @@ namespace PepesComing {
 
         public int X { get; private set; }
         public int Y { get; private set; }
-        public Rectangle Tile { get; private set; }
         public bool Frontier { get; set; }
 
+        public Rectangle Tile { get; private set; }
         private types _type;
         public types Type {
             get { return _type; }

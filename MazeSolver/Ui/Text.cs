@@ -24,8 +24,10 @@ namespace PepesComing.Ui {
                 position = value;
                 Vector2 textSize = sprites.Font.MeasureString(text);
 
-                // If text overflows its container
-                if (position.Width < textSize.X) {
+                // Handle text overflow
+                if (position.Width < sprites.Font.MeasureString("...").X) {
+                    text = "invalid size";
+                } else if (position.Width < textSize.X) {
                     // text is to small for elipses so set text to nothing
                     if (textSize.X < sprites.Font.MeasureString("...").X) {
                         text = "";
@@ -48,14 +50,14 @@ namespace PepesComing.Ui {
             }
         }
 
-        public Text(string text, Rectangle position, Color color, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
+        public Text(string text, Rectangle position, Color color, Sprites sprites) : base(sprites) {
             this.text = text;
             this.color = color;
             Position = position;
         }
 
 
-        public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
+        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
             spriteBatch.DrawString(sprites.Font, text, renderPosition, color);
         }
 

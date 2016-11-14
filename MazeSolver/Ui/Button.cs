@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
 
 namespace PepesComing.Ui {
     class Button : Element {
@@ -21,12 +20,12 @@ namespace PepesComing.Ui {
             }
             set {
                 position = value;
-                this.text = new Text(textString, position, textColor, sprites, graphics);
-                this.panel = new Panel(text, 0, position, panelColor, sprites, graphics);
+                text = new Text(textString, position, textColor, sprites);
+                panel = new Panel(text, 0, position, sprites.Red, sprites);
             }
         }
 
-        public Button(Rectangle position, Color color, Color textColor, string textString, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
+        public Button(Rectangle position, Color color, Color textColor, string textString, Sprites sprites) : base(sprites) {
             this.panelColor = color;
             this.renderColor = color;
             this.textColor = textColor;
@@ -35,8 +34,8 @@ namespace PepesComing.Ui {
             Position = position;
         }
 
-        public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
-            panel.RenderElement(graphics, spriteBatch, sprites);
+        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
+            panel.RenderElement(spriteBatch, sprites);
         }
 
         public override bool Update(Controller controller) {
@@ -45,7 +44,7 @@ namespace PepesComing.Ui {
                 renderColor.R -= 30;
                 renderColor.G -= 30;
                 renderColor.B -= 30;
-                this.panel = new Panel(text, 0, position, renderColor, sprites, graphics);
+                panel = new Panel(text, 0, position, sprites.Red, sprites);
                 clicked = true;
            
                 return true;
@@ -55,7 +54,7 @@ namespace PepesComing.Ui {
             // Check if button was released
             if (clicked && controller.MouseUp) {
                 renderColor = panelColor;
-                this.panel = new Panel(text, 0, position, renderColor, sprites, graphics);
+                this.panel = new Panel(text, 0, position, sprites.Red, sprites);
                 clicked = false;
 
                 return true;
