@@ -9,8 +9,8 @@ namespace PepesComing {
 
     public class World {
         // World dimensions should follow x % 4 == 3
-        public const int width = 39;
-        public const int height = 19;
+        public const int width = 103;
+        public const int height = 103;
 
         private readonly Cell[,] Grid = new Cell[width, height];
         public bool Generated { get; private set; }

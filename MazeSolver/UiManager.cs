@@ -9,25 +9,25 @@ namespace PepesComing {
         private List<Element> elements;
         private Element sidebar;
 
-        public UiManager(Sprites sprites, GraphicsDevice graphics) {
+        public UiManager(Sprites sprites) {
             elements = new List<Element>();
 
-            Text title = new Text("Maze Solver", new Rectangle(0, 0, 200, 100), Color.White, sprites, graphics);
+            Text title = new Text("Maze Solver", new Rectangle(0, 0, 200, 100), Color.White, sprites);
 
-            HoizontalLayout algoritums = new HoizontalLayout(new Rectangle(0, 0, 200, 430), true, 10, sprites, graphics);
-            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Wall Follower", sprites, graphics));
-            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Random Mouser", sprites, graphics));
-            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Pledge", sprites, graphics));
-            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Tremaux", sprites, graphics));
+            HoizontalLayout algoritums = new HoizontalLayout(new Rectangle(0, 0, 200, 430), true, 10, sprites);
+            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Wall Follower", sprites));
+            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Random Mouser", sprites));
+            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Pledge", sprites));
+            algoritums.AddElement(new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Tremaux", sprites));
 
-            Button generate = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites, graphics);
+            Button generate = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites);
 
-            HoizontalLayout layout = new HoizontalLayout(new Rectangle(200, 200, 200, 300), false, 0, sprites, graphics);
+            HoizontalLayout layout = new HoizontalLayout(new Rectangle(200, 200, 200, 300), false, 0, sprites);
             layout.AddElement(title);
             layout.AddElement(algoritums);
             layout.AddElement(generate);
 
-            Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), Color.SlateGray, sprites, graphics);
+            Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), sprites.Grey, sprites);
 
             
             sidebar = panel;
@@ -52,7 +52,7 @@ namespace PepesComing {
 
         public void Render(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
             foreach (Element e in elements) {
-                e.RenderElement(graphics, spriteBatch, sprites);
+                e.RenderElement(spriteBatch, sprites);
             }
         }
     }

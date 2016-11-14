@@ -50,14 +50,14 @@ namespace PepesComing.Ui {
             }
         }
 
-        public Text(string text, Rectangle position, Color color, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
+        public Text(string text, Rectangle position, Color color, Sprites sprites) : base(sprites) {
             this.text = text;
             this.color = color;
             Position = position;
         }
 
 
-        public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
+        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
             spriteBatch.DrawString(sprites.Font, text, renderPosition, color);
         }
 

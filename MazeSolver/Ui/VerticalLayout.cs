@@ -10,7 +10,7 @@ namespace PepesComing.Ui {
         private Rectangle position;
         private int padding;
 
-        public VerticalLayout(Rectangle position, int padding, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
+        public VerticalLayout(Rectangle position, int padding, Sprites sprites) : base(sprites) {
             this.position = position;
             this.padding = padding;
             elements = new List<Element>();
@@ -32,9 +32,9 @@ namespace PepesComing.Ui {
             }
         }
 
-        public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
+        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
             foreach (Element e in elements) {
-                e.RenderElement(graphics, spriteBatch, sprites);
+                e.RenderElement(spriteBatch, sprites);
             }
         }
 

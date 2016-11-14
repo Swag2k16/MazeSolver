@@ -10,7 +10,7 @@ namespace PepesComing.Ui {
         private readonly int padding;
         private bool maximize;
 
-        public HoizontalLayout(Rectangle position, bool maximize, int padding, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
+        public HoizontalLayout(Rectangle position, bool maximize, int padding, Sprites sprites) : base(sprites) {
             this.position = position;
             this.maximize = maximize;
             this.padding = padding;
@@ -33,9 +33,9 @@ namespace PepesComing.Ui {
             }
         }
 
-        public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
+        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
             foreach (Element e in elements) {
-                e.RenderElement(graphics, spriteBatch, sprites);
+                e.RenderElement(spriteBatch, sprites);
             }
         }
 

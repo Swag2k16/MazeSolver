@@ -57,14 +57,14 @@ namespace PepesComing {
             camera = new Camera(ref vp);
 
             // Setup solvers
-            //solver = new WallFollower(ref world);
+            solver = new WallFollower(ref world);
 
             // Load sprites
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sprites = new Sprites(this);
             
             // Setup Ui
-            ui = new UiManager(sprites, GraphicsDevice);
+            ui = new UiManager(sprites);
         }
 
         protected override void LoadContent() {
@@ -93,24 +93,34 @@ namespace PepesComing {
                 }
             }
 
-            //Rectangle drawPositon = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
-            //switch (solver.Mouse.facing) {
-            //    case Solver.compass.North:
-            //        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
-            //        break;
-            //    case Solver.compass.East:
-            //        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowEast, color: Color.White);
-            //        break;
-            //    case Solver.compass.South:
-            //        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
-            //        break;
-            //    case Solver.compass.West:
-            //        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPositon, sourceRectangle: Sprites.ArrowWest, color: Color.White);
-            //        break;
-            //}
+            Rectangle drawPosition;
+
+            if (solver.Done()) {
+                foreach (Vector2 solutionPosition in solver.Solution) {
+                    Console.WriteLine("Solution!");
+                    Rectangle drawPositon = new Rectangle((int)solutionPosition.X * 16, (int)solutionPosition.Y * 16, 16, 16);
+                    spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
+                }
+            }
+
+            drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
+            switch (solver.Mouse.facing) {
+                case Solver.compass.North:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
+                    break;
+                case Solver.compass.East:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
+                    break;
+                case Solver.compass.South:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
+                    break;
+                case Solver.compass.West:
+                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
+                    break;
+            }
             spriteBatch.End();
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(samplerState: SamplerState.PointWrap);
             ui.Render(GraphicsDevice, spriteBatch, sprites);
             spriteBatch.End();
         }
@@ -129,23 +139,24 @@ namespace PepesComing {
 
             // Update systems
             controller.Update(Keyboard.GetState(), Mouse.GetState(Window), camera);
+
             if (!ui.Update(controller, GraphicsDevice)) {
                 camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
             }
 
             // Regenerate maze
-            if (controller.RegenerateMaze) {
+            if (controller.RegenerateMaze && solver.Done()) {
                 world.RegenerateMaze();
+                
+            }
+
+            // Solve maze
+            if (controller.Solve) {
                 solver = new WallFollower(ref world);
                 Console.Clear();
             }
 
-            // Solve maze
-            //if (controller.Solve) {
-            //    solver.Step();
-            //}
-
-            //Console.WriteLine("Time: {0}", solver.Elapsed);
+            Console.WriteLine("Time: {0}", solver.Elapsed);
 
             base.Update(gameTime);
         }

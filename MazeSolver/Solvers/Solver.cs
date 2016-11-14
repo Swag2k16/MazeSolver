@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -31,6 +32,7 @@ namespace PepesComing {
             // Start solving maze
             solveThread = new Thread(Solve);
             solveThread.IsBackground = true;
+            solveThread.Start();
             this.world = world;
         }
 

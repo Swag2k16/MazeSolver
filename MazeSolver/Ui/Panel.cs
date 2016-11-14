@@ -17,20 +17,12 @@ namespace PepesComing.Ui {
             }
             set {
                 position = value;
-
-                // Update texture
-                drawRect = new Texture2D(graphics, position.Width, position.Height);
-                Color[] data = new Color[position.Width * position.Height];
-                for (int i = 0; i < data.Length; ++i) data[i] = color;
-                drawRect.SetData(data);
-
-                // Update element
                 element.Position = new Rectangle(position.X + padding, position.Y + padding, position.Width - 2 * padding, position.Height - 2 * padding);
             }
         }
 
-        public Panel(Element element, int padding, Rectangle position, Color color, Sprites sprites, GraphicsDevice graphics) : base(sprites, graphics) {
-            this.color = color;
+        public Panel(Element element, int padding, Rectangle position, Texture2D texture, Sprites sprites) : base(sprites) {
+            drawRect = texture;
             this.padding = padding;
             this.element = element;
             this.element.Position = position;
@@ -38,9 +30,9 @@ namespace PepesComing.Ui {
         }
 
 
-        public override void RenderElement(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
-            spriteBatch.Draw(drawRect, new Vector2(position.X, position.Y), Color.White);
-            element.RenderElement(graphics, spriteBatch, sprites);
+        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
+            spriteBatch.Draw(drawRect, destinationRectangle: position, sourceRectangle: new Rectangle(0, 0, 16, 16), color: Color.White);
+            element.RenderElement(spriteBatch, sprites);
         }
 
         public override bool Update(Controller controller) {
