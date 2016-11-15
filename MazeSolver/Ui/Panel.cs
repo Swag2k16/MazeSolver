@@ -36,7 +36,7 @@ namespace PepesComing.Ui {
         }
 
         public override bool Update(Controller controller) {
-            if (element.Update(controller)){
+            if (element.Update(controller)) {
                 return true;
             }
 

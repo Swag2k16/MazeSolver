@@ -24,7 +24,7 @@ namespace PepesComing {
                 }
             }
         }
-        
+
         // Walls
         public static readonly Rectangle NormalSandWall = new Rectangle(4 * 17, 20 * 17, 16, 16);
         public static readonly Rectangle DamagedSandWall1 = new Rectangle(4 * 17, 21 * 17, 16, 16);
@@ -39,7 +39,7 @@ namespace PepesComing {
 
         // Arrows
         public static readonly Rectangle ArrowNorth = new Rectangle(19 * 17, 22 * 17, 16, 16);
-        public static readonly Rectangle ArrowSouth = new Rectangle(19*17, 21 * 17, 16, 16);
+        public static readonly Rectangle ArrowSouth = new Rectangle(19 * 17, 21 * 17, 16, 16);
         public static readonly Rectangle ArrowWest = new Rectangle(19 * 17, 23 * 17, 16, 16);
         public static readonly Rectangle ArrowEast = new Rectangle(19 * 17, 24 * 17, 16, 16);
 

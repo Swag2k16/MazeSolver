@@ -53,7 +53,7 @@ namespace PepesComing.Ui {
                 panel = new Panel(text, 0, position, sprites.DarkRed, sprites);
                 Console.WriteLine("Button Down!");
                 Clicked = true;
-           
+
                 return true;
             }
 
@@ -67,8 +67,8 @@ namespace PepesComing.Ui {
                 return true;
             }
 
-            
-            
+
+
             return false;
         }
 

@@ -16,8 +16,8 @@ namespace PepesComing {
 
         public WallFollower(ref World world) : base(ref world) {
             mouse = new SolverMouse();
-            mouse.position = new Vector2(1,1);
-            
+            mouse.position = new Vector2(1, 1);
+
             // Set Mouse.facing towards empty tile
             Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             if (neighbors.North.Type == Cell.types.FLOOR) {

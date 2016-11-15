@@ -12,7 +12,8 @@ namespace PepesComing {
         private Stopwatch timer;
 
         protected List<Vector2> _solution;
-        public List<Vector2> Solution { get {
+        public List<Vector2> Solution {
+            get {
                 return _solution;
             }
         }
@@ -27,8 +28,8 @@ namespace PepesComing {
         public Solver(ref World world) {
             _solution = new List<Vector2>();
 
-            timer = Stopwatch.StartNew(); 
-            
+            timer = Stopwatch.StartNew();
+
             // Start solving maze
             solveThread = new Thread(Solve);
             solveThread.IsBackground = true;

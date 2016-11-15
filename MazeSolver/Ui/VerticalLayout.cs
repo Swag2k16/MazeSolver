@@ -62,7 +62,7 @@ namespace PepesComing.Ui {
                     totalHeight += e.Position.Height;
                 });
 
-                int spacing = elements.Count > 1 ? (position.Height - totalHeight) / (elements.Count- 1) : 0;
+                int spacing = elements.Count > 1 ? (position.Height - totalHeight) / (elements.Count - 1) : 0;
                 int end = position.Y;
                 elements.ForEach(e => {
                     e.Position = new Rectangle(position.X, end, position.Width, e.Position.Height);
