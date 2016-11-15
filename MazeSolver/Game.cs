@@ -50,19 +50,15 @@ namespace PepesComing {
             IsMouseVisible = true;
             controller = new Controller();
 
-
             // Create world
             world = new World();
             Viewport vp = _graphicsDeviceManager.GraphicsDevice.Viewport;
             camera = new Camera(ref vp);
 
-            // Setup solvers
-            solver = new WallFollower(ref world);
-
             // Load sprites
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sprites = new Sprites(this);
-            
+
             // Setup Ui
             ui = new UiManager(sprites);
         }
@@ -95,27 +91,29 @@ namespace PepesComing {
 
             Rectangle drawPosition;
 
-            if (solver.Done()) {
+            if (solver != null && solver.Done()) {
                 foreach (Vector2 solutionPosition in solver.Solution) {
                     Rectangle drawPositon = new Rectangle((int)solutionPosition.X * 16, (int)solutionPosition.Y * 16, 16, 16);
                     spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
                 }
             }
 
-            drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
-            switch (solver.Mouse.facing) {
-                case Solver.compass.North:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
-                    break;
-                case Solver.compass.East:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
-                    break;
-                case Solver.compass.South:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
-                    break;
-                case Solver.compass.West:
-                    spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
-                    break;
+            if (solver != null) {
+                drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
+                switch (solver.Mouse.facing) {
+                    case Solver.compass.North:
+                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
+                        break;
+                    case Solver.compass.East:
+                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
+                        break;
+                    case Solver.compass.South:
+                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
+                        break;
+                    case Solver.compass.West:
+                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
+                        break;
+                }
             }
             spriteBatch.End();
 
@@ -144,9 +142,9 @@ namespace PepesComing {
             }
 
             // Regenerate maze
-            if (ui.GenerateMaze && solver.Done()) {
+            if (ui.GenerateMaze) {
                 world.RegenerateMaze();
-                
+                solver = null;
             }
 
             // Solve maze
@@ -155,7 +153,7 @@ namespace PepesComing {
                 Console.Clear();
             }
 
-           
+
 
             //Console.WriteLine("Time: {0}", solver.Elapsed);
 
