@@ -9,9 +9,11 @@ namespace PepesComing.Ui {
         private List<Element> elements;
         private Rectangle position;
         private int padding;
+        private bool maximize;
 
-        public HorizontalLayout(Rectangle position, int padding, Sprites sprites) : base(sprites) {
+        public HorizontalLayout(Rectangle position, bool maximize, int padding, Sprites sprites) : base(sprites) {
             this.position = position;
+            this.maximize = maximize;
             this.padding = padding;
             elements = new List<Element>();
         }
@@ -48,10 +50,24 @@ namespace PepesComing.Ui {
         }
 
         private void RecalculateLayout() {
-            int elementWidth = (this.position.Width - (elements.Count-1) * padding) / elements.Count;
-            for (int i = 0; i < elements.Count; i++) {
-                int pad = i == 0 ? 0 : padding;
-                elements[i].Position = new Rectangle((position.X + (i * elementWidth)) + (pad * i), position.Y, elementWidth, position.Height);
+            if (maximize) {
+                int elementWidth = (this.position.Width - (elements.Count-1) * padding) / elements.Count;
+                for (int i = 0; i < elements.Count; i++) {
+                    int pad = i == 0 ? 0 : padding;
+                    elements[i].Position = new Rectangle((position.X + (i * elementWidth)) + (pad * i), position.Y, elementWidth, position.Height);
+                }
+            } else {
+                int totalWidth = 0;
+                elements.ForEach(e => {
+                    totalWidth += e.Position.Width;
+                });
+
+                int spacing = elements.Count > 1 ? (position.Width - totalWidth) / (elements.Count - 1) : 0;
+                int end = position.X;
+                elements.ForEach(e => {
+                    e.Position = new Rectangle(end, position.Y, e.Position.Width, position.Height);
+                    end += e.Position.Width + spacing;
+                });
             }
         }
     }

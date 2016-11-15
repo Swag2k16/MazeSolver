@@ -9,8 +9,8 @@ namespace PepesComing {
 
     public class World {
         // World dimensions should follow x % 4 == 3
-        public const int width = 103;
-        public const int height = 103;
+        public static int width = 1003;
+        public static int height = 1003;
 
         private readonly Cell[,] Grid = new Cell[width, height];
         public bool Generated { get; private set; }
@@ -91,7 +91,7 @@ namespace PepesComing {
         private List<Cell> GetFrontiers(int x, int y) {
             List<Cell> frontiers = GetNearCells(x, y);
             //Remove all walls
-            frontiers.RemoveAll(c => (c.Type != Cell.types.WALL));
+            frontiers.RemoveAll(c => (c.Type != CellType.WALL));
             return frontiers;
         }
 
@@ -99,7 +99,7 @@ namespace PepesComing {
         private List<Cell> GetNeighbors(int x, int y) {
             List<Cell> neighbors = GetNearCells(x, y);
             //Remove all non-walls
-            neighbors.RemoveAll(c => c.Type == Cell.types.WALL);
+            neighbors.RemoveAll(c => c.Type == CellType.WALL);
             return neighbors;
         }
 
@@ -110,7 +110,7 @@ namespace PepesComing {
             //Start the maze generation at the center
             int middleX = (width - 1) / 2;
             int middleY = (height - 1) / 2;
-            Grid[middleX, middleY].Type = Cell.types.FLOOR;
+            Grid[middleX, middleY].Type = CellType.FLOOR;
 
             //Get initial frountiers
             frontiers = GetFrontiers(middleX, middleY);
@@ -124,30 +124,30 @@ namespace PepesComing {
                 //Make a path between the cell and the frountier
                 if (frontier.Y == neighbor.Y) {
                     if (frontier.X > neighbor.X) {
-                        Grid[frontier.X - 1, frontier.Y].Type = Cell.types.FLOOR;
+                        Grid[frontier.X - 1, frontier.Y].Type = CellType.FLOOR;
                     } else if (frontier.X < neighbor.X) {
-                        Grid[frontier.X + 1, frontier.Y].Type = Cell.types.FLOOR;
+                        Grid[frontier.X + 1, frontier.Y].Type = CellType.FLOOR;
                     }
                 } else if (frontier.X == neighbor.X) {
                     if (frontier.Y > neighbor.Y) {
-                        Grid[frontier.X, frontier.Y - 1].Type = Cell.types.FLOOR;
+                        Grid[frontier.X, frontier.Y - 1].Type = CellType.FLOOR;
                     } else if (frontier.Y < neighbor.Y) {
-                        Grid[frontier.X, frontier.Y + 1].Type = Cell.types.FLOOR;
+                        Grid[frontier.X, frontier.Y + 1].Type = CellType.FLOOR;
                     }
                 }
-                frontier.Type = Cell.types.FLOOR;
+                frontier.Type = CellType.FLOOR;
 
                 //Update the froutier list
                 frontiers.AddRange(GetFrontiers(frontier.X, frontier.Y));
                 frontiers.Remove(frontier);
 
                 //TODO: is this nessisary?
-                frontiers.RemoveAll(j => (j.Type != Cell.types.WALL));
+                frontiers.RemoveAll(j => (j.Type != CellType.WALL));
             }
 
             //Set the start and end points
-            Grid[1, 1].Type = Cell.types.START;
-            Grid[width - 2, height - 2].Type = Cell.types.ENDPOINT;
+            Grid[1, 1].Type = CellType.START;
+            Grid[width - 2, height - 2].Type = CellType.ENDPOINT;
         }
 
         // Maze (re)generation (non-blocking)

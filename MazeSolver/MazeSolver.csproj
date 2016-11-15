@@ -110,6 +110,7 @@
     <Compile Include="Ui\VerticalLayout.cs" />
     <Compile Include="Ui\Panel.cs" />
     <Compile Include="Ui\Text.cs" />
+    <Compile Include="Ui\Window.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
@@ -152,6 +153,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Solvers\SolverMouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Grey.png">

@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PepesComing.Ui;
-using System.Diagnostics;
 using PepesComing.Solvers;
 
 namespace PepesComing {
@@ -25,7 +22,7 @@ namespace PepesComing {
         private UiManager ui;
 
         // Solver
-        private Solver solver;
+        private SolverMouse solver;
 
         //Frame time calculation
         private int frames;
@@ -47,7 +44,7 @@ namespace PepesComing {
             base.Initialize();
 
             // Setup controller
-            Mouse.WindowHandle = Window.Handle;
+            Microsoft.Xna.Framework.Input.Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
             controller = new Controller();
 
@@ -85,33 +82,30 @@ namespace PepesComing {
             for (int x = camera.Viewport.X; x <= camera.Viewport.Width + camera.Viewport.X; x++) {
                 for (int y = camera.Viewport.Y; y <= camera.Viewport.Height + camera.Viewport.Y; y++) {
                     if (x >= 0 & x < World.width & y >= 0 & y < World.height) {
-                        world.RenderTile(x, y, spriteBatch, sprites);
+                        if (solver != null && solver.Solution[x, y]) {
+                            Rectangle drawPositon = new Rectangle(x * 16, y * 16, 16, 16);
+                            spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
+                        } else {
+                            world.RenderTile(x, y, spriteBatch, sprites);
+                        }
                     }
                 }
             }
 
             Rectangle drawPosition;
-
-            if (solver != null && solver.Done()) {
-                foreach (Vector2 solutionPosition in solver.Solution) {
-                    Rectangle drawPositon = new Rectangle((int)solutionPosition.X * 16, (int)solutionPosition.Y * 16, 16, 16);
-                    spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
-                }
-            }
-
             if (solver != null) {
                 drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
                 switch (solver.Mouse.facing) {
-                    case Solver.compass.North:
+                    case compass.North:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
                         break;
-                    case Solver.compass.East:
+                    case compass.East:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
                         break;
-                    case Solver.compass.South:
+                    case compass.South:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
                         break;
-                    case Solver.compass.West:
+                    case compass.West:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
                         break;
                 }
@@ -124,6 +118,10 @@ namespace PepesComing {
         }
 
         protected override void Update(GameTime gameTime) {
+            if (controller.Escape) {
+                Exit();
+            }
+
             // Generate world if it dosnt exsist
             if (!world.Generated) world.RegenerateMaze();
 
@@ -136,7 +134,7 @@ namespace PepesComing {
             }
 
             // Update systems
-            controller.Update(Keyboard.GetState(), Mouse.GetState(Window), camera);
+            controller.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
 
             if (!ui.Update(controller, GraphicsDevice)) {
                 camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
@@ -152,9 +150,7 @@ namespace PepesComing {
             if (ui.WallFollower) {
                 solver = new WallFollower(ref world);
                 Console.Clear();
-            }
-
-            if (ui.RandomMouser) {
+            } else if (ui.RandomMouser) {
                 solver = new RandomMouser(ref world);
             }
 
