@@ -11,35 +11,20 @@ namespace PepesComing {
         private Viewport prevViewport;
 
         private Button wallFollower;
-        public bool WallFollower {
-            get {
-                return wallFollower.Clicked;
-            }
-        }
+        private bool prevWallFollower = false;
+        public bool WallFollower { get; private set; }
         private Button randomMouser;
-        public bool RandomMouser {
-            get {
-                return randomMouser.Clicked;
-            }
-        }
+        private bool prevRandomMouser = false;
+        public bool RandomMouser { get; private set; }
         private Button pledge;
-        public bool Pledge {
-            get {
-                return pledge.Clicked;
-            }
-        }
+        private bool prevPledge = false;
+        public bool Pledge { get; private set; }
         private Button tremaux;
-        public bool Tremaux {
-            get {
-                return tremaux.Clicked;
-            }
-        }
+        public bool Tremaux { get; private set; }
+        private bool prevTremaux = false;
         private Button generateMaze;
-        public bool GenerateMaze {
-            get {
-                return generateMaze.Clicked;
-            }
-        }
+        private bool prevGenerateMaze = false;
+        public bool GenerateMaze { get; private set; }
 
         public UiManager(Sprites sprites) {
             elements = new List<Element>();
@@ -85,6 +70,18 @@ namespace PepesComing {
                 bool handled = e.Update(controller);
                 if (handled) uiHandled = true;
             }
+
+            GenerateMaze = (prevGenerateMaze == false && generateMaze.Clicked);
+            WallFollower = (prevWallFollower == false && wallFollower.Clicked);
+            RandomMouser = (prevRandomMouser == false && randomMouser.Clicked);
+            Tremaux = (prevTremaux == false && tremaux.Clicked);
+            Pledge = (prevPledge == false && pledge.Clicked);
+
+            prevGenerateMaze = generateMaze.Clicked;
+            prevWallFollower = wallFollower.Clicked;
+            prevRandomMouser = randomMouser.Clicked;
+            prevTremaux = tremaux.Clicked;
+            prevPledge = pledge.Clicked;
 
             prevViewport = graphics.Viewport;
             return uiHandled;
