@@ -42,6 +42,10 @@ namespace PepesComing {
             get { return keyboardState.IsKeyDown(CAMERA_KEY_ZOOM_OUT); }
         }
 
+        public bool Escape {
+            get { return keyboardState.IsKeyDown(Keys.Escape); }
+        }
+
         public bool Solve {
             get { return keyboardState.IsKeyDown(SOLVE_MAZE) && !previousKeyboardState.IsKeyDown(SOLVE_MAZE); }
         }

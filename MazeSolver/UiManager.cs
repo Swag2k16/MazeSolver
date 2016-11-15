@@ -6,23 +6,29 @@ using System.Collections.Generic;
 namespace PepesComing {
     class UiManager {
 
-        private List<Element> elements;
-        private Element sidebar;
+        private readonly List<Element> elements;
+        private readonly Element sidebar;
         private Viewport prevViewport;
 
-        private Button wallFollower;
+        private Window window;
+
+        private readonly Button wallFollower;
         private bool prevWallFollower = false;
         public bool WallFollower { get; private set; }
-        private Button randomMouser;
+
+        private readonly Button randomMouser;
         private bool prevRandomMouser = false;
         public bool RandomMouser { get; private set; }
-        private Button pledge;
+
+        private readonly Button pledge;
         private bool prevPledge = false;
         public bool Pledge { get; private set; }
-        private Button tremaux;
-        public bool Tremaux { get; private set; }
+
+        private readonly Button tremaux;
         private bool prevTremaux = false;
-        private Button generateMaze;
+        public bool Tremaux { get; private set; }
+
+        private readonly Button generateMaze;
         private bool prevGenerateMaze = false;
         public bool GenerateMaze { get; private set; }
 
@@ -42,7 +48,6 @@ namespace PepesComing {
             algorithms.AddElement(pledge);
             algorithms.AddElement(tremaux);
 
-
             generateMaze = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites);
 
             VerticalLayout layout = new VerticalLayout(new Rectangle(200, 200, 200, 300), false, 0, sprites);
@@ -51,10 +56,11 @@ namespace PepesComing {
             layout.AddElement(generateMaze);
 
             Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), sprites.Grey, sprites);
-
-
             sidebar = panel;
             elements.Add(sidebar);
+
+            window = new Window(new Rectangle(150, 200, 400, 200), sprites);
+            elements.Add(window);
         }
 
         public void AddElement(Element element) {
@@ -65,6 +71,7 @@ namespace PepesComing {
             if (graphics.Viewport.Height != prevViewport.Height && graphics.Viewport.Width != prevViewport.Width) {
                 sidebar.Position = new Rectangle(graphics.Viewport.Width - 300, 0, 300, graphics.Viewport.Height);
             }
+
             bool uiHandled = false;
             foreach (Element e in elements) {
                 bool handled = e.Update(controller);
@@ -76,6 +83,10 @@ namespace PepesComing {
             RandomMouser = (prevRandomMouser == false && randomMouser.Clicked);
             Tremaux = (prevTremaux == false && tremaux.Clicked);
             Pledge = (prevPledge == false && pledge.Clicked);
+
+            if (GenerateMaze) {
+                window.Show = true;
+            }
 
             prevGenerateMaze = generateMaze.Clicked;
             prevWallFollower = wallFollower.Clicked;

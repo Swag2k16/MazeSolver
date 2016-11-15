@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PepesComing.Ui {
     class Panel : Element {
-        private readonly Color color;
         private Texture2D drawRect;
         private Element element;
         private int padding;

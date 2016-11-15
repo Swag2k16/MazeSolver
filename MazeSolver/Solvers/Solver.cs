@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using PepesComing.Solvers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,8 +18,8 @@ namespace PepesComing {
             }
         }
 
-        protected List<Vector2> _solution;
-        public List<Vector2> Solution {
+        protected bool[,] _solution;
+        public bool[,] Solution {
             get {
                 return _solution;
             }
@@ -32,9 +33,8 @@ namespace PepesComing {
         }
 
         public Solver(ref World world) {
-            mouse = new SolverMouse();
-            mouse.position = new Vector2(1, 1);
-            _solution = new List<Vector2>();
+            _solution = new bool[World.width, World.height];
+
 
             timer = Stopwatch.StartNew();
 
@@ -52,19 +52,7 @@ namespace PepesComing {
             timer.Stop();
         }
 
-        public abstract SolverMouse Step();
+        public abstract void Step();
         public abstract bool Done();
-
-        public enum compass {
-            North,
-            East,
-            South,
-            West
-        }
-
-        public struct SolverMouse {
-            public Vector2 position;
-            public compass facing;
-        }
     }
 }
