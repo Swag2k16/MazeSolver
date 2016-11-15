@@ -10,6 +10,12 @@ namespace PepesComing {
         protected World world;
 
         private Stopwatch timer;
+        protected SolverMouse mouse;
+        public SolverMouse Mouse {
+            get {
+                return mouse;
+            }
+        }
 
         protected List<Vector2> _solution;
         public List<Vector2> Solution {
@@ -26,6 +32,8 @@ namespace PepesComing {
         }
 
         public Solver(ref World world) {
+            mouse = new SolverMouse();
+            mouse.position = new Vector2(1, 1);
             _solution = new List<Vector2>();
 
             timer = Stopwatch.StartNew();

@@ -1,16 +1,16 @@
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using static PepesComing.Utils;
+﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static PepesComing.Utils;
 
-namespace PepesComing {
+namespace PepesComing.Solvers {
+    public class RandomMouser : Solver {
 
-    public class WallFollower : Solver {
-
-       
-
-        public WallFollower(ref World world) : base(ref world) {
-            
+        
+        public RandomMouser(ref World world) : base(ref world) {
 
             // Set Mouse.facing towards empty tile
             Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
@@ -23,61 +23,92 @@ namespace PepesComing {
             } else if (neighbors.West.Type == Cell.types.FLOOR) {
                 mouse.facing = compass.West;
             }
+
         }
 
+
         public override SolverMouse Step() {
-            if (!Done()) {
+            if(!Done()) {
                 var ahead = LookAhead(ref world);
                 var left = LookLeft(ref world);
+                var right = LookRight(ref world);
 
-                if ((ahead == Cell.types.FLOOR || ahead == Cell.types.ENDPOINT || ahead == Cell.types.START) && left == Cell.types.WALL) {
-                    Move();
-                } else if (left == Cell.types.FLOOR) {
+                if ((left.Type == Cell.types.WALL && right.Type == Cell.types.WALL)) {
+                    if (ahead.Type == Cell.types.FLOOR) {
+                        Move();
+                    } else {
+                        TurnLeft();
+                        TurnLeft();
+                    }
+                } else if (ahead.Type == Cell.types.WALL && right.Type == Cell.types.WALL && left.Type == Cell.types.FLOOR) {
                     TurnLeft();
                     Move();
-                } else {
+                } else if (ahead.Type == Cell.types.WALL && left.Type == Cell.types.WALL && right.Type == Cell.types.FLOOR) {
                     TurnRight();
+                    Move();
+                } else {
+                    List<Cell> floorList = new List<Cell>();
+                    if (ahead.Type == Cell.types.FLOOR) floorList.Add(ahead);
+                    if (left.Type == Cell.types.FLOOR) floorList.Add(left);
+                    if (right.Type == Cell.types.FLOOR) floorList.Add(right);
+
+                    int randomDirection = Game.rnd.Next(0, floorList.Count - 1);
+                    mouse.position = new Vector2(floorList[randomDirection].X, floorList[randomDirection].Y);
                 }
             }
-
-            return Mouse;
+            return mouse;
         }
 
         public override bool Done() {
             return (int)Mouse.position.X == World.width - 2 && (int)Mouse.position.Y == World.height - 2;
         }
 
-
         //Gets the tile type ahead in the direction we are Mouse.facing
-        private Cell.types LookAhead(ref World world) {
+        private Cell LookAhead(ref World world) {
             var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
                 case compass.North:
-                    return neighbors.North.Type;
+                    return neighbors.North;
                 case compass.South:
-                    return neighbors.South.Type;
+                    return neighbors.South;
                 case compass.East:
-                    return neighbors.East.Type;
+                    return neighbors.East;
                 case compass.West:
-                    return neighbors.West.Type;
+                    return neighbors.West;
             }
-            return Cell.types.WALL;
+            return null;
         }
 
         //Gets the tile type to the left of the direction we are Mouse.facing
-        private Cell.types LookLeft(ref World world) {
+        private Cell LookLeft(ref World world) {
             var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
                 case compass.North:
-                    return neighbors.West.Type;
+                    return neighbors.West;
                 case compass.South:
-                    return neighbors.East.Type;
+                    return neighbors.East;
                 case compass.East:
-                    return neighbors.North.Type;
+                    return neighbors.North;
                 case compass.West:
-                    return neighbors.South.Type;
+                    return neighbors.South;
             }
-            return Cell.types.WALL;
+            return null;
+        }
+
+        //Gets the tile type to the left of the direction we are Mouse.facing
+        private Cell LookRight(ref World world) {
+            var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            switch (Mouse.facing) {
+                case compass.North:
+                    return neighbors.East;
+                case compass.South:
+                    return neighbors.West;
+                case compass.East:
+                    return neighbors.South;
+                case compass.West:
+                    return neighbors.North;
+            }
+            return null;
         }
 
         //Move in the direction we are Mouse.facing (and add the cell to the solution
@@ -96,7 +127,6 @@ namespace PepesComing {
                     mouse.position.X -= 1;
                     break;
             }
-
             _solution.Add(mouse.position);
             Console.WriteLine("{0} {1}", mouse.position.X, mouse.position.Y);
         }
@@ -137,4 +167,5 @@ namespace PepesComing {
             }
         }
     }
+
 }

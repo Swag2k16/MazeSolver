@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PepesComing.Ui;
 using System.Diagnostics;
+using PepesComing.Solvers;
 
 namespace PepesComing {
 
@@ -24,7 +25,7 @@ namespace PepesComing {
         private UiManager ui;
 
         // Solver
-        private WallFollower solver;
+        private Solver solver;
 
         //Frame time calculation
         private int frames;
@@ -150,6 +151,11 @@ namespace PepesComing {
             // Solve maze
             if (ui.WallFollower) {
                 solver = new WallFollower(ref world);
+                Console.Clear();
+            }
+
+            if (ui.WallFollower) {
+                solver = new RandomMouser(ref world);
                 Console.Clear();
             }
 
