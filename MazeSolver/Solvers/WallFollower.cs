@@ -13,6 +13,7 @@ namespace PepesComing {
         }
 
         public override void Step() {
+
             if (!Done()) {
                 var ahead = LookAhead(ref world);
                 var left = LookLeft(ref world);
@@ -31,6 +32,5 @@ namespace PepesComing {
         public override bool Done() {
             return (int)Mouse.position.X == World.width - 2 && (int)Mouse.position.Y == World.height - 2;
         }
-
     }
 }

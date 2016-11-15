@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using PepesComing.Solvers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,12 @@ namespace PepesComing {
         protected World world;
 
         private Stopwatch timer;
+        protected SolverMouse mouse;
+        public SolverMouse Mouse {
+            get {
+                return mouse;
+            }
+        }
 
         protected bool[,] _solution;
         public bool[,] Solution {
@@ -27,6 +34,7 @@ namespace PepesComing {
 
         public Solver(ref World world) {
             _solution = new bool[World.width, World.height];
+
 
             timer = Stopwatch.StartNew();
 

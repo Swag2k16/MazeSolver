@@ -5,7 +5,7 @@ Benchmarking tool for maze solving algorithums
  - User interface
 	 - Text ✓
 	 - Buttons ✓
-	 - Menu
+	 - Menu ✓
 	 - Progress bar
 	 - Dialog box
  - Maze Solvers

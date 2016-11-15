@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using static PepesComing.Utils;
 
 namespace PepesComing.Solvers {
     public class RandomMouser : SolverMouse {
