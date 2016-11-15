@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PepesComing.Ui;
 using System.Diagnostics;
+using PepesComing.Solvers;
 
 namespace PepesComing {
 
@@ -24,7 +25,7 @@ namespace PepesComing {
         private UiManager ui;
 
         // Solver
-        private WallFollower solver;
+        private Solver solver;
 
         //Frame time calculation
         private int frames;
@@ -153,9 +154,9 @@ namespace PepesComing {
                 Console.Clear();
             }
 
-
-
-            //Console.WriteLine("Time: {0}", solver.Elapsed);
+            if (ui.RandomMouser) {
+                solver = new RandomMouser(ref world);
+            }
 
             base.Update(gameTime);
         }
