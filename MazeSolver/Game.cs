@@ -97,7 +97,6 @@ namespace PepesComing {
 
             if (solver.Done()) {
                 foreach (Vector2 solutionPosition in solver.Solution) {
-                    Console.WriteLine("Solution!");
                     Rectangle drawPositon = new Rectangle((int)solutionPosition.X * 16, (int)solutionPosition.Y * 16, 16, 16);
                     spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
                 }
@@ -145,18 +144,20 @@ namespace PepesComing {
             }
 
             // Regenerate maze
-            if (controller.RegenerateMaze && solver.Done()) {
+            if (ui.GenerateMaze && solver.Done()) {
                 world.RegenerateMaze();
                 
             }
 
             // Solve maze
-            if (controller.Solve) {
+            if (ui.WallFollower) {
                 solver = new WallFollower(ref world);
                 Console.Clear();
             }
 
-            Console.WriteLine("Time: {0}", solver.Elapsed);
+           
+
+            //Console.WriteLine("Time: {0}", solver.Elapsed);
 
             base.Update(gameTime);
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace PepesComing.Ui {
     class Button : Element {
@@ -8,7 +9,7 @@ namespace PepesComing.Ui {
         private readonly Color textColor;
         private readonly string textString;
 
-        private bool clicked;
+        public bool Clicked { get; private set; }
 
         private Panel panel;
         private Text text;
@@ -30,7 +31,7 @@ namespace PepesComing.Ui {
             this.renderColor = color;
             this.textColor = textColor;
             this.textString = textString;
-            clicked = false;
+            Clicked = false;
             Position = position;
         }
 
@@ -39,31 +40,34 @@ namespace PepesComing.Ui {
         }
 
         public override bool Update(Controller controller) {
+            // Check if button is still being pressed down
+            if (Clicked && controller.MouseDown) {
+                return true;
+            }
+
             // Check if button was pressed down
-            if(controller.MouseBeginDown && Utils.VectorInRectangle(position, controller.MousePosition)) {
+            if (controller.MouseBeginDown && Utils.VectorInRectangle(position, controller.MousePosition)) {
                 renderColor.R -= 30;
                 renderColor.G -= 30;
                 renderColor.B -= 30;
-                panel = new Panel(text, 0, position, sprites.Red, sprites);
-                clicked = true;
+                panel = new Panel(text, 0, position, sprites.DarkRed, sprites);
+                Console.WriteLine("Button Down!");
+                Clicked = true;
            
                 return true;
             }
 
 
             // Check if button was released
-            if (clicked && controller.MouseUp) {
+            if (Clicked && controller.MouseUp) {
                 renderColor = panelColor;
                 this.panel = new Panel(text, 0, position, sprites.Red, sprites);
-                clicked = false;
+                Clicked = false;
 
                 return true;
             }
 
-            // Check if button is still being pressed down
-            if (clicked && controller.MouseDown) {
-                return true;
-            }
+            
             
             return false;
         }

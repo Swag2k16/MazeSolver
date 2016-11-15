@@ -105,8 +105,8 @@
     <Compile Include="UiManager.cs" />
     <Compile Include="Ui\Button.cs" />
     <Compile Include="Ui\Element.cs" />
+    <Compile Include="Ui\HorizontalLayout.cs" />
     <Compile Include="Ui\VerticalLayout.cs" />
-    <Compile Include="Ui\HoizontalLayout.cs" />
     <Compile Include="Ui\Panel.cs" />
     <Compile Include="Ui\Text.cs" />
     <Compile Include="Utils.cs" />
@@ -124,6 +124,9 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\DarkRed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Red.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

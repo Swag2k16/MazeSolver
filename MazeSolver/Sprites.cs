@@ -9,6 +9,7 @@ namespace PepesComing {
         public Texture2D Texture { get; private set; }
         public Texture2D Grey { get; private set; }
         public Texture2D Red { get; private set; }
+        public Texture2D DarkRed { get; private set; }
         public SpriteFont Font { get; private set; }
 
         public static Rectangle SandWall {
@@ -47,6 +48,7 @@ namespace PepesComing {
             Texture = game.Content.Load<Texture2D>("Tileset.png");
             Grey = game.Content.Load<Texture2D>("Grey.png");
             Red = game.Content.Load<Texture2D>("Red.png");
+            DarkRed = game.Content.Load<Texture2D>("DarkRed.png");
             Font = game.Content.Load<SpriteFont>("Fonts/Coders-Crux");
 
         }

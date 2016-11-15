@@ -36,6 +36,10 @@ namespace PepesComing.Ui {
         }
 
         public override bool Update(Controller controller) {
+            if (element.Update(controller)){
+                return true;
+            }
+
             if (controller.MouseBeginDown && Utils.VectorInRectangle(position, controller.MousePosition)) {
                 clicked = true;
                 return true;
@@ -50,7 +54,7 @@ namespace PepesComing.Ui {
                 return true;
             }
 
-            return element.Update(controller);
+            return false;
         }
     }
 }
