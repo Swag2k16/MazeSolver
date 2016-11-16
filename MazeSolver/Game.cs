@@ -142,16 +142,24 @@ namespace PepesComing {
 
             // Regenerate maze
             if (ui.GenerateMaze) {
+                if (solver != null) {
+                    solver.Dispose();
+                    solver = null;
+                }
                 world.RegenerateMaze();
-                solver = null;
             }
 
             // Solve maze
             if (ui.WallFollower) {
+                if (solver != null) solver.Dispose();
                 solver = new WallFollower(ref world);
                 Console.Clear();
             } else if (ui.RandomMouser) {
+                if (solver != null) solver.Dispose();
                 solver = new RandomMouser(ref world);
+            } else if (ui.Tremaux) {
+                if (solver != null) solver.Dispose();
+                solver = new Tremaux(ref world);
             }
 
             base.Update(gameTime);

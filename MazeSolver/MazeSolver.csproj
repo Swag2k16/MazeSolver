@@ -99,6 +99,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Solvers\Tremaux.cs" />
     <Compile Include="Solvers\RandomMouser.cs" />
     <Compile Include="Solvers\Solver.cs" />
     <Compile Include="Solvers\WallFollower.cs" />

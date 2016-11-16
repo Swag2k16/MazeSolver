@@ -20,10 +20,6 @@ namespace PepesComing {
         private bool prevRandomMouser = false;
         public bool RandomMouser { get; private set; }
 
-        private readonly Button pledge;
-        private bool prevPledge = false;
-        public bool Pledge { get; private set; }
-
         private readonly Button tremaux;
         private bool prevTremaux = false;
         public bool Tremaux { get; private set; }
@@ -40,12 +36,10 @@ namespace PepesComing {
             VerticalLayout algorithms = new VerticalLayout(new Rectangle(0, 0, 200, 430), true, 10, sprites);
             wallFollower = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Wall Follower", sprites));
             randomMouser = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Random Mouser", sprites));
-            pledge = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Pledge", sprites));
             tremaux = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Tremaux", sprites));
 
             algorithms.AddElement(wallFollower);
             algorithms.AddElement(randomMouser);
-            algorithms.AddElement(pledge);
             algorithms.AddElement(tremaux);
 
             generateMaze = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites);
@@ -82,7 +76,6 @@ namespace PepesComing {
             WallFollower = (prevWallFollower == false && wallFollower.Clicked);
             RandomMouser = (prevRandomMouser == false && randomMouser.Clicked);
             Tremaux = (prevTremaux == false && tremaux.Clicked);
-            Pledge = (prevPledge == false && pledge.Clicked);
 
             if (GenerateMaze) {
                 window.Show = true;
@@ -92,7 +85,6 @@ namespace PepesComing {
             prevWallFollower = wallFollower.Clicked;
             prevRandomMouser = randomMouser.Clicked;
             prevTremaux = tremaux.Clicked;
-            prevPledge = pledge.Clicked;
 
             prevViewport = graphics.Viewport;
             return uiHandled;

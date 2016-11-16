@@ -54,5 +54,10 @@ namespace PepesComing {
 
         public abstract void Step();
         public abstract bool Done();
+
+        public void Dispose() {
+            solveThread.Abort();
+            solveThread = null;
+        }
     }
 }
