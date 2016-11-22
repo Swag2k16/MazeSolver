@@ -50,9 +50,9 @@ namespace PepesComing {
 
             // Get neigbors around cell
             Cardinal<Cell> neigbors = new Cardinal<Cell>();
-            neigbors.North = GetCell(x, y + 1);
+            neigbors.North = GetCell(x, y - 1);
             neigbors.East = GetCell(x + 1, y);
-            neigbors.South = GetCell(x, y - 1);
+            neigbors.South = GetCell(x, y + 1);
             neigbors.West = GetCell(x - 1, y);
 
             return neigbors;

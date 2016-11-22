@@ -94,10 +94,10 @@ namespace PepesComing.Solvers {
         protected void Move() {
             switch (mouse.facing) {
                 case compass.North:
-                    mouse.position.Y += 1;
+                    mouse.position.Y -= 1;
                     break;
                 case compass.South:
-                    mouse.position.Y -= 1;
+                    mouse.position.Y += 1;
                     break;
                 case compass.East:
                     mouse.position.X += 1;
