@@ -16,6 +16,16 @@ namespace PepesComing {
             public T West;
         }
 
+        public struct Directional<T> {
+            public Compass Direction { get; private set; }
+            public T Value { get; private set; }
+
+            public Directional(Compass direction, T value) {
+                Direction = direction;
+                Value = value;
+            }
+        }
+
         public static void Set<T>(this Cardinal<T> card, Compass direction, T value) {
             switch (direction) {
                 case Compass.North:
@@ -47,12 +57,12 @@ namespace PepesComing {
             return card.North;
         }
 
-        public static List<T> AsList<T>(this Cardinal<T> card) {
-            var list = new List<T>();
-            list.Add(card.North);
-            list.Add(card.East);
-            list.Add(card.South);
-            list.Add(card.West);
+        public static List<Directional<T>> AsList<T>(this Cardinal<T> card) {
+            var list = new List<Directional<T>>();
+            list.Add(new Directional<T>(Compass.North, card.North));
+            list.Add(new Directional<T>(Compass.East, card.East));
+            list.Add(new Directional<T>(Compass.South, card.South));
+            list.Add(new Directional<T>(Compass.West, card.West));
             return list;
         }
 
