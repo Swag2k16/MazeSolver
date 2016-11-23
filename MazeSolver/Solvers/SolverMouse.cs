@@ -16,12 +16,12 @@ namespace PepesComing.Solvers {
 
 
     public abstract class SolverMouse : Solver {
-		protected Mouse mouse;
-		public Mouse Mouse {
-			get {
-				return mouse;
-			}
-		}
+        protected Mouse mouse;
+        public Mouse Mouse {
+            get {
+                return mouse;
+            }
+        }
 
         public SolverMouse(ref World world) : base(ref world) {
             mouse = new Mouse();
@@ -149,6 +149,5 @@ namespace PepesComing.Solvers {
                     break;
             }
         }
-
     }
 }

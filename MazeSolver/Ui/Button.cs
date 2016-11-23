@@ -71,6 +71,5 @@ namespace PepesComing.Ui {
 
             return false;
         }
-
     }
 }

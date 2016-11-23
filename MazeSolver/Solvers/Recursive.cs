@@ -32,29 +32,29 @@ namespace PepesComing.Solvers {
                 done = true;
                 return true;
             }
-            
+
             if (world.GetCell(x, y).Type.Blocked() || wasHere[x, y]) return false;
             wasHere[x, y] = true;
             if (x != 1) {
-                if (recursiveSolve(x-1, y)) {
+                if (recursiveSolve(x - 1, y)) {
                     _solution[x, y] = true;
                     return true;
                 }
             }
             if (x != World.width - 2) {
-                if (recursiveSolve(x+1, y)) {
+                if (recursiveSolve(x + 1, y)) {
                     _solution[x, y] = true;
                     return true;
                 }
             }
             if (y != 1) {
-                if (recursiveSolve(x, y-1)) {
+                if (recursiveSolve(x, y - 1)) {
                     _solution[x, y] = true;
                     return true;
                 }
             }
             if (y != World.height - 2) {
-                if (recursiveSolve(x, y+1)) {
+                if (recursiveSolve(x, y + 1)) {
                     _solution[x, y] = true;
                     return true;
                 }

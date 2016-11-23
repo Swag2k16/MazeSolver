@@ -32,13 +32,11 @@ namespace PepesComing.Solvers {
 
                     int randomDirection = Game.rnd.Next(0, floorList.Count);
                     if (randomDirection == 1) TurnLeft();
-                    if (randomDirection == 2) TurnRight(); 
+                    if (randomDirection == 2) TurnRight();
                     mouse.position = new Vector2(floorList[randomDirection].X, floorList[randomDirection].Y);
-                    _solution[(int)mouse.position.X,(int)mouse.position.Y] = true;
+                    _solution[(int)mouse.position.X, (int)mouse.position.Y] = true;
                 }
             }
         }
-
-       
     }
 }

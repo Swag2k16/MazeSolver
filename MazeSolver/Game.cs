@@ -165,7 +165,7 @@ namespace PepesComing {
                 if (solver != null) solver.Dispose();
                 solver = new Recursive(ref world);
             }
-                base.Update(gameTime);
+            base.Update(gameTime);
         }
     }
 }

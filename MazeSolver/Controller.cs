@@ -81,6 +81,5 @@ namespace PepesComing {
             this.previousMouseState = this.mouseState;
             this.mouseState = mouseState;
         }
-
     }
 }
