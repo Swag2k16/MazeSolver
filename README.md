@@ -9,12 +9,12 @@ Benchmarking tool for maze solving algorithums
 	 - Progress bar
 	 - Dialog box
  - Maze Solvers
-	 - Random mouser
+	 - Random mouser ✓
 	 - Wall follower ✓
 	 - Pledge
-	 - Tremaux
+	 - Tremaux ~✓ - http://www.cems.uvm.edu/~rsnapp/teaching/cs32/lectures/tremaux.pdf
 	 - Dead-end filling
-	 - Recursive
+	 - Recursive ✓
 	 - Maze-routing
 	 - Shortest path
  - Maze generation
