@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PepesComing.Solvers {
+﻿namespace PepesComing.Solvers {
     class Recursive : Solver {
 
-        private bool[,] wasHere;
-        private int endX;
-        private int endY;
+        private readonly bool[,] wasHere;
+        private readonly int endX;
+        private readonly int endY;
         private bool done;
 
         public Recursive(ref World world) : base(ref world) {
@@ -19,15 +13,14 @@ namespace PepesComing.Solvers {
         }
 
         public override void Step() {
-            recursiveSolve(1, 1);
+            RecursiveSolve(1, 1);
         }
 
         public override bool Done() {
             return done;
         }
 
-        private bool recursiveSolve(int x, int y) {
-            Console.WriteLine("{0}, {1}", x, y);
+        private bool RecursiveSolve(int x, int y) {
             if (x == endX && y == endY) {
                 done = true;
                 return true;
@@ -35,29 +28,25 @@ namespace PepesComing.Solvers {
 
             if (world.GetCell(x, y).Type.Blocked() || wasHere[x, y]) return false;
             wasHere[x, y] = true;
-            if (x != 1) {
-                if (recursiveSolve(x - 1, y)) {
-                    _solution[x, y] = true;
-                    return true;
-                }
+            // West
+            if (x != 1 && RecursiveSolve(x - 1, y)) {
+                _solution[x, y] = true;
+                return true;
             }
-            if (x != World.width - 2) {
-                if (recursiveSolve(x + 1, y)) {
-                    _solution[x, y] = true;
-                    return true;
-                }
+            // East
+            if (x != World.width - 2 && RecursiveSolve(x + 1, y)) {
+                _solution[x, y] = true;
+                return true;
             }
-            if (y != 1) {
-                if (recursiveSolve(x, y - 1)) {
-                    _solution[x, y] = true;
-                    return true;
-                }
+            // North
+            if (y != 1 && RecursiveSolve(x, y - 1)) {
+                _solution[x, y] = true;
+                return true;
             }
-            if (y != World.height - 2) {
-                if (recursiveSolve(x, y + 1)) {
-                    _solution[x, y] = true;
-                    return true;
-                }
+            // South
+            if (y != World.height - 2 && RecursiveSolve(x, y + 1)) {
+                _solution[x, y] = true;
+                return true;
             }
             return false;
         }
