@@ -69,8 +69,6 @@ namespace PepesComing.Solvers {
             
         }
 
-        public override bool Done() {
-            return (int)Mouse.position.X == World.width - 2 && (int)Mouse.position.Y == World.height - 2;
-        }
+       
     }
 }

@@ -39,8 +39,6 @@ namespace PepesComing.Solvers {
             }
         }
 
-        public override bool Done() {
-            return (int)mouse.position.X == World.width - 2 && (int)mouse.position.Y == World.height - 2;
-        }   
+       
     }
 }
