@@ -21,13 +21,13 @@ namespace PepesComing.Solvers {
                 bool left = LookLeft(ref world).Type.Blocked();
                 bool right = LookRight(ref world).Type.Blocked();
 
-                if(!ahead && left && right) {
+                if (!ahead && left && right) {
                     visitedGrid[(int)mouse.position.X, (int)mouse.position.Y] += 1;
                     Move();
                     return;
                 }
 
-               if(ahead && !left && right) {
+                if (ahead && !left && right) {
                     TurnLeft();
                     return;
                 }
@@ -43,14 +43,14 @@ namespace PepesComing.Solvers {
                 if (!right) floorList.Add(LookRight(ref world));
 
                 List<Cell> floorListZero = floorList.Where(c => visitedGrid[c.X, c.Y] == 0).ToList<Cell>();
-                if(floorListZero.Count != 0) {
+                if (floorListZero.Count != 0) {
                     floorListZero.Shuffle();
                     var chosenCell = floorListZero[0];
                     if (chosenCell.X > mouse.position.X) {
-                        TurnRight();  
+                        TurnRight();
                     }
                     if (chosenCell.X < mouse.position.X) {
-                        TurnLeft();   
+                        TurnLeft();
                     }
                     Move();
                     visitedGrid[(int)mouse.position.X, (int)mouse.position.Y] += 1;
@@ -62,15 +62,6 @@ namespace PepesComing.Solvers {
                     visitedGrid[(int)mouse.position.X, (int)mouse.position.Y] += 1;
                 }
             }
-            
-
-
-
-            
-        }
-
-        public override bool Done() {
-            return (int)Mouse.position.X == World.width - 2 && (int)Mouse.position.Y == World.height - 2;
         }
     }
 }

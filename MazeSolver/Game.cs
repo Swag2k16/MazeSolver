@@ -23,7 +23,7 @@ namespace PepesComing {
         private UiManager ui;
 
         // Solver
-        private SolverMouse solver;
+        private Solver solver;
 
         //Frame time calculation
         private int frames;
@@ -94,9 +94,11 @@ namespace PepesComing {
             }
 
             Rectangle drawPosition;
-            if (solver != null) {
-                drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
-                switch (solver.Mouse.facing) {
+
+            if (solver != null && solver.GetType().IsAssignableFrom(typeof(SolverMouse))) {
+                SolverMouse solverMouse = (SolverMouse)solver;
+                drawPosition = new Rectangle((int)solverMouse.Mouse.position.X * 16, (int)solverMouse.Mouse.position.Y * 16, 16, 16);
+                switch (solverMouse.Mouse.facing) {
                     case Compass.North:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
                         break;
@@ -161,8 +163,10 @@ namespace PepesComing {
             } else if (ui.Tremaux) {
                 if (solver != null) solver.Dispose();
                 solver = new Tremaux(ref world);
+            } else if (ui.Recursive) {
+                if (solver != null) solver.Dispose();
+                solver = new Recursive(ref world);
             }
-
             base.Update(gameTime);
         }
     }

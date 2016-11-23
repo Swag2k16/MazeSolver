@@ -10,19 +10,23 @@ namespace PepesComing.Solvers {
 
 
     public abstract class SolverMouse : Solver {
-		protected Mouse mouse;
-		public Mouse Mouse {
-			get {
-				return mouse;
-			}
-		}
+        protected Mouse mouse;
+        public Mouse Mouse {
+            get {
+                return mouse;
+            }
+        }
 
         public SolverMouse(ref World world) : base(ref world) {
             mouse = new Mouse();
             mouse.position = new Vector2(1, 1);
         }
 
-		protected void FaceEmpty() {
+        public override bool Done() {
+            return (int)Mouse.position.X == World.width - 2 && (int)Mouse.position.Y == World.height - 2;
+        }
+
+        protected void FaceEmpty() {
             // Set Mouse.facing towards empty tile
             Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             if (!neighbors.North.Type.Blocked()) {
@@ -139,6 +143,5 @@ namespace PepesComing.Solvers {
                     break;
             }
         }
-
     }
 }

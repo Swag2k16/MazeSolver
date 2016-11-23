@@ -24,6 +24,10 @@ namespace PepesComing {
         private bool prevTremaux = false;
         public bool Tremaux { get; private set; }
 
+        private readonly Button recursive;
+        private bool prevRecursive = false;
+        public bool Recursive { get; private set; }
+
         private readonly Button generateMaze;
         private bool prevGenerateMaze = false;
         public bool GenerateMaze { get; private set; }
@@ -37,10 +41,12 @@ namespace PepesComing {
             wallFollower = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Wall Follower", sprites));
             randomMouser = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Random Mouser", sprites));
             tremaux = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Tremaux", sprites));
+            recursive = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Recursive", sprites));
 
             algorithms.AddElement(wallFollower);
             algorithms.AddElement(randomMouser);
             algorithms.AddElement(tremaux);
+            algorithms.AddElement(recursive);
 
             generateMaze = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites);
 
@@ -76,6 +82,7 @@ namespace PepesComing {
             WallFollower = (prevWallFollower == false && wallFollower.Clicked);
             RandomMouser = (prevRandomMouser == false && randomMouser.Clicked);
             Tremaux = (prevTremaux == false && tremaux.Clicked);
+            Recursive = (prevRecursive == false && recursive.Clicked);
 
             if (GenerateMaze) {
                 window.Show = true;
@@ -85,6 +92,7 @@ namespace PepesComing {
             prevWallFollower = wallFollower.Clicked;
             prevRandomMouser = randomMouser.Clicked;
             prevTremaux = tremaux.Clicked;
+            prevRecursive = recursive.Clicked;
 
             prevViewport = graphics.Viewport;
             return uiHandled;
