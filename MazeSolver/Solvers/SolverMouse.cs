@@ -2,16 +2,10 @@
 using static PepesComing.Utils;
 
 namespace PepesComing.Solvers {
-    public enum compass {
-        North,
-        East,
-        South,
-        West
-    }
 
     public struct Mouse {
         public Vector2 position;
-        public compass facing;
+        public Compass facing;
     }
 
 
@@ -32,13 +26,13 @@ namespace PepesComing.Solvers {
             // Set Mouse.facing towards empty tile
             Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             if (!neighbors.North.Type.Blocked()) {
-                mouse.facing = compass.North;
+                mouse.facing = Compass.North;
             } else if (!neighbors.East.Type.Blocked()) {
-                mouse.facing = compass.East;
+                mouse.facing = Compass.East;
             } else if (!neighbors.South.Type.Blocked()) {
-                mouse.facing = compass.South;
+                mouse.facing = Compass.South;
             } else if (!neighbors.West.Type.Blocked()) {
-                mouse.facing = compass.West;
+                mouse.facing = Compass.West;
             }
         }
 
@@ -46,13 +40,13 @@ namespace PepesComing.Solvers {
         protected Cell LookAhead(ref World world) {
             var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
-                case compass.North:
+                case Compass.North:
                     return neighbors.North;
-                case compass.South:
+                case Compass.South:
                     return neighbors.South;
-                case compass.East:
+                case Compass.East:
                     return neighbors.East;
-                case compass.West:
+                case Compass.West:
                     return neighbors.West;
             }
             return null;
@@ -62,13 +56,13 @@ namespace PepesComing.Solvers {
         protected Cell LookLeft(ref World world) {
             var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
-                case compass.North:
+                case Compass.North:
                     return neighbors.West;
-                case compass.South:
+                case Compass.South:
                     return neighbors.East;
-                case compass.East:
+                case Compass.East:
                     return neighbors.North;
-                case compass.West:
+                case Compass.West:
                     return neighbors.South;
             }
             return null;
@@ -78,13 +72,13 @@ namespace PepesComing.Solvers {
         protected Cell LookRight(ref World world) {
             var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
-                case compass.North:
+                case Compass.North:
                     return neighbors.East;
-                case compass.South:
+                case Compass.South:
                     return neighbors.West;
-                case compass.East:
+                case Compass.East:
                     return neighbors.South;
-                case compass.West:
+                case Compass.West:
                     return neighbors.North;
             }
             return null;
@@ -93,16 +87,16 @@ namespace PepesComing.Solvers {
         //Move in the direction we are Mouse.facing (and add the cell to the solution
         protected void Move() {
             switch (mouse.facing) {
-                case compass.North:
+                case Compass.North:
                     mouse.position.Y -= 1;
                     break;
-                case compass.South:
+                case Compass.South:
                     mouse.position.Y += 1;
                     break;
-                case compass.East:
+                case Compass.East:
                     mouse.position.X += 1;
                     break;
-                case compass.West:
+                case Compass.West:
                     mouse.position.X -= 1;
                     break;
             }
@@ -113,17 +107,17 @@ namespace PepesComing.Solvers {
         //Turn to face the left
         protected void TurnLeft() {
             switch (mouse.facing) {
-                case compass.North:
-                    mouse.facing = compass.West;
+                case Compass.North:
+                    mouse.facing = Compass.West;
                     break;
-                case compass.South:
-                    mouse.facing = compass.East;
+                case Compass.South:
+                    mouse.facing = Compass.East;
                     break;
-                case compass.West:
-                    mouse.facing = compass.South;
+                case Compass.West:
+                    mouse.facing = Compass.South;
                     break;
-                case compass.East:
-                    mouse.facing = compass.North;
+                case Compass.East:
+                    mouse.facing = Compass.North;
                     break;
             }
         }
@@ -131,17 +125,17 @@ namespace PepesComing.Solvers {
         //Turn to face the right
         protected void TurnRight() {
             switch (mouse.facing) {
-                case compass.North:
-                    mouse.facing = compass.East;
+                case Compass.North:
+                    mouse.facing = Compass.East;
                     break;
-                case compass.South:
-                    mouse.facing = compass.West;
+                case Compass.South:
+                    mouse.facing = Compass.West;
                     break;
-                case compass.West:
-                    mouse.facing = compass.North;
+                case Compass.West:
+                    mouse.facing = Compass.North;
                     break;
-                case compass.East:
-                    mouse.facing = compass.South;
+                case Compass.East:
+                    mouse.facing = Compass.South;
                     break;
             }
         }

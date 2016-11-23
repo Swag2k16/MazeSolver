@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PepesComing.Solvers;
+using static PepesComing.Utils;
 
 namespace PepesComing {
 
@@ -96,16 +97,16 @@ namespace PepesComing {
             if (solver != null) {
                 drawPosition = new Rectangle((int)solver.Mouse.position.X * 16, (int)solver.Mouse.position.Y * 16, 16, 16);
                 switch (solver.Mouse.facing) {
-                    case compass.North:
+                    case Compass.North:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
                         break;
-                    case compass.East:
+                    case Compass.East:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
                         break;
-                    case compass.South:
+                    case Compass.South:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
                         break;
-                    case compass.West:
+                    case Compass.West:
                         spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
                         break;
                 }

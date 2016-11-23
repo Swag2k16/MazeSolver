@@ -38,8 +38,8 @@ namespace PepesComing {
         public static readonly Rectangle SteelFloor = new Rectangle(23 * 17, 1 * 17, 16, 16);
 
         // Arrows
-        public static readonly Rectangle ArrowNorth = new Rectangle(19 * 17, 22 * 17, 16, 16);
-        public static readonly Rectangle ArrowSouth = new Rectangle(19 * 17, 21 * 17, 16, 16);
+        public static readonly Rectangle ArrowNorth = new Rectangle(19 * 17, 21 * 17, 16, 16);
+        public static readonly Rectangle ArrowSouth = new Rectangle(19 * 17, 22 * 17, 16, 16);
         public static readonly Rectangle ArrowWest = new Rectangle(19 * 17, 23 * 17, 16, 16);
         public static readonly Rectangle ArrowEast = new Rectangle(19 * 17, 24 * 17, 16, 16);
 
