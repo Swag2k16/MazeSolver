@@ -30,6 +30,8 @@ namespace PepesComing {
         private double elapsedTime;
         private int fps;
 
+        public static readonly bool DEBUG_STEP = true;
+
         public Game() {
             Content.RootDirectory = "Content";
 
@@ -95,8 +97,9 @@ namespace PepesComing {
 
             Rectangle drawPosition;
 
-            if (solver != null && solver.GetType().IsAssignableFrom(typeof(SolverMouse))) {
+            if (solver != null && solver.GetType().IsSubclassOf(typeof(SolverMouse))) {
                 SolverMouse solverMouse = (SolverMouse)solver;
+                Console.WriteLine(solverMouse.Mouse.position);
                 drawPosition = new Rectangle((int)solverMouse.Mouse.position.X * 16, (int)solverMouse.Mouse.position.Y * 16, 16, 16);
                 switch (solverMouse.Mouse.facing) {
                     case Compass.North:
@@ -152,6 +155,11 @@ namespace PepesComing {
                 world.RegenerateMaze();
             }
 
+            // Step
+            if (ui.Step && solver != null && DEBUG_STEP) {
+                solver.Step();
+            }
+
             // Solve maze
             if (ui.WallFollower) {
                 if (solver != null) solver.Dispose();
@@ -166,7 +174,7 @@ namespace PepesComing {
             } else if (ui.Recursive) {
                 if (solver != null) solver.Dispose();
                 solver = new Recursive(ref world);
-            }
+            } 
             base.Update(gameTime);
         }
     }
