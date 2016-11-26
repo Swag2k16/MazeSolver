@@ -54,12 +54,10 @@ namespace PepesComing.Ui {
         }
 
         protected override void MouseDown() {
-            Console.WriteLine("Mouse Down");
             panel.Sprite = buttonDown.Texture();
         }
 
         protected override void MouseUp() {
-            Console.WriteLine("Mouse Up");
             panel.Sprite = buttonUp.Texture();
 
             // Execute click handlers
