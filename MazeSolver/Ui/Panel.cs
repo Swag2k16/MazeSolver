@@ -1,59 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace PepesComing.Ui
-{
+namespace PepesComing.Ui {
     class Panel : Element {
-        private Texture2D drawRect;
-        private Element element;
-        private int padding;
-        private bool clicked;
+        public Texture2D Sprite { private get; set; }
+        private readonly Element element;
+        private readonly int padding;
 
-        private Rectangle position;
-        public override Rectangle Position {
-            get {
-                return position;
-            }
-            set {
-                position = value;
-                element.Position = new Rectangle(position.X + padding, position.Y + padding, position.Width - 2 * padding, position.Height - 2 * padding);
-            }
-        }
-
-        public Panel(Element element, int padding, Rectangle position, Texture2D texture, Sprites sprites) : base(sprites) {
-            drawRect = texture;
-            this.padding = padding;
+        public Panel(int x, int y, int width, int height, Element element, int padding, Texture2D texture)
+            : base(x, y, width, height, true) {
             this.element = element;
-            this.element.Position = position;
-            Position = position;
+            this.padding = padding;
+            Sprite = texture;
         }
 
+        public Panel(Element element, int padding, Texture2D texture)
+            : base(true) {
+            this.element = element;
+            Sprite = texture;
+        }
 
-        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
-            spriteBatch.Draw(drawRect, destinationRectangle: position, sourceRectangle: new Rectangle(0, 0, 16, 16), color: Color.White);
-            element.RenderElement(spriteBatch, sprites);
+        public override void RenderElement(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(Sprite, destinationRectangle: new Rectangle(X, Y, Width, Height), sourceRectangle: new Rectangle(0, 0, 16, 16), color: Microsoft.Xna.Framework.Color.White);
+            element.RenderElement(spriteBatch);
         }
 
         public override bool Update(Controller controller) {
-            if (element.Update(controller)) {
-                return true;
-            }
+            bool handled = false;
+            if (element.Update(controller)) handled = true;
+            if (base.Update(controller)) handled = true;
+            return handled;
+        }
 
-            if (controller.MouseBeginDown && Utils.VectorInRectangle(position, controller.MousePosition)) {
-                clicked = true;
-                return true;
-            }
-
-            if (clicked && controller.MouseUp) {
-                clicked = false;
-                return true;
-            }
-
-            if (clicked && controller.MouseDown) {
-                return true;
-            }
-
-            return false;
+        public override void CalculateLayout() {
+            element.X = X + padding;
+            element.Y = Y + padding;
+            element.Width = Width - padding * 2;
+            element.Height = Height - padding * 2;
+            element.CalculateLayout();
         }
     }
 }

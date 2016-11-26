@@ -40,7 +40,6 @@ namespace PepesComing
             solveThread = new Thread(Solve);
             solveThread.IsBackground = true;
             this.world = world;
-            if (!Game.DEBUG_STEP) Start();
         }
 
         public void Start() {

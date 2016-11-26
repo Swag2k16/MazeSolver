@@ -4,13 +4,31 @@ using System;
 using System.Diagnostics;
 
 namespace PepesComing {
+    public enum Sprite {
+        GREY,
+        RED,
+        DARK_RED,
+    }
 
-    public class Sprites : IDisposable {
-        public Texture2D Texture { get; private set; }
-        public Texture2D Grey { get; private set; }
-        public Texture2D Red { get; private set; }
-        public Texture2D DarkRed { get; private set; }
-        public SpriteFont Font { get; private set; }
+    public static class Sprites {
+
+        public static Texture2D Sheet { get; private set; }
+        public static Texture2D Grey { get; private set; }
+        public static Texture2D Red { get; private set; }
+        public static Texture2D DarkRed { get; private set; }
+        public static SpriteFont Font { get; private set; }
+
+        public static Texture2D Texture(this Sprite sprite) {
+            switch (sprite) {
+                case Sprite.GREY:
+                    return Grey;
+                case Sprite.RED:
+                    return Red;
+                case Sprite.DARK_RED:
+                    return DarkRed;
+            }
+            return Grey;
+        }
 
         public static Rectangle SandWall {
             get {
@@ -43,18 +61,16 @@ namespace PepesComing {
         public static readonly Rectangle ArrowWest = new Rectangle(19 * 17, 23 * 17, 16, 16);
         public static readonly Rectangle ArrowEast = new Rectangle(19 * 17, 24 * 17, 16, 16);
 
-        public Sprites(Game game) {
-            Debug.Write("Loading sprites\n");
-            Texture = game.Content.Load<Texture2D>("Tileset.png");
+        public static void Load(Game game) {
+            Sheet = game.Content.Load<Texture2D>("Tileset.png");
             Grey = game.Content.Load<Texture2D>("Grey.png");
             Red = game.Content.Load<Texture2D>("Red.png");
             DarkRed = game.Content.Load<Texture2D>("DarkRed.png");
             Font = game.Content.Load<SpriteFont>("Fonts/Coders-Crux");
-
         }
 
-        public void Dispose() {
-            Texture.Dispose();
+        public static void Dispose() {
+            Sheet.Dispose();
             Font.Texture.Dispose();
         }
     }

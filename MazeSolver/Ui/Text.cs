@@ -1,68 +1,48 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System;
 
-namespace PepesComing.Ui
-{
+namespace PepesComing.Ui {
     class Text : Element {
         private string text;
         private readonly Color color;
 
-        public Vector2 Size {
-            get {
-                return sprites.Font.MeasureString(text);
-            }
+        private Vector2 renderPosition;
+
+        public Text(string text, int x = 0, int y = 0, Color color = Color.WHITE)
+            : base(x, y, (int)Sprites.Font.MeasureString(text).X, (int)Sprites.Font.MeasureString(text).Y, false) {
+            this.text = text;
+            this.color = color;
         }
 
-        private Vector2 renderPosition;
-        private Rectangle position;
-        public override Rectangle Position {
-            get {
-                return position;
-            }
+        public override void RenderElement(SpriteBatch spriteBatch) {
+            spriteBatch.DrawString(Sprites.Font, text, renderPosition, color.Xna());
+        }
 
-            set {
-                position = value;
-                Vector2 textSize = sprites.Font.MeasureString(text);
+        public override void CalculateLayout() {
+            Vector2 textSize = Sprites.Font.MeasureString(text);
 
-                // Handle text overflow
-                if (position.Width < sprites.Font.MeasureString("...").X) {
-                    text = "invalid size";
-                } else if (position.Width < textSize.X) {
+            // Handle text overflow
+            if (Sprites.Font.MeasureString(text).X > Width) {
+                if (Width < Sprites.Font.MeasureString("...").X) {
                     // text is to small for elipses so set text to nothing
-                    if (textSize.X < sprites.Font.MeasureString("...").X) {
-                        text = "";
-                        return;
-                    }
-
+                    Console.WriteLine("Text: Width is to small to display text");
+                    text = "";
+                } else {
                     // Remove characters until the text and elispe fit into the area
-                    while (position.Width < textSize.X) {
+                    while (Width < textSize.X && text.Length > 0) {
                         text = text.Remove(text.Length - 1);
-                        textSize = sprites.Font.MeasureString(text + "...");
+                        textSize = Sprites.Font.MeasureString(text + "...");
                     }
 
                     text = text + "...";
                 }
-
-                // Set the render position
-                float marginX = (this.position.Width - textSize.X) / 2;
-                float marginY = (this.position.Height - textSize.Y) / 2;
-                renderPosition = new Vector2(this.position.X + marginX, this.position.Y + marginY);
             }
-        }
 
-        public Text(string text, Rectangle position, Color color, Sprites sprites) : base(sprites) {
-            this.text = text;
-            this.color = color;
-            Position = position;
-        }
-
-
-        public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
-            spriteBatch.DrawString(sprites.Font, text, renderPosition, color);
-        }
-
-        public override bool Update(Controller controller) {
-            return false;
+            // Set the render position
+            float marginX = (Width - textSize.X) / 2;
+            float marginY = (Height - textSize.Y) / 2;
+            renderPosition = new Vector2(X + marginX, Y + marginY);
         }
     }
 }

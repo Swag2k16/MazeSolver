@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PepesComing.Ui;
+using System;
 using System.Collections.Generic;
 
 namespace PepesComing {
@@ -10,104 +11,69 @@ namespace PepesComing {
         private readonly Element sidebar;
         private Viewport prevViewport;
 
-        private Window window;
+        //private Window window;
 
-        private readonly Button wallFollower;
-        private bool prevWallFollower = false;
-        public bool WallFollower { get; private set; }
+        public Button WallFollower { get; private set; }
+        public Button RandomMouser { get; private set; }
+        public Button Tremaux { get; private set; }
+        public Button Recursive { get; private set; }
+        public Button GenerateMaze { get; private set; }
 
-        private readonly Button randomMouser;
-        private bool prevRandomMouser = false;
-        public bool RandomMouser { get; private set; }
+        public Button Back { get; private set; }
+        public Button Play { get; private set; }
+        public Button Forward { get; private set; }
 
-        private readonly Button tremaux;
-        private bool prevTremaux = false;
-        public bool Tremaux { get; private set; }
-
-        private readonly Button recursive;
-        private bool prevRecursive = false;
-        public bool Recursive { get; private set; }
-
-        private readonly Button generateMaze;
-        private bool prevGenerateMaze = false;
-        public bool GenerateMaze { get; private set; }
-
-        private readonly Button step;
-        private bool prevStep = false;
-        public bool Step { get; private set; }
-
-        public UiManager(Sprites sprites) {
+        public UiManager() {
             elements = new List<Element>();
 
-            Text title = new Text("Maze Solver", new Rectangle(0, 0, 200, 100), Color.White, sprites);
+            Text title = new Text("Maze Solver");
 
-            VerticalLayout algorithms = new VerticalLayout(new Rectangle(0, 0, 200, 430), true, 10, sprites);
-            wallFollower = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Wall Follower", sprites));
-            randomMouser = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Random Mouser", sprites));
-            tremaux = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Tremaux", sprites));
-            recursive = (new Button(new Rectangle(0, 0, 0, 0), Color.IndianRed, Color.White, "Recursive", sprites));
+            // Algorithums
+            VerticalLayout algorithms = new VerticalLayout(height: 430, padding: 10);
+            WallFollower = new Button("Wall Follower");
+            RandomMouser = new Button("Random Mouser");
+            Tremaux = new Button("Tremaux");
+            Recursive = new Button("Recursive");
+            algorithms.AddElements(WallFollower, RandomMouser, Tremaux, Recursive);
 
-            algorithms.AddElement(wallFollower);
-            algorithms.AddElement(randomMouser);
-            algorithms.AddElement(tremaux);
-            algorithms.AddElement(recursive);
+            GenerateMaze = new Button("Generate new maze", height: 100);
 
-            generateMaze = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites);
-            step= new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Step", sprites);
+            Back = new Button("<");
+            Play = new Button("Play");
+            Forward = new Button(">");
+            HorizontalLayout stepControl = new HorizontalLayout(height: 100, padding: 10);
+            stepControl.AddElements(Back, Play, Forward);
 
-            VerticalLayout layout = new VerticalLayout(new Rectangle(200, 200, 200, 300), false, 0, sprites);
-            layout.AddElement(title);
-            layout.AddElement(algorithms);
-            layout.AddElement(generateMaze);
-            layout.AddElement(step);
+            VerticalLayout layout = new VerticalLayout(maximize: false, padding: 10);
+            layout.AddElements(title, algorithms, GenerateMaze, stepControl);
 
-            Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), sprites.Grey, sprites);
-            sidebar = panel;
+            sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprites.Grey);
             elements.Add(sidebar);
 
-            window = new Window(new Rectangle(150, 200, 400, 200), sprites);
-            elements.Add(window);
-        }
-
-        public void AddElement(Element element) {
-            elements.Add(element);
+            elements.ForEach(e => e.CalculateLayout());
         }
 
         public bool Update(Controller controller, GraphicsDevice graphics) {
-            if (graphics.Viewport.Height != prevViewport.Height && graphics.Viewport.Width != prevViewport.Width) {
-                sidebar.Position = new Rectangle(graphics.Viewport.Width - 300, 0, 300, graphics.Viewport.Height);
+            if (graphics.Viewport.Height != prevViewport.Height ||
+                graphics.Viewport.Width != prevViewport.Width) {
+
+                sidebar.X = graphics.Viewport.Width - sidebar.Width;
+                sidebar.Height = graphics.Viewport.Height;
+                sidebar.CalculateLayout();
             }
 
-            bool uiHandled = false;
+            bool handled = false;
             foreach (Element e in elements) {
-                bool handled = e.Update(controller);
-                if (handled) uiHandled = true;
+                if (e.Update(controller)) handled = true;
             }
-
-            GenerateMaze = prevGenerateMaze == false && generateMaze.Clicked;
-            WallFollower = prevWallFollower == false && wallFollower.Clicked;
-            RandomMouser = prevRandomMouser == false && randomMouser.Clicked;
-            Tremaux = prevTremaux == false && tremaux.Clicked;
-            Recursive = prevRecursive == false && recursive.Clicked;
-
-            if (GenerateMaze) {
-                window.Show = true;
-            }
-
-            prevGenerateMaze = generateMaze.Clicked;
-            prevWallFollower = wallFollower.Clicked;
-            prevRandomMouser = randomMouser.Clicked;
-            prevTremaux = tremaux.Clicked;
-            prevRecursive = recursive.Clicked;
-            prevStep = step.Clicked;
 
             prevViewport = graphics.Viewport;
-            return uiHandled;
+            return handled;
         }
 
-        public void Render(GraphicsDevice graphics, SpriteBatch spriteBatch, Sprites sprites) {
+        public void Render(GraphicsDevice graphics, SpriteBatch spriteBatch) {
             foreach (Element e in elements) {
-                e.RenderElement(spriteBatch, sprites);
+                e.RenderElement(spriteBatch);
             }
         }
     }

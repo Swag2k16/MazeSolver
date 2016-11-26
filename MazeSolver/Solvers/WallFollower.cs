@@ -10,7 +10,6 @@ namespace PepesComing
         }
 
         public override void Step() {
-
             if (!Done()) {
                 var ahead = LookAhead(ref world);
                 var left = LookLeft(ref world);

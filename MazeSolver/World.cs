@@ -9,8 +9,8 @@ namespace PepesComing {
 
     public class World {
         // World dimensions should follow x % 4 == 3
-        public static int width = 515;
-        public static int height = 515;
+        public static int width = 3 * 4 + 3;
+        public static int height = 3 * 4 + 3;
 
         private readonly Cell[,] Grid = new Cell[width, height];
         public bool Generated { get; private set; }
@@ -59,8 +59,8 @@ namespace PepesComing {
         }
 
         //Render a tile to the spritebatch
-        public void RenderTile(int x, int y, SpriteBatch spriteBatch, Sprites sprites) {
-            spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: new Rectangle(x * 16, y * 16, 16, 16), sourceRectangle: GetCell(x, y).Tile, color: Color.White);
+        public void RenderTile(int x, int y, SpriteBatch spriteBatch) {
+            spriteBatch.Draw(texture: Sprites.Sheet, destinationRectangle: new Rectangle(x * 16, y * 16, 16, 16), sourceRectangle: GetCell(x, y).Tile, color: Microsoft.Xna.Framework.Color.White);
         }
 
         //Get cells (if any) two units away (in the cardinal directions)

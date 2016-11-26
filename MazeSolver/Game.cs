@@ -19,7 +19,6 @@ namespace PepesComing {
         private Camera camera;
         private Controller controller;
         private World world;
-        private Sprites sprites;
         private UiManager ui;
 
         // Solver
@@ -30,7 +29,7 @@ namespace PepesComing {
         private double elapsedTime;
         private int fps;
 
-        public static readonly bool DEBUG_STEP = true;
+        private bool play = false;
 
         public Game() {
             Content.RootDirectory = "Content";
@@ -58,10 +57,60 @@ namespace PepesComing {
 
             // Load sprites
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            sprites = new Sprites(this);
+            Sprites.Load(this);
 
             // Setup Ui
-            ui = new UiManager(sprites);
+            ui = new UiManager();
+            
+            // Register generate maze button
+            ui.GenerateMaze.AddClickEvent(() => {
+                if (solver != null) {
+                    solver.Dispose();
+                    solver = null;
+                }
+                world.RegenerateMaze();
+            });
+
+
+            // Register step buttons
+            ui.Forward.AddClickEvent(() => {
+                if (solver != null && !play) {
+                    solver.Step();
+                }
+            });
+
+            ui.Back.AddClickEvent(() => {
+                // TODO: add backwards handling
+            });
+
+            ui.Play.AddClickEvent(() => {
+                play = !play;
+            });
+
+            // Register solver button handlers
+            ui.WallFollower.AddClickEvent(() => {
+                if (solver != null) solver.Dispose();
+                solver = new WallFollower(ref world);
+                if (play) solver.Start();
+            });
+
+            ui.RandomMouser.AddClickEvent(() => {
+                if (solver != null) solver.Dispose();
+                solver = new RandomMouser(ref world);
+                if (play) solver.Start();
+            });
+
+            ui.Tremaux.AddClickEvent(() => {
+                if (solver != null) solver.Dispose();
+                solver = new Tremaux(ref world);
+                if (play) solver.Start();
+            });
+
+            ui.Recursive.AddClickEvent(() => {
+                if (solver != null) solver.Dispose();
+                solver = new Recursive(ref world);
+                if (play) solver.Start();
+            });
         }
 
         protected override void LoadContent() {
@@ -69,7 +118,7 @@ namespace PepesComing {
 
         protected override void UnloadContent() {
             spriteBatch.Dispose();
-            sprites.Dispose();
+            Sprites.Dispose();
         }
 
         protected override void Draw(GameTime gameTime) {
@@ -79,7 +128,7 @@ namespace PepesComing {
             frames += 1;
             Window.Title = "FPS: " + fps.ToString();
 
-            GraphicsDevice.Clear(Color.LightSkyBlue);
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.LightSkyBlue);
 
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
             for (int x = camera.Viewport.X; x <= camera.Viewport.Width + camera.Viewport.X; x++) {
@@ -87,9 +136,9 @@ namespace PepesComing {
                     if (x >= 0 & x < World.width & y >= 0 & y < World.height) {
                         if (solver != null && solver.Solution[x, y]) {
                             Rectangle drawPositon = new Rectangle(x * 16, y * 16, 16, 16);
-                            spriteBatch.Draw(texture: sprites.Red, destinationRectangle: drawPositon, color: Color.White);
+                            spriteBatch.Draw(texture: Sprites.Red, destinationRectangle: drawPositon, color: Microsoft.Xna.Framework.Color.White);
                         } else {
-                            world.RenderTile(x, y, spriteBatch, sprites);
+                            world.RenderTile(x, y, spriteBatch);
                         }
                     }
                 }
@@ -99,27 +148,26 @@ namespace PepesComing {
 
             if (solver != null && solver.GetType().IsSubclassOf(typeof(SolverMouse))) {
                 SolverMouse solverMouse = (SolverMouse)solver;
-                Console.WriteLine(solverMouse.Mouse.position);
                 drawPosition = new Rectangle((int)solverMouse.Mouse.position.X * 16, (int)solverMouse.Mouse.position.Y * 16, 16, 16);
                 switch (solverMouse.Mouse.facing) {
                     case Compass.North:
-                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Color.White);
+                        spriteBatch.Draw(texture: Sprites.Sheet, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowNorth, color: Microsoft.Xna.Framework.Color.White);
                         break;
                     case Compass.East:
-                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Color.White);
+                        spriteBatch.Draw(texture: Sprites.Sheet, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowEast, color: Microsoft.Xna.Framework.Color.White);
                         break;
                     case Compass.South:
-                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Color.White);
+                        spriteBatch.Draw(texture: Sprites.Sheet, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowSouth, color: Microsoft.Xna.Framework.Color.White);
                         break;
                     case Compass.West:
-                        spriteBatch.Draw(texture: sprites.Texture, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Color.White);
+                        spriteBatch.Draw(texture: Sprites.Sheet, destinationRectangle: drawPosition, sourceRectangle: Sprites.ArrowWest, color: Microsoft.Xna.Framework.Color.White);
                         break;
                 }
             }
             spriteBatch.End();
 
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
-            ui.Render(GraphicsDevice, spriteBatch, sprites);
+            ui.Render(GraphicsDevice, spriteBatch);
             spriteBatch.End();
         }
 
@@ -146,35 +194,6 @@ namespace PepesComing {
                 camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
             }
 
-            // Regenerate maze
-            if (ui.GenerateMaze) {
-                if (solver != null) {
-                    solver.Dispose();
-                    solver = null;
-                }
-                world.RegenerateMaze();
-            }
-
-            // Step
-            if (ui.Step && solver != null && DEBUG_STEP) {
-                solver.Step();
-            }
-
-            // Solve maze
-            if (ui.WallFollower) {
-                if (solver != null) solver.Dispose();
-                solver = new WallFollower(ref world);
-                Console.Clear();
-            } else if (ui.RandomMouser) {
-                if (solver != null) solver.Dispose();
-                solver = new RandomMouser(ref world);
-            } else if (ui.Tremaux) {
-                if (solver != null) solver.Dispose();
-                solver = new Tremaux(ref world);
-            } else if (ui.Recursive) {
-                if (solver != null) solver.Dispose();
-                solver = new Recursive(ref world);
-            } 
             base.Update(gameTime);
         }
     }
