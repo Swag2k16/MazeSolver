@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
+
 namespace PepesComing {
 
     public class Controller {
@@ -72,6 +74,18 @@ namespace PepesComing {
         // Position of the mouse relative to the window
         public Vector2 MousePosition {
             get { return mouseState.Position.ToVector2(); }
+        }
+
+        public Vector2 MouseDelta {
+            get { return previousMouseState.Position.ToVector2() - mouseState.Position.ToVector2(); }
+        }
+
+        public void Reset() {
+            Console.WriteLine("Reset");
+            Console.WriteLine(previousMouseState.Position);
+            Console.WriteLine(mouseState.Position);
+            //previousMouseState = new MouseState();
+            //mouseState = new MouseState();
         }
 
         public void Update(KeyboardState keyboardState, MouseState mouseState, Camera camera) {

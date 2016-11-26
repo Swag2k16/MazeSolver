@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+
 namespace PepesComing {
 
     public class Camera {
@@ -10,6 +12,7 @@ namespace PepesComing {
         public float Zoom { get; private set; }
         private Vector2 origin;
         private Vector2 position;
+
         private Vector2 dragStart;
         private Vector2 prevPosition;
 
@@ -38,6 +41,9 @@ namespace PepesComing {
             Zoom = 1;
             origin = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
             position = Vector2.Zero;
+
+            dragStart = Vector2.Zero;
+            prevPosition = Vector2.Zero;
         }
 
         public Matrix GetViewMatrix() {
@@ -75,10 +81,16 @@ namespace PepesComing {
 
             // Drag camera
             if (controller.MouseBeginDown) {
-                dragStart = controller.MousePosition;
-                prevPosition = position;
-            } else if (controller.MouseDown) {
-                position = prevPosition + (dragStart - controller.MousePosition) / Zoom;
+                //dragStart = controller.MousePosition;
+                //prevPosition = position;
+                //Console.WriteLine("Mouse start");
+            }
+
+            if (controller.MouseDown) {
+                //Console.WriteLine(dragStart);
+                //Console.WriteLine(prevPosition);
+                position += (controller.MouseDelta) / Zoom;
+                prevPosition = controller.MousePosition;
             }
 
             // Update camera viewport
