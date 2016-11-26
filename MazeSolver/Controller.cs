@@ -76,16 +76,9 @@ namespace PepesComing {
             get { return mouseState.Position.ToVector2(); }
         }
 
+        // Position diffrence between two frames
         public Vector2 MouseDelta {
             get { return previousMouseState.Position.ToVector2() - mouseState.Position.ToVector2(); }
-        }
-
-        public void Reset() {
-            Console.WriteLine("Reset");
-            Console.WriteLine(previousMouseState.Position);
-            Console.WriteLine(mouseState.Position);
-            //previousMouseState = new MouseState();
-            //mouseState = new MouseState();
         }
 
         public void Update(KeyboardState keyboardState, MouseState mouseState, Camera camera) {

@@ -35,11 +35,11 @@ namespace PepesComing {
         public Rectangle Viewport { get; private set; }
 
 
-        public Camera(ref Viewport viewport) {
-            windowViewport = viewport;
+        public Camera(ref Viewport windowViewport) {
+            this.windowViewport = windowViewport;
             Viewport = new Rectangle();
             Zoom = 1;
-            origin = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
+            origin = new Vector2(windowViewport.Width / 2f, windowViewport.Height / 2f);
             position = Vector2.Zero;
 
             dragStart = Vector2.Zero;
@@ -79,16 +79,7 @@ namespace PepesComing {
                 Zoom = MathHelper.Clamp(Zoom - ZoomSpeed, 0.5f, 2f);
             }
 
-            // Drag camera
-            if (controller.MouseBeginDown) {
-                //dragStart = controller.MousePosition;
-                //prevPosition = position;
-                //Console.WriteLine("Mouse start");
-            }
-
             if (controller.MouseDown) {
-                //Console.WriteLine(dragStart);
-                //Console.WriteLine(prevPosition);
                 position += (controller.MouseDelta) / Zoom;
                 prevPosition = controller.MousePosition;
             }
