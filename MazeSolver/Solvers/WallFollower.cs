@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using static PepesComing.Utils;
-using System;
 using PepesComing.Solvers;
 
-namespace PepesComing {
+namespace PepesComing
+{
 
     public class WallFollower : SolverMouse {
 

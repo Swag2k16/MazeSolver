@@ -78,11 +78,11 @@ namespace PepesComing {
                 if (handled) uiHandled = true;
             }
 
-            GenerateMaze = (prevGenerateMaze == false && generateMaze.Clicked);
-            WallFollower = (prevWallFollower == false && wallFollower.Clicked);
-            RandomMouser = (prevRandomMouser == false && randomMouser.Clicked);
-            Tremaux = (prevTremaux == false && tremaux.Clicked);
-            Recursive = (prevRecursive == false && recursive.Clicked);
+            GenerateMaze = prevGenerateMaze == false && generateMaze.Clicked;
+            WallFollower = prevWallFollower == false && wallFollower.Clicked;
+            RandomMouser = prevRandomMouser == false && randomMouser.Clicked;
+            Tremaux = prevTremaux == false && tremaux.Clicked;
+            Recursive = prevRecursive == false && recursive.Clicked;
 
             if (GenerateMaze) {
                 window.Show = true;

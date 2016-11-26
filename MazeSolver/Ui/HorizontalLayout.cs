@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace PepesComing.Ui {
+namespace PepesComing.Ui
+{
     public class HorizontalLayout : Element {
         private List<Element> elements;
         private Rectangle position;

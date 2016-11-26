@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace PepesComing.Ui {
+namespace PepesComing.Ui
+{
     public class VerticalLayout : Element {
         private readonly List<Element> elements;
         private Rectangle position;

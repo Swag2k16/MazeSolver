@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
 
-namespace PepesComing.Ui {
+namespace PepesComing.Ui
+{
     class Text : Element {
         private string text;
         private readonly Color color;

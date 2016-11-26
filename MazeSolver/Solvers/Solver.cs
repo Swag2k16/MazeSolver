@@ -1,11 +1,9 @@
-using Microsoft.Xna.Framework;
 using PepesComing.Solvers;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace PepesComing {
+namespace PepesComing
+{
     public abstract class Solver {
         protected Thread solveThread;
         protected World world;

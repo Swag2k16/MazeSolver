@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace PepesComing.Ui {
+namespace PepesComing.Ui
+{
     class Panel : Element {
         private Texture2D drawRect;
         private Element element;
