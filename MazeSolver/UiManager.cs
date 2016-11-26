@@ -32,6 +32,10 @@ namespace PepesComing {
         private bool prevGenerateMaze = false;
         public bool GenerateMaze { get; private set; }
 
+        private readonly Button step;
+        private bool prevStep = false;
+        public bool Step { get; private set; }
+
         public UiManager(Sprites sprites) {
             elements = new List<Element>();
 
@@ -49,11 +53,13 @@ namespace PepesComing {
             algorithms.AddElement(recursive);
 
             generateMaze = new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Generate new maze", sprites);
+            step= new Button(new Rectangle(0, 0, 200, 100), Color.CadetBlue, Color.White, "Step", sprites);
 
             VerticalLayout layout = new VerticalLayout(new Rectangle(200, 200, 200, 300), false, 0, sprites);
             layout.AddElement(title);
             layout.AddElement(algorithms);
             layout.AddElement(generateMaze);
+            layout.AddElement(step);
 
             Panel panel = new Panel(layout, 10, new Rectangle(200, 200, 200, 300), sprites.Grey, sprites);
             sidebar = panel;
@@ -93,6 +99,7 @@ namespace PepesComing {
             prevRandomMouser = randomMouser.Clicked;
             prevTremaux = tremaux.Clicked;
             prevRecursive = recursive.Clicked;
+            prevStep = step.Clicked;
 
             prevViewport = graphics.Viewport;
             return uiHandled;

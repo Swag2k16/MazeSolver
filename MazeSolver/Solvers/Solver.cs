@@ -39,8 +39,12 @@ namespace PepesComing
             // Start solving maze
             solveThread = new Thread(Solve);
             solveThread.IsBackground = true;
-            solveThread.Start();
             this.world = world;
+            if (!Game.DEBUG_STEP) Start();
+        }
+
+        public void Start() {
+            solveThread.Start();
         }
 
         private void Solve() {
