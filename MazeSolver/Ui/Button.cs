@@ -10,13 +10,13 @@ namespace PepesComing.Ui {
         private readonly Panel panel;
         private readonly Text text;
 
-        public Button(string textString, int x = 0, int y = 0, int width = 0, int height = 0, Color textColor = Color.WHITE, Sprite buttonUp = Sprite.RED, Sprite buttonDown = Sprite.RED)
+        public Button(string textString, int x = 0, int y = 0, int width = 0, int height = 0, Color textColor = Color.WHITE, Sprite buttonUp = Sprite.RED, Sprite buttonDown = Sprite.DARK_RED)
             : base(x, y, width, height, true) {
             this.buttonUp = buttonUp;
             this.buttonDown = buttonDown;
 
             text = new Text(textString, color: textColor);
-            panel = new Panel(text, 0, buttonUp.Texture());
+            panel = new Panel(text, 0, buttonUp);
         }
 
         public override void CalculateLayout() {
@@ -54,11 +54,11 @@ namespace PepesComing.Ui {
         }
 
         protected override void MouseDown() {
-            panel.Sprite = buttonDown.Texture();
+            panel.Sprite = buttonDown;
         }
 
         protected override void MouseUp() {
-            panel.Sprite = buttonUp.Texture();
+            panel.Sprite = buttonUp;
 
             // Execute click handlers
             clickHandlers.Invoke();
