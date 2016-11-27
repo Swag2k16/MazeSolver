@@ -47,7 +47,7 @@ namespace PepesComing {
             VerticalLayout layout = new VerticalLayout(maximize: false, padding: 10);
             layout.AddElements(title, algorithms, GenerateMaze, stepControl);
 
-            sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprites.Grey);
+            sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
             elements.ForEach(e => e.CalculateLayout());
