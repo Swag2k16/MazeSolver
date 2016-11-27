@@ -5,7 +5,18 @@ namespace PepesComing {
     public static class Utils {
 
         public enum Compass {
-            North, South, East, West
+            North,
+            East,
+            South,
+            West,
+        }
+
+        public static Compass Left(this Compass direction) {
+            return (Compass)(direction > 0 ? (int)direction - 1 : 3);
+        }
+
+        public static Compass Right(this Compass direction) {
+            return (Compass)((int)direction < 3 ? (int)direction + 1 : 0);
         }
 
         // Defines a generic struct for the four cardinal directions
