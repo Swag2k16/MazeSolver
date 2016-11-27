@@ -61,7 +61,7 @@ namespace PepesComing {
 
             // Setup Ui
             ui = new UiManager();
-            
+
             // Register generate maze button
             ui.GenerateMaze.AddClickEvent(() => {
                 if (solver != null) {
@@ -187,14 +187,26 @@ namespace PepesComing {
                 elapsedTime = 0;
             }
 
-            // Update systems
-            controller.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
+            // Update systems if window has focus
+            if (IsActive) {
+                controller.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
 
-            if (!ui.Update(controller, GraphicsDevice)) {
-                camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
+                if (!ui.Update(controller, GraphicsDevice)) {
+                    camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
+                }
             }
 
+
             base.Update(gameTime);
+        }
+
+        protected override void OnActivated(object sender, EventArgs args) {
+            // Update the controller when window gains focus to clear position of the mouse when the windows focus changed
+            // which would cause the world to jump out of frame.
+            if (controller != null && camera != null) {
+                controller.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
+            }
+            base.OnActivated(sender, args);
         }
     }
 }
