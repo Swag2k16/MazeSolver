@@ -25,6 +25,23 @@ namespace PepesComing {
             public T East;
             public T South;
             public T West;
+
+            public void Set(Compass direction, T value) {
+                switch (direction) {
+                    case Compass.North:
+                        North = value;
+                        break;
+                    case Compass.East:
+                        East = value;
+                        break;
+                    case Compass.South:
+                        South = value;
+                        break;
+                    case Compass.West:
+                        West = value;
+                        break;
+                }
+            }
         }
 
         public struct Directional<T> {
@@ -34,23 +51,6 @@ namespace PepesComing {
             public Directional(Compass direction, T value) {
                 Direction = direction;
                 Value = value;
-            }
-        }
-
-        public static void Set<T>(this Cardinal<T> card, Compass direction, T value) {
-            switch (direction) {
-                case Compass.North:
-                    card.North = value;
-                    break;
-                case Compass.East:
-                    card.East = value;
-                    break;
-                case Compass.South:
-                    card.South = value;
-                    break;
-                case Compass.West:
-                    card.West = value;
-                    break;
             }
         }
 

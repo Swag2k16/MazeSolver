@@ -16,7 +16,7 @@ namespace PepesComing.Ui {
             this.buttonDown = buttonDown;
 
             text = new Text(textString, color: textColor);
-            panel = new Panel(text, 0, buttonUp);
+            panel = new Panel(x, y, width, height, text, 0, buttonUp);
         }
 
         public override void CalculateLayout() {

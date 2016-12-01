@@ -35,11 +35,13 @@ namespace PepesComing.Solvers
 
                 if (aheadBlocked && !leftBlocked && rightBlocked) {
                     TurnLeft();
+                    Move();
                     return;
                 }
 
                 if (aheadBlocked && leftBlocked && !rightBlocked) {
                     TurnRight();
+                    Move();
                     return;
                 }
 
@@ -63,14 +65,13 @@ namespace PepesComing.Solvers
                         // Mark exit and entrance
                         junctions[(int)mouse.position.X, (int)mouse.position.Y] = new Cardinal<mark>();
                         junctions[(int)mouse.position.X, (int)mouse.position.Y].Set(mouse.facing, mark.X);
-                        Compass entrance = RandomDirection();
+                        Compass entrance = RandomDirection(aheadBlocked, rightBlocked, leftBlocked);
                         junctions[(int)mouse.position.X, (int)mouse.position.Y].Set(entrance, mark.N);
 
                         mouse.facing = entrance;
                         Move();
                     } else {
                         // Mark exit and turn around
-                        junctions[(int)mouse.position.X, (int)mouse.position.Y] = new Cardinal<mark>();
                         junctions[(int)mouse.position.X, (int)mouse.position.Y].Set(mouse.facing, mark.X);
                         TurnLeft();
                         TurnLeft();
@@ -103,28 +104,28 @@ namespace PepesComing.Solvers
 
         }
 
-        private Compass RandomDirection() {
+        private Compass RandomDirection(bool aheadBlocked, bool rightBlocked, bool leftBlocked) {
             List<Compass> set = new List<Compass>();
             switch (mouse.facing) {
                 case Compass.North:
-                    set.Add(Compass.East);
-                    set.Add(Compass.South);
-                    set.Add(Compass.West);
+                    if (!rightBlocked) set.Add(Compass.East);
+                    if (!aheadBlocked) set.Add(Compass.North);
+                    if (!leftBlocked) set.Add(Compass.West);
                     break;
                 case Compass.East:
-                    set.Add(Compass.North);
-                    set.Add(Compass.South);
-                    set.Add(Compass.West);
+                    if (!leftBlocked) set.Add(Compass.North);
+                    if (!rightBlocked) set.Add(Compass.South);
+                    if (!aheadBlocked) set.Add(Compass.East);
                     break;
                 case Compass.South:
-                    set.Add(Compass.North);
-                    set.Add(Compass.East);
-                    set.Add(Compass.West);
+                    if (!aheadBlocked) set.Add(Compass.South);
+                    if (!leftBlocked) set.Add(Compass.East);
+                    if (!rightBlocked) set.Add(Compass.West);
                     break;
                 case Compass.West:
-                    set.Add(Compass.North);
-                    set.Add(Compass.East);
-                    set.Add(Compass.South);
+                    if (!rightBlocked) set.Add(Compass.North);
+                    if (!aheadBlocked) set.Add(Compass.West);
+                    if (!leftBlocked) set.Add(Compass.South);
                     break;
             }
 

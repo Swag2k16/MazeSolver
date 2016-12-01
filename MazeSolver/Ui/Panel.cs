@@ -1,36 +1,41 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace PepesComing.Ui {
     class Panel : Element {
-        public Sprite Sprite { private get; set; }
+        public Sprite Sprite {
+            set {
+                box.Sprite = value;
+            }
+        }
         private readonly Element element;
         private readonly int padding;
+        private readonly Box box;
 
         public Panel(int x, int y, int width, int height, Element element, int padding, Sprite texture)
             : base(x, y, width, height, true) {
             this.element = element;
             this.padding = padding;
+            box = new Box(x, y, width, height, texture);
             Sprite = texture;
         }
 
-        public Panel(Element element, int padding, Sprite texture)
-            : base(true) {
-            this.element = element;
-            Sprite = texture;
-        }
+
 
         public override void RenderElement(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(Sprite.Texture(), destinationRectangle: new Rectangle(X, Y, Width, Height), sourceRectangle: new Rectangle(0, 0, 16, 16), color: Microsoft.Xna.Framework.Color.White);
+            box.RenderElement(spriteBatch);
             element.RenderElement(spriteBatch);
         }
 
         public override bool Update(Controller controller) {
             bool handled = false;
             if (element.Update(controller)) handled = true;
+            if (box.Update(controller)) handled = true;
             if (base.Update(controller)) handled = true;
             return handled;
         }
+
 
         public override void CalculateLayout() {
             element.X = X + padding;
@@ -38,6 +43,12 @@ namespace PepesComing.Ui {
             element.Width = Width - padding * 2;
             element.Height = Height - padding * 2;
             element.CalculateLayout();
+
+            box.X = X;
+            box.Y = Y;
+            box.Width = Width;
+            box.Height = Height;
+            box.CalculateLayout();
         }
     }
 }
