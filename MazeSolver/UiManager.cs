@@ -50,8 +50,11 @@ namespace PepesComing {
             sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
-            Slider slider = new Slider(100, 100, 200, 50);
-            elements.Add(slider);
+            Slider slider = new Slider();
+
+
+            Window window = new Window(200, 200, 500, 500, "Test", slider);
+            elements.Add(window);
 
             elements.ForEach(e => e.CalculateLayout());
         }

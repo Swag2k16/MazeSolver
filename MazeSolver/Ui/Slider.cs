@@ -18,7 +18,7 @@ namespace PepesComing.Ui {
         private int increment;
         private int currentValue;
 
-        public Slider(int x, int y, int width, int height, int minValue = 1, int maxValue = 10, int increment = 1, int currentValue = 5)
+        public Slider(int x = 0, int y = 0, int width = 0, int height = 0, int minValue = 1, int maxValue = 10, int increment = 1, int currentValue = 5)
             : base(x, y, width, height, true) {
             this.minValue = minValue;
             this.maxValue = maxValue;
@@ -26,10 +26,24 @@ namespace PepesComing.Ui {
             this.currentValue = currentValue;
 
             rail = new Box(x, y + height / 2 - RailHeight / 2, width, RailHeight, Sprite.RED);
-            handle = new Box(x, y, HandleWidth, height, Sprite.GREY);
+            handle = new Box(x, y, HandleWidth, height, Sprite.DARK_RED);
+        }
+
+        public override void CalculateLayout() {
+            base.CalculateLayout();
+            rail.X = X;
+            rail.Y = Y+Height/2-RailHeight/2;
+            rail.Width = Width;
+            rail.Height = RailHeight;
+            handle.X = X;
+            handle.Y = Y;
+            handle.Width = HandleWidth;
+            handle.Height = Height;
+
         }
 
         public override void RenderElement(SpriteBatch spriteBatch) {
+            Console.WriteLine("{0},{1},{2},{3}", X, Y, Width, Height);
             rail.RenderElement(spriteBatch);
             handle.RenderElement(spriteBatch);
         }

@@ -1,55 +1,36 @@
-﻿// using Microsoft.Xna.Framework;
-// using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
+using PepesComing.Ui;
 
-// namespace PepesComing.Ui
-// {
-//     class Window : Element {
+public class Window : Element {
 
-//         private Panel titlePanel;
-//         private Button close;
+    public static int TITLE_HEIGHT = 30;
+    public static int CLOSE_WIDTH = 30;
 
-//         public bool Show { get; set; }
+    private Panel title;
+    private Button close;
+    private Panel content;
 
-//         private Rectangle position;
-//         public override Rectangle Position {
-//             get {
-//                 return position;
-//             }
+    public Window(int x, int y, int width, int height, string name, Element windowContent)
+        : base(x, y, width, height, true) {
+        Text text = new Text(name);
+        title = new Panel(x, y, width, TITLE_HEIGHT, text, 0, PepesComing.Sprite.DARK_RED);
+        close = new Button("X", x + width - CLOSE_WIDTH, y, CLOSE_WIDTH, TITLE_HEIGHT);
+        Layout layout = new VerticalLayout(width: width, height: height - TITLE_HEIGHT, padding:30);
+        layout.AddElements(windowContent);
+        content = new Panel(x, y + TITLE_HEIGHT, width, height - TITLE_HEIGHT, layout, 0, PepesComing.Sprite.GREY);
+    }
 
-//             set {
-//                 position = value;
-//             }
-//         }
+    public override void CalculateLayout() {
+        base.CalculateLayout();
+        title.CalculateLayout();
+        close.CalculateLayout();
+        content.CalculateLayout();
+    }
 
-//         public Window(Rectangle position, Sprites sprites) : base(sprites) {
-//             this.position = position;
-
-//             Rectangle titleRect = new Rectangle(position.X, position.Y, Position.Width, 50);
-//             Text titleText = new Ui.Text("New Maze", titleRect, Color.White, sprites);
-//             close = new Button(new Rectangle(0, 0, 50, 50), Color.Red, Color.White, "X", sprites);
-//             HorizontalLayout layout = new HorizontalLayout(titleRect, false, 10, sprites);
-//             layout.AddElement(titleText);
-//             layout.AddElement(close);
-
-//             VerticalLayout vlayout = new VerticalLayout(position, false, 10, sprites);
-//             vlayout.AddElement(layout);
-
-//             titlePanel = new Panel(vlayout, 0, position, sprites.Grey, sprites);
-//         }
-
-//         public override void RenderElement(SpriteBatch spriteBatch, Sprites sprites) {
-//             if (Show) titlePanel.RenderElement(spriteBatch, sprites);
-//         }
-
-//         public override bool Update(Controller controller) {
-//             bool handled = false;
-
-//             if (close.Clicked) {
-//                 Show = false;
-//             }
-
-//             if (Show) handled = titlePanel.Update(controller);
-//             return handled;
-//         }
-//     }
-// }
+    public override void RenderElement(SpriteBatch spriteBatch) {
+        title.RenderElement(spriteBatch);
+        close.RenderElement(spriteBatch);
+        content.RenderElement(spriteBatch);
+    }
+}
