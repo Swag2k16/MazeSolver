@@ -20,6 +20,9 @@ namespace PepesComing {
         private const Keys REGENERATE_MAZE = Keys.R;
         private const Keys SOLVE_MAZE = Keys.P;
 
+
+
+
         public bool CameraUp {
             get { return keyboardState.IsKeyDown(CAMERA_KEY_UP); }
         }
@@ -80,6 +83,17 @@ namespace PepesComing {
         public Vector2 MouseDelta {
             get { return previousMouseState.Position.ToVector2() - mouseState.Position.ToVector2(); }
         }
+
+        private static Controller instance;
+
+        public static Controller Instance {
+            get {
+                if (instance == null) instance = new Controller();
+                return instance;
+            }
+           
+        }
+
 
         public void Update(KeyboardState keyboardState, MouseState mouseState, Camera camera) {
             // Update keyboard/mouse states

@@ -40,15 +40,15 @@ namespace PepesComing.Ui {
             }
         }
 
-        public override bool Update(Controller controller) {
+        public override bool Update() {
             bool handled = false;
             elements.ForEach(e => {
-                if (e.Update(controller)) {
+                if (e.Update()) {
                     handled = true;
                 }
             });
 
-            if (base.Update(controller)) handled = true;
+            if (base.Update()) handled = true;
             return handled;
         }
 

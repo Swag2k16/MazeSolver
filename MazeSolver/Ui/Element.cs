@@ -33,22 +33,22 @@ namespace PepesComing.Ui {
 
         public virtual void CalculateLayout() { }
 
-        public virtual bool Update(Controller controller) {
+        public virtual bool Update() {
             // If the component accepts mouse input
             if (handleMouse) {
 
                 // Mouse held down
-                if (prevDown && controller.MouseDown) {
+                if (prevDown && Controller.Instance.MouseDown) {
                     MouseDown();
                     return true;
                 }
 
                 // Mouse begin mouse down
-                if (controller.MouseBeginDown &&
-                    controller.MousePosition.X >= X &&
-                    controller.MousePosition.Y >= Y &&
-                    controller.MousePosition.X <= X + Width &&
-                    controller.MousePosition.Y <= Y + Height) {
+                if (Controller.Instance.MouseBeginDown &&
+                    Controller.Instance.MousePosition.X >= X &&
+                    Controller.Instance.MousePosition.Y >= Y &&
+                    Controller.Instance.MousePosition.X <= X + Width &&
+                    Controller.Instance.MousePosition.Y <= Y + Height) {
 
                     prevDown = true;
                     MouseDown();
@@ -56,7 +56,7 @@ namespace PepesComing.Ui {
                 }
 
                 // Mouse released
-                if (prevDown && controller.MouseUp) {
+                if (prevDown && Controller.Instance.MouseUp) {
                     prevDown = false;
                     MouseUp();
                     return true;

@@ -50,6 +50,9 @@ namespace PepesComing {
             sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
+            Slider slider = new Slider(100, 100, 200, 50);
+            elements.Add(slider);
+
             elements.ForEach(e => e.CalculateLayout());
         }
 
@@ -64,7 +67,7 @@ namespace PepesComing {
 
             bool handled = false;
             foreach (Element e in elements) {
-                if (e.Update(controller)) handled = true;
+                if (e.Update()) handled = true;
             }
 
             prevViewport = graphics.Viewport;

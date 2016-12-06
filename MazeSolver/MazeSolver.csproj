@@ -112,6 +112,7 @@
     <Compile Include="Ui\Element.cs" />
     <Compile Include="Ui\HorizontalLayout.cs" />
     <Compile Include="Ui\Layout.cs" />
+    <Compile Include="Ui\Slider.cs" />
     <Compile Include="Ui\VerticalLayout.cs" />
     <Compile Include="Ui\Panel.cs" />
     <Compile Include="Ui\Text.cs" />

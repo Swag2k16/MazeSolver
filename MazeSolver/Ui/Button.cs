@@ -45,11 +45,11 @@ namespace PepesComing.Ui {
             clickHandlers += clickHandler;
         }
 
-        public override bool Update(Controller controller) {
+        public override bool Update() {
             bool handled = false;
-            if (text.Update(controller)) handled = true;
-            if (panel.Update(controller)) handled = true;
-            if (base.Update(controller)) handled = true;
+            if (text.Update()) handled = true;
+            if (panel.Update()) handled = true;
+            if (base.Update()) handled = true;
             return handled;
         }
 

@@ -28,11 +28,11 @@ namespace PepesComing.Ui {
             element.RenderElement(spriteBatch);
         }
 
-        public override bool Update(Controller controller) {
+        public override bool Update() {
             bool handled = false;
-            if (element.Update(controller)) handled = true;
-            if (box.Update(controller)) handled = true;
-            if (base.Update(controller)) handled = true;
+            if (element.Update()) handled = true;
+            if (box.Update()) handled = true;
+            if (base.Update()) handled = true;
             return handled;
         }
 

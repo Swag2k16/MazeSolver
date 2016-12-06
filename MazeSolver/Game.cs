@@ -17,7 +17,6 @@ namespace PepesComing {
 
         // Systems
         private Camera camera;
-        private Controller controller;
         private World world;
         private UiManager ui;
 
@@ -48,7 +47,6 @@ namespace PepesComing {
             // Setup controller
             Microsoft.Xna.Framework.Input.Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
-            controller = new Controller();
 
             // Create world
             world = new World();
@@ -172,7 +170,7 @@ namespace PepesComing {
         }
 
         protected override void Update(GameTime gameTime) {
-            if (controller.Escape) {
+            if (Controller.Instance.Escape) {
                 Exit();
             }
 
@@ -189,10 +187,10 @@ namespace PepesComing {
 
             // Update systems if window has focus
             if (IsActive) {
-                controller.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
+                Controller.Instance.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
 
-                if (!ui.Update(controller, GraphicsDevice)) {
-                    camera.Update(controller, _graphicsDeviceManager.GraphicsDevice.Viewport);
+                if (!ui.Update(Controller.Instance, GraphicsDevice)) {
+                    camera.Update(Controller.Instance, _graphicsDeviceManager.GraphicsDevice.Viewport);
                 }
             }
 
@@ -203,8 +201,8 @@ namespace PepesComing {
         protected override void OnActivated(object sender, EventArgs args) {
             // Update the controller when window gains focus to clear position of the mouse when the windows focus changed
             // which would cause the world to jump out of frame.
-            if (controller != null && camera != null) {
-                controller.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
+            if (Controller.Instance != null && camera != null) {
+                Controller.Instance.Update(Keyboard.GetState(), Microsoft.Xna.Framework.Input.Mouse.GetState(Window), camera);
             }
             base.OnActivated(sender, args);
         }
