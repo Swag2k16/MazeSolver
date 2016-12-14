@@ -43,7 +43,6 @@ namespace PepesComing.Ui {
         }
 
         public override void RenderElement(SpriteBatch spriteBatch) {
-            Console.WriteLine("{0},{1},{2},{3}", X, Y, Width, Height);
             rail.RenderElement(spriteBatch);
             handle.RenderElement(spriteBatch);
         }

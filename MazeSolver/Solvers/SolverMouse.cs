@@ -28,7 +28,7 @@ namespace PepesComing.Solvers {
 
         protected void FaceEmpty() {
             // Set Mouse.facing towards empty tile
-            Cardinal<Cell> neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            Cardinal<Cell> neighbors = world.GetNeighbors((int)Mouse.position.X, (int)Mouse.position.Y);
             if (!neighbors.North.Type.Blocked()) {
                 mouse.facing = Compass.North;
             } else if (!neighbors.East.Type.Blocked()) {
@@ -42,7 +42,7 @@ namespace PepesComing.Solvers {
 
         //Gets the tile type ahead in the direction we are Mouse.facing
         protected Cell LookAhead(ref World world) {
-            var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            var neighbors = world.GetNeighbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
                 case Compass.North:
                     return neighbors.North;
@@ -58,7 +58,7 @@ namespace PepesComing.Solvers {
 
         //Gets the tile type to the left of the direction we are Mouse.facing
         protected Cell LookLeft(ref World world) {
-            var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            var neighbors = world.GetNeighbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
                 case Compass.North:
                     return neighbors.West;
@@ -74,7 +74,7 @@ namespace PepesComing.Solvers {
 
         //Gets the tile type to the right of the direction we are Mouse.facing
         protected Cell LookRight(ref World world) {
-            var neighbors = world.GetNeigbors((int)Mouse.position.X, (int)Mouse.position.Y);
+            var neighbors = world.GetNeighbors((int)Mouse.position.X, (int)Mouse.position.Y);
             switch (Mouse.facing) {
                 case Compass.North:
                     return neighbors.East;

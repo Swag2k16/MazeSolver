@@ -100,6 +100,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Solvers\DeadEndFilling.cs" />
     <Compile Include="Solvers\Recursive.cs" />
     <Compile Include="Solvers\Tremaux.cs" />
     <Compile Include="Solvers\RandomMouser.cs" />

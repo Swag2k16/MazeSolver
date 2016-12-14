@@ -18,7 +18,7 @@ public class Window : Element {
         close = new Button("X", x + width - CLOSE_WIDTH, y, CLOSE_WIDTH, TITLE_HEIGHT);
         Layout layout = new VerticalLayout(width: width, height: height - TITLE_HEIGHT, padding:30);
         layout.AddElements(windowContent);
-        content = new Panel(x, y + TITLE_HEIGHT, width, height - TITLE_HEIGHT, layout, 0, PepesComing.Sprite.GREY);
+        content = new Panel(x, y + TITLE_HEIGHT, width, height - TITLE_HEIGHT, layout, 30, PepesComing.Sprite.GREY);
     }
 
     public override void CalculateLayout() {

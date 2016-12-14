@@ -98,9 +98,9 @@ namespace PepesComing {
                 if (play) solver.Start();
             });
 
-            ui.Tremaux.AddClickEvent(() => {
+            ui.DeadEndFilling.AddClickEvent(() => {
                 if (solver != null) solver.Dispose();
-                solver = new Tremaux(ref world);
+                solver = new DeadEndFilling(ref world);
                 if (play) solver.Start();
             });
 
@@ -109,6 +109,7 @@ namespace PepesComing {
                 solver = new Recursive(ref world);
                 if (play) solver.Start();
             });
+
         }
 
         protected override void LoadContent() {

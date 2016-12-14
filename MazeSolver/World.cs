@@ -43,7 +43,7 @@ namespace PepesComing {
         }
 
         //Get the cells directly connected to the cell at (x, y)
-        public Cardinal<Cell> GetNeigbors(int x, int y) {
+        public Cardinal<Cell> GetNeighbors(int x, int y) {
             // Check row and column are within bounds
             Debug.Assert(x >= 1 | x < width - 1);
             Debug.Assert(y >= 1 | y < height - 1);
@@ -96,7 +96,7 @@ namespace PepesComing {
         }
 
         //Gets cells (if any) two units away (in the cardinal directions) that are not walls (paths/start/endpoint)
-        private List<Cell> GetNeighbors(int x, int y) {
+        private List<Cell> GetNeigbors(int x, int y) {
             List<Cell> neighbors = GetNearCells(x, y);
             //Remove all non-walls
             neighbors.RemoveAll(c => c.Type == CellType.WALL);
@@ -118,7 +118,7 @@ namespace PepesComing {
             while (frontiers.Count > 0) {
                 //Pick a random frountier and neigbhor
                 Cell frontier = frontiers[Game.rnd.Next(0, frontiers.Count - 1)];
-                List<Cell> neighbors = GetNeighbors(frontier.X, frontier.Y);
+                List<Cell> neighbors = GetNeigbors(frontier.X, frontier.Y);
                 Cell neighbor = neighbors[Game.rnd.Next(0, neighbors.Count - 1)];
 
                 //Make a path between the cell and the frountier

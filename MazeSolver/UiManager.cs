@@ -15,7 +15,7 @@ namespace PepesComing {
 
         public Button WallFollower { get; private set; }
         public Button RandomMouser { get; private set; }
-        public Button Tremaux { get; private set; }
+        public Button DeadEndFilling { get; private set; }
         public Button Recursive { get; private set; }
         public Button GenerateMaze { get; private set; }
 
@@ -32,9 +32,9 @@ namespace PepesComing {
             VerticalLayout algorithms = new VerticalLayout(height: 430, padding: 10);
             WallFollower = new Button("Wall Follower");
             RandomMouser = new Button("Random Mouser");
-            Tremaux = new Button("Tremaux");
+            DeadEndFilling = new Button("Dead-End Filling");
             Recursive = new Button("Recursive");
-            algorithms.AddElements(WallFollower, RandomMouser, Tremaux, Recursive);
+            algorithms.AddElements(WallFollower, RandomMouser, DeadEndFilling, Recursive);
 
             GenerateMaze = new Button("Generate new maze", height: 100);
 
@@ -50,11 +50,22 @@ namespace PepesComing {
             sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
-            Slider slider = new Slider();
+            Slider widthSlider = new Slider();
+            Text widthText = new Text("Width: ");
+            HorizontalLayout widthLayout = new HorizontalLayout();
+            widthLayout.AddElements(widthText, widthSlider);
+
+            Slider heighSlider = new Slider();
+            Text heightText = new Text("Height: ");
+            HorizontalLayout heightLayout = new HorizontalLayout();
+            heightLayout.AddElements(heightText, heighSlider);
+
+            VerticalLayout windowLayout = new VerticalLayout(padding: 50, maximize: false);
+            windowLayout.AddElements(heightLayout, widthLayout);
 
 
-            Window window = new Window(200, 200, 500, 500, "Test", slider);
-            elements.Add(window);
+            //Window window = new Window(200, 200, 500, 500, "Test", windowLayout);
+            //elements.Add(window);
 
             elements.ForEach(e => e.CalculateLayout());
         }
