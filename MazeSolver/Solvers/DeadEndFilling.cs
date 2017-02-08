@@ -37,7 +37,7 @@ namespace PepesComing.Solvers {
                     }
                 }
             }
-            done = changed;
+            done = !changed;
             prevfilled = filled;
         }
     }

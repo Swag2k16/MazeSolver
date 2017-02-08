@@ -102,7 +102,6 @@
     </Compile>
     <Compile Include="Solvers\DeadEndFilling.cs" />
     <Compile Include="Solvers\Recursive.cs" />
-    <Compile Include="Solvers\Tremaux.cs" />
     <Compile Include="Solvers\RandomMouser.cs" />
     <Compile Include="Solvers\Solver.cs" />
     <Compile Include="Solvers\WallFollower.cs" />
