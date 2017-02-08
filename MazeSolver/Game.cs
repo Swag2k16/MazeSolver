@@ -77,9 +77,6 @@ namespace PepesComing {
                 }
             });
 
-            ui.Back.AddClickEvent(() => {
-                // TODO: add backwards handling
-            });
 
             ui.Play.AddClickEvent(() => {
                 play = !play;

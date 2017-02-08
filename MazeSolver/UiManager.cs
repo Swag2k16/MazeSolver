@@ -19,8 +19,7 @@ namespace PepesComing {
         public Button Recursive { get; private set; }
         public Button GenerateMaze { get; private set; }
 
-        public Button Back { get; private set; }
-        public Button Play { get; private set; }
+        public ToggleButton Play { get; private set; }
         public Button Forward { get; private set; }
 
         public UiManager() {
@@ -38,11 +37,11 @@ namespace PepesComing {
 
             GenerateMaze = new Button("Generate new maze", height: 100);
 
-            Back = new Button("<");
-            Play = new Button("Play");
+          
+            Play = new ToggleButton("Step", "Play");
             Forward = new Button(">");
             HorizontalLayout stepControl = new HorizontalLayout(height: 100, padding: 10);
-            stepControl.AddElements(Back, Play, Forward);
+            stepControl.AddElements(Play, Forward);
 
             VerticalLayout layout = new VerticalLayout(maximize: false, padding: 10);
             layout.AddElements(title, algorithms, GenerateMaze, stepControl);

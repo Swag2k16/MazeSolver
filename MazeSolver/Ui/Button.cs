@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PepesComing.Ui {
     class Button : Element {
-        private readonly Sprite buttonUp;
-        private readonly Sprite buttonDown;
+        protected readonly Sprite buttonUp;
+        protected readonly Sprite buttonDown;
 
-        private readonly Panel panel;
-        private readonly Text text;
+        protected readonly Panel panel;
+        protected readonly Text text;
 
         public Button(string textString, int x = 0, int y = 0, int width = 0, int height = 0, Color textColor = Color.WHITE, Sprite buttonUp = Sprite.RED, Sprite buttonDown = Sprite.DARK_RED)
             : base(x, y, width, height, true) {
@@ -39,7 +39,7 @@ namespace PepesComing.Ui {
         }
 
         public delegate void HandleClick();
-        private event HandleClick clickHandlers;
+        protected event HandleClick clickHandlers;
 
         public void AddClickEvent(HandleClick clickHandler) {
             clickHandlers += clickHandler;

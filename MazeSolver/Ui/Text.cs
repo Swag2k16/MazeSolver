@@ -4,7 +4,7 @@ using System;
 
 namespace PepesComing.Ui {
     class Text : Element {
-        private string text;
+        public string text;
         private readonly Color color;
 
         private Vector2 renderPosition;
