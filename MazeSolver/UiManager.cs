@@ -49,22 +49,22 @@ namespace PepesComing {
             sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
-            Slider widthSlider = new Slider();
+            Slider widthSlider = new Slider(height: 25);
             Text widthText = new Text("Width: ");
-            HorizontalLayout widthLayout = new HorizontalLayout();
+            HorizontalLayout widthLayout = new HorizontalLayout(height: 25);
             widthLayout.AddElements(widthText, widthSlider);
 
-            Slider heighSlider = new Slider();
+            Slider heighSlider = new Slider(height: 25);
             Text heightText = new Text("Height: ");
-            HorizontalLayout heightLayout = new HorizontalLayout();
+            HorizontalLayout heightLayout = new HorizontalLayout(height: 25);
             heightLayout.AddElements(heightText, heighSlider);
 
             VerticalLayout windowLayout = new VerticalLayout(padding: 50, maximize: false);
             windowLayout.AddElements(heightLayout, widthLayout);
 
 
-            //Window window = new Window(200, 200, 500, 500, "Test", windowLayout);
-            //elements.Add(window);
+            Window window = new Window(200, 200, 500, 500, "Test", windowLayout);
+            elements.Add(window);
 
             elements.ForEach(e => e.CalculateLayout());
         }

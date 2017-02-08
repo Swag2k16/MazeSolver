@@ -28,6 +28,12 @@ public class Window : Element {
         content.CalculateLayout();
     }
 
+    public override bool Update() {
+        bool handled = false;
+        if (!handled) handled = content.Update();
+        return base.Update();
+    }
+
     public override void RenderElement(SpriteBatch spriteBatch) {
         title.RenderElement(spriteBatch);
         close.RenderElement(spriteBatch);

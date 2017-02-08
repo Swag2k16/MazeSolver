@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -82,6 +83,8 @@ namespace PepesComing.Ui {
                 elements.ForEach(e => {
                     totalLength += vertical ? e.Height : e.Width;
                 });
+
+                Console.WriteLine(totalLength);
 
                 int spacing = elements.Count > 1 ? (elementDimension - totalLength) / (elements.Count - 1) : 0;
                 int end = vertical ? Y : X;

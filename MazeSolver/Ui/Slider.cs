@@ -48,7 +48,6 @@ namespace PepesComing.Ui {
         }
 
         protected override void MouseDown() {
-            base.MouseDown();
             int handleStep = rail.Width / (maxValue - minValue + 1) / increment;
             currentValue = (int)MathHelper.Clamp((Controller.Instance.MousePosition.X - rail.X) / handleStep, 0, maxValue - minValue + 1);
             handle.X = rail.X + currentValue * handleStep - HandleWidth / 2;
