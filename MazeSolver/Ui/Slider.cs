@@ -17,8 +17,9 @@ namespace PepesComing.Ui {
         private int maxValue;
         private int increment;
         private int currentValue;
+        private int handleStep;
 
-        public Slider(int x = 0, int y = 0, int width = 0, int height = 0, int minValue = 1, int maxValue = 10, int increment = 1, int currentValue = 5)
+        public Slider(int x = 0, int y = 0, int width = 0, int height = 0, int minValue = 1, int maxValue = 10, int increment = 1, int currentValue = 0)
             : base(x, y, width, height, true) {
             this.minValue = minValue;
             this.maxValue = maxValue;
@@ -27,6 +28,7 @@ namespace PepesComing.Ui {
 
             rail = new Box(x, y + height / 2 - RailHeight / 2, width, RailHeight, Sprite.RED);
             handle = new Box(x, y, HandleWidth, height, Sprite.DARK_RED);
+            
         }
 
         public override void CalculateLayout() {
@@ -35,11 +37,13 @@ namespace PepesComing.Ui {
             rail.Y = Y+Height/2-RailHeight/2;
             rail.Width = Width;
             rail.Height = RailHeight;
-            handle.X = X;
+
+            handleStep = rail.Width / (maxValue - minValue + 1) / increment;
+
+            handle.X = rail.X + currentValue * handleStep - HandleWidth / 2;
             handle.Y = Y;
             handle.Width = HandleWidth;
             handle.Height = Height;
-
         }
 
         public override void RenderElement(SpriteBatch spriteBatch) {
@@ -48,7 +52,7 @@ namespace PepesComing.Ui {
         }
 
         protected override void MouseDown() {
-            int handleStep = rail.Width / (maxValue - minValue + 1) / increment;
+            handleStep = rail.Width / (maxValue - minValue + 1) / increment;
             currentValue = (int)MathHelper.Clamp((Controller.Instance.MousePosition.X - rail.X) / handleStep, 0, maxValue - minValue + 1);
             handle.X = rail.X + currentValue * handleStep - HandleWidth / 2;
             Console.WriteLine(handle.X);

@@ -63,7 +63,7 @@ namespace PepesComing {
             windowLayout.AddElements(heightLayout, widthLayout);
 
 
-            Window window = new Window(200, 200, 500, 500, "Test", windowLayout);
+            Window window = new Window(200, 200, 500, 150, "Test", windowLayout);
             elements.Add(window);
 
             elements.ForEach(e => e.CalculateLayout());
