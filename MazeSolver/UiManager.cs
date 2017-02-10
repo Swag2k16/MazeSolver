@@ -22,6 +22,10 @@ namespace PepesComing {
         public ToggleButton Play { get; private set; }
         public Button Forward { get; private set; }
 
+        public Slider WidthSlider { get; private set; }
+        public Slider HeightSlider { get; private set; }
+        public Button Regenerate { get; private set; }
+
         public UiManager() {
             elements = new List<Element>();
 
@@ -49,21 +53,23 @@ namespace PepesComing {
             sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
-            Slider widthSlider = new Slider(height: 25);
-            Text widthText = new Text("Width: ");
-            HorizontalLayout widthLayout = new HorizontalLayout(height: 25);
-            widthLayout.AddElements(widthText, widthSlider);
-
-            Slider heighSlider = new Slider(height: 25);
+            HeightSlider = new Slider(height: 25, minValue: 7, maxValue: 67, increment: 4, currentValue: 7);
             Text heightText = new Text("Height: ");
             HorizontalLayout heightLayout = new HorizontalLayout(height: 25);
-            heightLayout.AddElements(heightText, heighSlider);
+            heightLayout.AddElements(heightText, HeightSlider);
+
+            WidthSlider = new Slider(height: 25, minValue: 7, maxValue: 67, increment: 4, currentValue: 7);
+            Text widthText = new Text("Width: ");
+            HorizontalLayout widthLayout = new HorizontalLayout(height: 25);
+            widthLayout.AddElements(widthText, WidthSlider);
+
+            Regenerate = new Button("Generate", height: 30);
 
             VerticalLayout windowLayout = new VerticalLayout(padding: 50, maximize: false);
-            windowLayout.AddElements(heightLayout, widthLayout);
+            windowLayout.AddElements(heightLayout, widthLayout, Regenerate);
 
 
-            Window window = new Window(200, 200, 500, 150, "Test", windowLayout);
+            Window window = new Window(200, 200, 500, 200, "Test", windowLayout);
             elements.Add(window);
 
             elements.ForEach(e => e.CalculateLayout());

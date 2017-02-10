@@ -66,9 +66,18 @@ namespace PepesComing {
                     solver.Dispose();
                     solver = null;
                 }
-                world.RegenerateMaze();
             });
 
+            ui.Regenerate.AddClickEvent(() => {
+                World.width = ui.WidthSlider.currentValue;
+                World.height = ui.HeightSlider.currentValue;
+                Console.WriteLine(World.width);
+                Console.WriteLine(World.height);
+
+
+                world.RegenerateMaze();
+
+            });
 
             // Register step buttons
             ui.Forward.AddClickEvent(() => {
