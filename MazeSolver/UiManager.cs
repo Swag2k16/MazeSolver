@@ -53,12 +53,12 @@ namespace PepesComing {
             sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
             elements.Add(sidebar);
 
-            HeightSlider = new Slider(height: 25, minValue: 7, maxValue: 67, increment: 4, currentValue: 7);
+            HeightSlider = new Slider(height: 25, steps: 15, currentValue: 7);
             Text heightText = new Text("Height: ");
             HorizontalLayout heightLayout = new HorizontalLayout(height: 25);
             heightLayout.AddElements(heightText, HeightSlider);
 
-            WidthSlider = new Slider(height: 25, minValue: 7, maxValue: 67, increment: 4, currentValue: 7);
+            WidthSlider = new Slider(height: 25, steps: 15, currentValue: 7);
             Text widthText = new Text("Width: ");
             HorizontalLayout widthLayout = new HorizontalLayout(height: 25);
             widthLayout.AddElements(widthText, WidthSlider);

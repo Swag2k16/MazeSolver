@@ -68,9 +68,10 @@ namespace PepesComing {
                 }
             });
 
+            //regenerate maze window button
             ui.Regenerate.AddClickEvent(() => {
-                World.width = ui.WidthSlider.currentValue;
-                World.height = ui.HeightSlider.currentValue;
+                World.width = (ui.WidthSlider.currentValue*4)+3;
+                World.height = (ui.HeightSlider.currentValue*4)+3;
                 Console.WriteLine(World.width);
                 Console.WriteLine(World.height);
 

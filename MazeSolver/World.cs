@@ -12,7 +12,7 @@ namespace PepesComing {
         public static int width = 3 * 4 + 3;
         public static int height = 3 * 4 + 3;
 
-        private readonly Cell[,] Grid = new Cell[width, height];
+        private Cell[,] Grid = new Cell[width, height];
         public bool Generated { get; private set; }
         private Thread genThread;
 
@@ -153,6 +153,7 @@ namespace PepesComing {
         // Maze (re)generation (non-blocking)
         public void RegenerateMaze() {
             Generated = true;
+            Grid = new Cell[width, height];
 
             // Stop thread if its still alive
             if (genThread.IsAlive) {
