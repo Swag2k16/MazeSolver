@@ -49,8 +49,8 @@ namespace PepesComing
         private void Solve() {
             while (!Done()) {
                 Step();
+                Thread.Sleep(100);
             }
-            timer.Stop();
         }
 
         public abstract void Step();
