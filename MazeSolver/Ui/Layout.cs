@@ -84,8 +84,6 @@ namespace PepesComing.Ui {
                     totalLength += vertical ? e.Height : e.Width;
                 });
 
-                Console.WriteLine(totalLength);
-
                 int spacing = elements.Count > 1 ? (elementDimension - totalLength) / (elements.Count - 1) : 0;
                 int end = vertical ? Y : X;
 

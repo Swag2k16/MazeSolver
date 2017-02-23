@@ -60,20 +60,15 @@ namespace PepesComing {
             // Setup Ui
             ui = new UiManager();
 
-            // Register generate maze button
-            ui.GenerateMaze.AddClickEvent(() => {
+            //regenerate maze window button
+            ui.Regenerate.AddClickEvent(() => {
                 if (solver != null) {
                     solver.Dispose();
                     solver = null;
                 }
-            });
-
-            //regenerate maze window button
-            ui.Regenerate.AddClickEvent(() => {
                 World.width = (ui.WidthSlider.currentValue*4)+3;
                 World.height = (ui.HeightSlider.currentValue*4)+3;
-                Console.WriteLine(World.width);
-                Console.WriteLine(World.height);
+
 
 
                 world.RegenerateMaze();

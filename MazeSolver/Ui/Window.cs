@@ -6,6 +6,7 @@ public class Window : Element {
 
     public static int TITLE_HEIGHT = 30;
     public static int CLOSE_WIDTH = 30;
+    public bool IsVisible { get; set; }
 
     private Panel title;
     private Button close;
@@ -19,6 +20,9 @@ public class Window : Element {
         Layout layout = new VerticalLayout(width: width, height: height - TITLE_HEIGHT, padding:30);
         layout.AddElements(windowContent);
         content = new Panel(x, y + TITLE_HEIGHT, width, height - TITLE_HEIGHT, layout, 30, PepesComing.Sprite.GREY);
+        close.AddClickEvent(() => {
+            IsVisible = false;
+        });
     }
 
     public override void CalculateLayout() {
@@ -29,14 +33,18 @@ public class Window : Element {
     }
 
     public override bool Update() {
+        if (!IsVisible) return false;
         bool handled = false;
         if (!handled) handled = content.Update();
+        if (!handled) handled = close.Update();
         return base.Update();
     }
 
     public override void RenderElement(SpriteBatch spriteBatch) {
-        title.RenderElement(spriteBatch);
-        close.RenderElement(spriteBatch);
-        content.RenderElement(spriteBatch);
+        if (IsVisible) {
+            title.RenderElement(spriteBatch);
+            close.RenderElement(spriteBatch);
+            content.RenderElement(spriteBatch);
+        }
     }
 }

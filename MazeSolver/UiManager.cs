@@ -22,6 +22,7 @@ namespace PepesComing {
         public ToggleButton Play { get; private set; }
         public Button Forward { get; private set; }
 
+        public Window mazeResizer;
         public Slider WidthSlider { get; private set; }
         public Slider HeightSlider { get; private set; }
         public Button Regenerate { get; private set; }
@@ -39,19 +40,7 @@ namespace PepesComing {
             Recursive = new Button("Recursive");
             algorithms.AddElements(WallFollower, RandomMouser, DeadEndFilling, Recursive);
 
-            GenerateMaze = new Button("Generate new maze", height: 100);
-
-          
-            Play = new ToggleButton("Step", "Play");
-            Forward = new Button(">");
-            HorizontalLayout stepControl = new HorizontalLayout(height: 100, padding: 10);
-            stepControl.AddElements(Play, Forward);
-
-            VerticalLayout layout = new VerticalLayout(maximize: false, padding: 10);
-            layout.AddElements(title, algorithms, GenerateMaze, stepControl);
-
-            sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
-            elements.Add(sidebar);
+           
 
             HeightSlider = new Slider(height: 25, steps: 15, currentValue: 7);
             Text heightText = new Text("Height: ");
@@ -64,15 +53,36 @@ namespace PepesComing {
             widthLayout.AddElements(widthText, WidthSlider);
 
             Regenerate = new Button("Generate", height: 30);
+            Regenerate.AddClickEvent(() => {
+                mazeResizer.IsVisible = false;
+            });
 
             VerticalLayout windowLayout = new VerticalLayout(padding: 50, maximize: false);
             windowLayout.AddElements(heightLayout, widthLayout, Regenerate);
 
 
-            Window window = new Window(200, 200, 500, 200, "Test", windowLayout);
-            elements.Add(window);
+            mazeResizer = new Window(200, 200, 500, 200, "Choose Maze Size", windowLayout);
+            elements.Add(mazeResizer);
 
             elements.ForEach(e => e.CalculateLayout());
+
+            GenerateMaze = new Button("Generate new maze", height: 100);
+            GenerateMaze.AddClickEvent(() => {
+                mazeResizer.IsVisible = true;
+            });
+
+            Play = new ToggleButton("Step", "Play");
+            Forward = new Button(">");
+            HorizontalLayout stepControl = new HorizontalLayout(height: 100, padding: 10);
+            stepControl.AddElements(Play, Forward);
+
+            VerticalLayout layout = new VerticalLayout(maximize: false, padding: 10);
+            layout.AddElements(title, algorithms, GenerateMaze, stepControl);
+
+            sidebar = new Panel(0, 0, 300, 100, layout, 10, Sprite.GREY);
+            elements.Add(sidebar);
+
+            
         }
 
         public bool Update(Controller controller, GraphicsDevice graphics) {
